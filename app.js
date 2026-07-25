@@ -1,4 +1,4 @@
-const URL_APPS_SCRIPT = "PASTE_URL_WEB_APP_ANDA_DI_SINI";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz9S1SQRX_3f0Jen5PB_en0tg1mUqm6PrOdV1TZd86SP7BabVtshd56XGlTIMccy4LtRQ/exec";
 
 const hasil = document.getElementById("hasil");
 
