@@ -176,15 +176,32 @@ popupContent.innerHTML="";
 
 function lanjutScan(){
 
-    popup.style.display="none";
+    popup.style.display = "none";
+    popupContent.innerHTML = "";
 
-    popupContent.innerHTML="";
+    hasil.innerHTML = "📷 Arahkan QR Code ke Kamera";
 
-    hasil.innerHTML="📷 Arahkan QR Code ke Kamera";
+    scanning = true;
 
-    scanning=true;
+    try{
 
-    html5QrCode.resume();
+        html5QrCode.resume();
+
+    }catch(e){
+
+        console.log("Resume gagal, mulai ulang scanner");
+
+        html5QrCode.stop().then(function(){
+
+            mulaiScanner();
+
+        }).catch(function(){
+
+            mulaiScanner();
+
+        });
+
+    }
 
 }
 
