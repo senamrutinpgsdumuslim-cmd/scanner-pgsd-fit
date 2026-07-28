@@ -63,3 +63,48 @@ h1{
     color:#888;
     font-size:14px;
 }
+
+.card-sukses{
+    background:#16a34a;
+    color:white;
+    padding:25px;
+    border-radius:18px;
+    text-align:center;
+    animation:muncul .3s;
+}
+
+.icon{
+    font-size:60px;
+}
+
+.nama{
+    font-size:30px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.info{
+    font-size:18px;
+    margin:8px 0;
+}
+
+.status-ok{
+    margin-top:20px;
+    background:white;
+    color:#16a34a;
+    padding:12px;
+    border-radius:12px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+@keyframes muncul{
+    from{
+        transform:scale(.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
