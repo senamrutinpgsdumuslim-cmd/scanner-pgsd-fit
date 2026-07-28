@@ -95,22 +95,9 @@ function suksesScan(decodedText){
 
 function mulaiScanner(){
 
-    html5QrCode.start(
-    { facingMode: "environment" },
-    {
-        fps: 10,
-        qrbox: 250
-    },
-    function(decodedText){
+    Html5Qrcode.getCameras().then(function(devices){
 
-        alert("QR TERBACA : " + decodedText);
-
-        suksesScan(decodedText);
-
-    },
-    function(error){}
-);
-        if(!devices.length){
+        if(devices.length == 0){
 
             hasil.innerHTML = "❌ Kamera tidak ditemukan";
             return;
@@ -118,12 +105,19 @@ function mulaiScanner(){
         }
 
         html5QrCode.start(
-            { facingMode:"environment" },
+            devices[0].id,
             {
                 fps:10,
                 qrbox:250
             },
-            suksesScan
+            function(decodedText){
+
+                alert("QR TERBACA : " + decodedText);
+
+                suksesScan(decodedText);
+
+            },
+            function(error){}
         );
 
     });
