@@ -105,17 +105,33 @@ function suksesScan(decodedText){
 
         if(data.sukses){
 
-            hasil.innerHTML = `
-                <div class="berhasil">
-                    <div class="nama">${data.nama}</div>
-                    <div class="info">NPM : ${data.npm}</div>
-                    <div class="info">Unit : ${data.unit}</div>
-                    <div class="info">Status : ${data.status}</div>
-                    <div class="info">Jam : ${data.jam}</div>
-                    <h2>${MODE=="HADIR" ? "✅ HADIR BERHASIL" : "🟠 TERLAMBAT BERHASIL"}</h2>
-                </div>
-            `;
+           hasil.innerHTML = `
+<div class="card-sukses">
 
+<div class="icon">✅</div>
+
+<h2>${MODE=="HADIR" ? "VERIFIKASI HADIR" : "VERIFIKASI TERLAMBAT"}</h2>
+
+<div class="nama">${data.nama}</div>
+
+<div class="info">🆔 NPM : ${data.npm}</div>
+
+<div class="info">🎓 Angkatan : ${data.angkatan}</div>
+
+<div class="info">👤 Jenis Kelamin : ${data.jk}</div>
+
+<div class="info">🏫 Unit : ${data.unit}</div>
+
+<div class="info">⭐ Status : ${data.statusAnggota}</div>
+
+<div class="info">🕒 Jam : ${data.jam}</div>
+
+<div class="status-ok">
+✔ VERIFIKASI BERHASIL
+</div>
+
+</div>
+`;
         }else{
 
             hasil.innerHTML = `
