@@ -144,6 +144,17 @@ ${MODE=="HADIR"
 "🟠 VERIFIKASI TERLAMBAT"}
 
 </div>
+<div style="padding:20px;text-align:center;">
+
+<button
+class="btn-ok"
+onclick="lanjutScan()">
+
+✅ OKE
+
+</button>
+
+</div>
 
 </div>
 
@@ -160,6 +171,18 @@ function tutupPopup(){
 popup.style.display="none";
 
 popupContent.innerHTML="";
+
+}
+
+function lanjutScan(){
+
+    tutupPopup();
+
+    hasil.innerHTML="📷 Arahkan QR Code";
+
+    scanning=true;
+
+    html5QrCode.resume();
 
 }
 
@@ -226,18 +249,8 @@ function suksesScan(decodedText){
             `;
 
         }
-
-        setTimeout(function(){
-
-            tutupPopup();
-
-            hasil.innerHTML="📷 Arahkan QR Code ke Kamera";
-
-            scanning=true;
-
-            html5QrCode.resume();
-
-        },3000);
+        
+// menunggu tombol OKE ditekan
 
     })
 
