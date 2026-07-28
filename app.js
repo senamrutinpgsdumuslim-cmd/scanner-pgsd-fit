@@ -103,6 +103,8 @@ function suksesScan(decodedText){
 
         console.log("RESPON SERVER :", data);
 
+        alert(JSON.stringify(data));
+
         if(data.sukses){
 
            hasil.innerHTML = `
