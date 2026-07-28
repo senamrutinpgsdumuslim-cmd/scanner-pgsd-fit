@@ -20,7 +20,6 @@ function pilihMode(mode){
         : "🟠 MODE TERLAMBAT";
 
     mulaiScanner();
-
 }
 
 function suksesScan(decodedText){
@@ -43,7 +42,7 @@ function suksesScan(decodedText){
     .then(res => res.json())
     .then(data => {
 
-        console.log("RESPON SERVER :", data);
+        console.log(data);
 
         if(data.sukses){
 
@@ -68,21 +67,25 @@ function suksesScan(decodedText){
 
         }
 
-        setTimeout(()=>{
+        setTimeout(function(){
+
             hasil.innerHTML = "Arahkan QR ke kamera";
             scanning = true;
+
         },2000);
 
     })
-    .catch(err=>{
+    .catch(function(err){
 
         console.error(err);
 
         hasil.innerHTML = "❌ Gagal menghubungi server";
 
-        setTimeout(()=>{
+        setTimeout(function(){
+
             hasil.innerHTML = "Arahkan QR ke kamera";
             scanning = true;
+
         },2000);
 
     });
@@ -91,11 +94,13 @@ function suksesScan(decodedText){
 
 function mulaiScanner(){
 
-    Html5Qrcode.getCameras().then(devices=>{
+    Html5Qrcode.getCameras().then(function(devices){
 
         if(!devices.length){
+
             hasil.innerHTML = "❌ Kamera tidak ditemukan";
             return;
+
         }
 
         html5QrCode.start(
