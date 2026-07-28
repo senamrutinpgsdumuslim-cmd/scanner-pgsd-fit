@@ -31,14 +31,14 @@ function suksesScan(decodedText){
     hasil.innerHTML = "⏳ Memproses...";
 
     fetch(URL_APPS_SCRIPT,{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/x-www-form-urlencoded"
-        },
-        body:
-            "id=" + encodeURIComponent(decodedText) +
-            "&mode=" + encodeURIComponent(MODE)
-    })
+    method:"POST",
+    headers:{
+        "Content-Type":"application/x-www-form-urlencoded"
+    },
+    body:
+        "id=" + encodeURIComponent(decodedText) +
+        "&mode=" + encodeURIComponent(MODE)
+})
     .then(res => res.json())
     .then(data=>{
 
