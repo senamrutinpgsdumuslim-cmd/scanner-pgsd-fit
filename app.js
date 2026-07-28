@@ -1,69 +1,207 @@
+// ===================================================
+// PGSD FIT SCANNER
+// ===================================================
+
 let MODE = "";
 
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec";
+const URL_APPS_SCRIPT =
+"https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec";
 
 const hasil = document.getElementById("hasil");
+
+const popup = document.getElementById("popup");
+const popupContent = document.getElementById("popupContent");
+
 const html5QrCode = new Html5Qrcode("reader");
 
 let scanning = false;
 
-// ==============================
+
+// ===================================================
 // PILIH MODE
-// ==============================
+// ===================================================
 
 function pilihMode(mode){
 
     MODE = mode;
 
-    document.getElementById("pilihMode").style.display = "none";
-    document.getElementById("scannerArea").style.display = "block";
+    document.getElementById("pilihMode").style.display="none";
+
+    document.getElementById("scannerArea").style.display="block";
 
     document.getElementById("judulMode").innerHTML =
-        MODE === "HADIR"
+        MODE=="HADIR"
         ? "🟢 MODE HADIR"
         : "🟠 MODE TERLAMBAT";
 
     mulaiScanner();
+
 }
 
-// ==============================
-// MULAI SCANNER
-// ==============================
+
+
+// ===================================================
+// MULAI CAMERA
+// ===================================================
 
 function mulaiScanner(){
 
-    hasil.innerHTML = "📷 Mengaktifkan kamera...";
+    hasil.innerHTML="📷 Mengaktifkan Kamera...";
 
-    scanning = true;
+    scanning=true;
 
     html5QrCode.start(
 
         {
-            facingMode: "environment"
+            facingMode:"environment"
         },
 
         {
-            fps: 10,
-            qrbox: 250
+            fps:10,
+            qrbox:260
         },
 
         suksesScan,
 
         function(error){}
 
-    ).catch(function(err){
+    )
+
+    .then(function(){
+
+        hasil.innerHTML="📷 Arahkan QR Code";
+
+    })
+
+    .catch(function(err){
 
         console.error(err);
 
-        hasil.innerHTML = "❌ Kamera gagal dibuka";
+        hasil.innerHTML="❌ Kamera gagal dibuka";
 
     });
 
 }
 
-// ==============================
+
+
+// ===================================================
+// TAMPILKAN POPUP
+// ===================================================
+
+function tampilPopup(data){
+
+    popup.style.display="flex";
+
+    popupContent.innerHTML=`
+
+<div class="verify-card ${MODE=="HADIR"?"hadir-card":"terlambat-card"}">
+
+<img src="assets/logo.png" class="verify-logo">
+
+<div class="verify-header">
+
+${MODE=="HADIR"
+?"ABSENSI HADIR"
+:"ABSENSI TERLAMBAT"}
+
+</div>
+
+<div class="verify-check">
+
+✔
+
+</div>
+
+<div class="verify-name">
+
+${data.nama}
+
+</div>
+
+<table class="verify-table">
+
+<tr>
+
+<td>NPM</td>
+
+<td>${data.npm}</td>
+
+</tr>
+
+<tr>
+
+<td>Angkatan</td>
+
+<td>${data.angkatan}</td>
+
+</tr>
+
+<tr>
+
+<td>Jenis Kelamin</td>
+
+<td>${data.jk}</td>
+
+</tr>
+
+<tr>
+
+<td>Unit</td>
+
+<td>${data.unit}</td>
+
+</tr>
+
+<tr>
+
+<td>Status</td>
+
+<td>${data.statusAnggota}</td>
+
+</tr>
+
+<tr>
+
+<td>Jam</td>
+
+<td>${data.jam}</td>
+
+</tr>
+
+</table>
+
+<div class="verify-footer">
+
+${MODE=="HADIR"
+?"✅ VERIFIKASI HADIR BERHASIL"
+:"🟠 VERIFIKASI TERLAMBAT"}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+
+// ===================================================
+// TUTUP POPUP
+// ===================================================
+
+function tutupPopup(){
+
+    popup.style.display="none";
+
+    popupContent.innerHTML="";
+
+}
+
+// ===================================================
 // SETELAH QR TERBACA
-// ==============================
+// ===================================================
 
 function suksesScan(decodedText){
 
@@ -71,9 +209,7 @@ function suksesScan(decodedText){
 
     scanning = false;
 
-    console.log("QR TERBACA :", decodedText);
-
-    hasil.innerHTML = "⏳ Memproses...";
+    console.log("QR :", decodedText);
 
     html5QrCode.pause(true);
 
@@ -86,8 +222,8 @@ function suksesScan(decodedText){
         },
 
         body:
-            "id=" + encodeURIComponent(decodedText) +
-            "&mode=" + encodeURIComponent(MODE)
+            "id="+encodeURIComponent(decodedText)+
+            "&mode="+encodeURIComponent(MODE)
 
     })
 
@@ -99,90 +235,43 @@ function suksesScan(decodedText){
 
     .then(function(data){
 
-        console.log("RESPON SERVER :", data);
-
-        alert(JSON.stringify(data));
+        console.log("RESPON :",data);
 
         if(data.sukses){
 
-       hasil.innerHTML = `
-<div class="verify-card ${MODE=="HADIR" ? "hadir-card" : "terlambat-card"}">
+            tampilPopup(data);
 
-    <img src="assets/logo.png" class="verify-logo">
-
-    <div class="verify-header">
-        ${MODE=="HADIR" ? "ABSENSI HADIR" : "ABSENSI TERLAMBAT"}
-    </div>
-
-    <div class="verify-check">
-        ✔
-    </div>
-
-    <div class="verify-name">
-        ${data.nama}
-    </div>
-
-    <table class="verify-table">
-
-        <tr>
-            <td>NPM</td>
-            <td>${data.npm}</td>
-        </tr>
-
-        <tr>
-            <td>Angkatan</td>
-            <td>${data.angkatan}</td>
-        </tr>
-
-        <tr>
-            <td>Jenis Kelamin</td>
-            <td>${data.jk}</td>
-        </tr>
-
-        <tr>
-            <td>Unit</td>
-            <td>${data.unit}</td>
-        </tr>
-
-        <tr>
-            <td>Status</td>
-            <td>${data.statusAnggota}</td>
-        </tr>
-
-        <tr>
-            <td>Jam</td>
-            <td>${data.jam}</td>
-        </tr>
-
-    </table>
-
-    <div class="verify-footer">
-        ${MODE=="HADIR"
-            ? "✅ VERIFIKASI HADIR BERHASIL"
-            : "🟠 VERIFIKASI TERLAMBAT"}
-    </div>
-
-</div>
-`;
         }else{
 
-            hasil.innerHTML = `
-                <div class="gagal">
-                    <h2>❌ ${data.pesan}</h2>
+            popup.style.display="flex";
+
+            popupContent.innerHTML=`
+
+            <div class="verify-card">
+
+                <div style="padding:40px;text-align:center;">
+
+                    <h2 style="color:#dc2626;">
+                        ❌ ${data.pesan}
+                    </h2>
+
                 </div>
+
+            </div>
+
             `;
 
         }
 
         setTimeout(function(){
 
-            hasil.innerHTML = "Arahkan QR ke kamera";
+            tutupPopup();
 
-            scanning = true;
+            scanning=true;
 
             html5QrCode.resume();
 
-        },2000);
+        },3000);
 
     })
 
@@ -190,17 +279,35 @@ function suksesScan(decodedText){
 
         console.error(err);
 
-        hasil.innerHTML = "❌ Gagal menghubungi server";
+        popup.style.display="flex";
+
+        popupContent.innerHTML=`
+
+        <div class="verify-card">
+
+            <div style="padding:40px;text-align:center;">
+
+                <h2 style="color:#dc2626;">
+
+                    ❌ Gagal Menghubungi Server
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        `;
 
         setTimeout(function(){
 
-            hasil.innerHTML = "Arahkan QR ke kamera";
+            tutupPopup();
 
-            scanning = true;
+            scanning=true;
 
             html5QrCode.resume();
 
-        },2000);
+        },3000);
 
     });
 
