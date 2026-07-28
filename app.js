@@ -5,11 +5,9 @@ const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSM
 const hasil = document.getElementById("hasil");
 const html5QrCode = new Html5Qrcode("reader");
 
-let scanning = true;
+let scanning = false;
 
 function pilihMode(mode){
-
-    alert("MODE = " + mode);
 
     MODE = mode;
 
@@ -18,11 +16,47 @@ function pilihMode(mode){
 
     document.getElementById("judulMode").innerHTML =
         mode === "HADIR"
-        ? "🟢 MODE HADIR"
-        : "🟠 MODE TERLAMBAT";
+            ? "🟢 MODE HADIR"
+            : "🟠 MODE TERLAMBAT";
 
     mulaiScanner();
 }
+
+function mulaiScanner(){
+
+    hasil.innerHTML = "📷 Mengaktifkan kamera...";
+
+    Html5Qrcode.getCameras()
+    .then(function(devices){
+
+        if(devices.length === 0){
+            hasil.innerHTML = "❌ Kamera tidak ditemukan";
+            return;
+        }
+
+        scanning = true;
+
+        return html5QrCode.start(
+            devices[0].id,
+            {
+                fps:10,
+                qrbox:250
+            },
+            suksesScan,
+            function(error){}
+        );
+
+    })
+    .catch(function(err){
+
+        console.error(err);
+
+        hasil.innerHTML = "❌ Gagal membuka kamera";
+
+    });
+
+}
+
 function suksesScan(decodedText){
 
     if(!scanning) return;
@@ -31,17 +65,21 @@ function suksesScan(decodedText){
 
     hasil.innerHTML = "⏳ Memproses...";
 
+    html5QrCode.pause(true);
+
     fetch(URL_APPS_SCRIPT,{
         method:"POST",
         headers:{
             "Content-Type":"application/x-www-form-urlencoded"
         },
         body:
-            "id=" + encodeURIComponent(decodedText) +
-            "&mode=" + encodeURIComponent(MODE)
+            "id="+encodeURIComponent(decodedText)+
+            "&mode="+encodeURIComponent(MODE)
     })
-    .then(res => res.json())
-    .then(data => {
+    .then(function(res){
+        return res.json();
+    })
+    .then(function(data){
 
         console.log(data);
 
@@ -54,7 +92,7 @@ function suksesScan(decodedText){
                     <div class="info">Unit : ${data.unit}</div>
                     <div class="info">Status : ${data.status}</div>
                     <div class="info">Jam : ${data.jam}</div>
-                    <h2>${MODE==="HADIR" ? "✅ HADIR BERHASIL" : "🟠 TERLAMBAT BERHASIL"}</h2>
+                    <h2>${MODE=="HADIR" ? "✅ HADIR BERHASIL" : "🟠 TERLAMBAT BERHASIL"}</h2>
                 </div>
             `;
 
@@ -71,7 +109,10 @@ function suksesScan(decodedText){
         setTimeout(function(){
 
             hasil.innerHTML = "Arahkan QR ke kamera";
+
             scanning = true;
+
+            html5QrCode.resume();
 
         },2000);
 
@@ -85,40 +126,12 @@ function suksesScan(decodedText){
         setTimeout(function(){
 
             hasil.innerHTML = "Arahkan QR ke kamera";
+
             scanning = true;
 
+            html5QrCode.resume();
+
         },2000);
-
-    });
-
-}
-
-function mulaiScanner(){
-
-    Html5Qrcode.getCameras().then(function(devices){
-
-        if(devices.length == 0){
-
-            hasil.innerHTML = "❌ Kamera tidak ditemukan";
-            return;
-
-        }
-
-        html5QrCode.start(
-            devices[0].id,
-            {
-                fps:10,
-                qrbox:250
-            },
-            function(decodedText){
-
-                alert("QR TERBACA : " + decodedText);
-
-                suksesScan(decodedText);
-
-            },
-            function(error){}
-        );
 
     });
 
