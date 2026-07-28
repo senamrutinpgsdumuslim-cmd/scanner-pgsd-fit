@@ -1,14 +1,12 @@
-// ===================================================
-// PGSD FIT SCANNER
-// ===================================================
+// ==========================================
+// SCANNER PGSD FIT
+// ==========================================
 
 let MODE = "";
 
-const URL_APPS_SCRIPT =
-"https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec";
 
 const hasil = document.getElementById("hasil");
-
 const popup = document.getElementById("popup");
 const popupContent = document.getElementById("popupContent");
 
@@ -16,18 +14,16 @@ const html5QrCode = new Html5Qrcode("reader");
 
 let scanning = false;
 
-
-// ===================================================
+// ==========================================
 // PILIH MODE
-// ===================================================
+// ==========================================
 
 function pilihMode(mode){
 
     MODE = mode;
 
-    document.getElementById("pilihMode").style.display="none";
-
-    document.getElementById("scannerArea").style.display="block";
+    document.getElementById("pilihMode").style.display = "none";
+    document.getElementById("scannerArea").style.display = "block";
 
     document.getElementById("judulMode").innerHTML =
         MODE=="HADIR"
@@ -38,11 +34,9 @@ function pilihMode(mode){
 
 }
 
-
-
-// ===================================================
-// MULAI CAMERA
-// ===================================================
+// ==========================================
+// MULAI SCANNER
+// ==========================================
 
 function mulaiScanner(){
 
@@ -69,7 +63,7 @@ function mulaiScanner(){
 
     .then(function(){
 
-        hasil.innerHTML="📷 Arahkan QR Code";
+        hasil.innerHTML="📷 Arahkan QR Code ke Kamera";
 
     })
 
@@ -83,90 +77,60 @@ function mulaiScanner(){
 
 }
 
-
-
-// ===================================================
-// TAMPILKAN POPUP
-// ===================================================
+// ==========================================
+// TAMPIL POPUP
+// ==========================================
 
 function tampilPopup(data){
 
-    popup.style.display="flex";
+popup.style.display="flex";
 
-    popupContent.innerHTML=`
+popupContent.innerHTML=`
 
 <div class="verify-card ${MODE=="HADIR"?"hadir-card":"terlambat-card"}">
 
 <img src="assets/logo.png" class="verify-logo">
 
 <div class="verify-header">
-
-${MODE=="HADIR"
-?"ABSENSI HADIR"
-:"ABSENSI TERLAMBAT"}
-
+${MODE=="HADIR"?"ABSENSI HADIR":"ABSENSI TERLAMBAT"}
 </div>
 
-<div class="verify-check">
-
-✔
-
-</div>
+<div class="verify-check">✔</div>
 
 <div class="verify-name">
-
 ${data.nama}
-
 </div>
 
 <table class="verify-table">
 
 <tr>
-
 <td>NPM</td>
-
 <td>${data.npm}</td>
-
 </tr>
 
 <tr>
-
 <td>Angkatan</td>
-
 <td>${data.angkatan}</td>
-
 </tr>
 
 <tr>
-
 <td>Jenis Kelamin</td>
-
 <td>${data.jk}</td>
-
 </tr>
 
 <tr>
-
 <td>Unit</td>
-
 <td>${data.unit}</td>
-
 </tr>
 
 <tr>
-
 <td>Status</td>
-
 <td>${data.statusAnggota}</td>
-
 </tr>
 
 <tr>
-
 <td>Jam</td>
-
 <td>${data.jam}</td>
-
 </tr>
 
 </table>
@@ -174,8 +138,10 @@ ${data.nama}
 <div class="verify-footer">
 
 ${MODE=="HADIR"
-?"✅ VERIFIKASI HADIR BERHASIL"
-:"🟠 VERIFIKASI TERLAMBAT"}
+?
+"✅ VERIFIKASI HADIR BERHASIL"
+:
+"🟠 VERIFIKASI TERLAMBAT"}
 
 </div>
 
@@ -185,23 +151,21 @@ ${MODE=="HADIR"
 
 }
 
-
-
-// ===================================================
+// ==========================================
 // TUTUP POPUP
-// ===================================================
+// ==========================================
 
 function tutupPopup(){
 
-    popup.style.display="none";
+popup.style.display="none";
 
-    popupContent.innerHTML="";
+popupContent.innerHTML="";
 
 }
 
-// ===================================================
+// ==========================================
 // SETELAH QR TERBACA
-// ===================================================
+// ==========================================
 
 function suksesScan(decodedText){
 
@@ -209,9 +173,9 @@ function suksesScan(decodedText){
 
     scanning = false;
 
-    console.log("QR :", decodedText);
-
     html5QrCode.pause(true);
+
+    hasil.innerHTML = "⏳ Memproses...";
 
     fetch(URL_APPS_SCRIPT,{
 
@@ -222,8 +186,8 @@ function suksesScan(decodedText){
         },
 
         body:
-            "id="+encodeURIComponent(decodedText)+
-            "&mode="+encodeURIComponent(MODE)
+            "id=" + encodeURIComponent(decodedText) +
+            "&mode=" + encodeURIComponent(MODE)
 
     })
 
@@ -235,7 +199,7 @@ function suksesScan(decodedText){
 
     .then(function(data){
 
-        console.log("RESPON :",data);
+        console.log(data);
 
         if(data.sukses){
 
@@ -266,6 +230,8 @@ function suksesScan(decodedText){
         setTimeout(function(){
 
             tutupPopup();
+
+            hasil.innerHTML="📷 Arahkan QR Code ke Kamera";
 
             scanning=true;
 
@@ -302,6 +268,8 @@ function suksesScan(decodedText){
         setTimeout(function(){
 
             tutupPopup();
+
+            hasil.innerHTML="📷 Arahkan QR Code ke Kamera";
 
             scanning=true;
 
