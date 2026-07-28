@@ -101,6 +101,8 @@ function suksesScan(decodedText){
 
         console.log("RESPON SERVER :", data);
 
+        alert(JSON.stringify(data));
+
         if(data.sukses){
 
          hasil.innerHTML = `
@@ -116,12 +118,13 @@ function suksesScan(decodedText){
         ${data.nama}
     </div>
 
-    <div class="scan-item">🆔 <b>NPM</b> : ${data.npm}</div>
-    <div class="scan-item">🎓 <b>Angkatan</b> : ${data.angkatan}</div>
-    <div class="scan-item">👤 <b>JK</b> : ${data.jk}</div>
-    <div class="scan-item">🏫 <b>Unit</b> : ${data.unit}</div>
-    <div class="scan-item">⭐ <b>Status</b> : ${data.statusAnggota}</div>
-    <div class="scan-item">🕒 <b>Jam</b> : ${data.jam}</div>
+<div class="scan-item">🆔 <b>ID</b> : ${decodedText}</div>
+<div class="scan-item">🆔 <b>NPM</b> : ${data.npm || "-"}</div>
+<div class="scan-item">🎓 <b>Angkatan</b> : ${data.angkatan || "-"}</div>
+<div class="scan-item">👤 <b>JK</b> : ${data.jk || "-"}</div>
+<div class="scan-item">🏫 <b>Unit</b> : ${data.unit || "-"}</div>
+<div class="scan-item">⭐ <b>Status</b> : ${data.statusAnggota || "-"}</div>
+<div class="scan-item">🕒 <b>Jam</b> : ${data.jam || "-"}</div>
 
     <div class="scan-ok">
         ✔ VERIFIKASI BERHASIL
