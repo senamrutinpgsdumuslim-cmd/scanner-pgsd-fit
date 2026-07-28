@@ -107,30 +107,29 @@ function suksesScan(decodedText){
 
         if(data.sukses){
 
-           hasil.innerHTML = `
-<div class="card-sukses">
+         hasil.innerHTML = `
+<div class="scan-card">
 
-<div class="icon">✅</div>
+    <img src="assets/logo.png" class="scan-logo">
 
-<h2>${MODE=="HADIR" ? "VERIFIKASI HADIR" : "VERIFIKASI TERLAMBAT"}</h2>
+    <div class="scan-title">
+        ${MODE=="HADIR" ? "✅ ABSENSI HADIR" : "🟠 ABSENSI TERLAMBAT"}
+    </div>
 
-<div class="nama">${data.nama}</div>
+    <div class="scan-nama">
+        ${data.nama}
+    </div>
 
-<div class="info">🆔 NPM : ${data.npm}</div>
+    <div class="scan-item">🆔 <b>NPM</b> : ${data.npm}</div>
+    <div class="scan-item">🎓 <b>Angkatan</b> : ${data.angkatan}</div>
+    <div class="scan-item">👤 <b>JK</b> : ${data.jk}</div>
+    <div class="scan-item">🏫 <b>Unit</b> : ${data.unit}</div>
+    <div class="scan-item">⭐ <b>Status</b> : ${data.statusAnggota}</div>
+    <div class="scan-item">🕒 <b>Jam</b> : ${data.jam}</div>
 
-<div class="info">🎓 Angkatan : ${data.angkatan}</div>
-
-<div class="info">👤 Jenis Kelamin : ${data.jk}</div>
-
-<div class="info">🏫 Unit : ${data.unit}</div>
-
-<div class="info">⭐ Status : ${data.statusAnggota}</div>
-
-<div class="info">🕒 Jam : ${data.jam}</div>
-
-<div class="status-ok">
-✔ VERIFIKASI BERHASIL
-</div>
+    <div class="scan-ok">
+        ✔ VERIFIKASI BERHASIL
+    </div>
 
 </div>
 `;
