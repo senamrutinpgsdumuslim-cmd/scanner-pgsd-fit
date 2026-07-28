@@ -95,8 +95,21 @@ function suksesScan(decodedText){
 
 function mulaiScanner(){
 
-    Html5Qrcode.getCameras().then(function(devices){
+    html5QrCode.start(
+    { facingMode: "environment" },
+    {
+        fps: 10,
+        qrbox: 250
+    },
+    function(decodedText){
 
+        alert("QR TERBACA : " + decodedText);
+
+        suksesScan(decodedText);
+
+    },
+    function(error){}
+);
         if(!devices.length){
 
             hasil.innerHTML = "❌ Kamera tidak ditemukan";
