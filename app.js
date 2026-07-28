@@ -105,29 +105,61 @@ function suksesScan(decodedText){
 
         if(data.sukses){
 
-         hasil.innerHTML = `
-<div class="scan-card">
+       hasil.innerHTML = `
+<div class="verify-card ${MODE=="HADIR" ? "hadir-card" : "terlambat-card"}">
 
-    <img src="assets/logo.png" class="scan-logo">
+    <img src="assets/logo.png" class="verify-logo">
 
-    <div class="scan-title">
-        ${MODE=="HADIR" ? "✅ ABSENSI HADIR" : "🟠 ABSENSI TERLAMBAT"}
+    <div class="verify-header">
+        ${MODE=="HADIR" ? "ABSENSI HADIR" : "ABSENSI TERLAMBAT"}
     </div>
 
-    <div class="scan-nama">
+    <div class="verify-check">
+        ✔
+    </div>
+
+    <div class="verify-name">
         ${data.nama}
     </div>
 
-<div class="scan-item">🆔 <b>ID</b> : ${decodedText}</div>
-<div class="scan-item">🆔 <b>NPM</b> : ${data.npm || "-"}</div>
-<div class="scan-item">🎓 <b>Angkatan</b> : ${data.angkatan || "-"}</div>
-<div class="scan-item">👤 <b>JK</b> : ${data.jk || "-"}</div>
-<div class="scan-item">🏫 <b>Unit</b> : ${data.unit || "-"}</div>
-<div class="scan-item">⭐ <b>Status</b> : ${data.statusAnggota || "-"}</div>
-<div class="scan-item">🕒 <b>Jam</b> : ${data.jam || "-"}</div>
+    <table class="verify-table">
 
-    <div class="scan-ok">
-        ✔ VERIFIKASI BERHASIL
+        <tr>
+            <td>NPM</td>
+            <td>${data.npm}</td>
+        </tr>
+
+        <tr>
+            <td>Angkatan</td>
+            <td>${data.angkatan}</td>
+        </tr>
+
+        <tr>
+            <td>Jenis Kelamin</td>
+            <td>${data.jk}</td>
+        </tr>
+
+        <tr>
+            <td>Unit</td>
+            <td>${data.unit}</td>
+        </tr>
+
+        <tr>
+            <td>Status</td>
+            <td>${data.statusAnggota}</td>
+        </tr>
+
+        <tr>
+            <td>Jam</td>
+            <td>${data.jam}</td>
+        </tr>
+
+    </table>
+
+    <div class="verify-footer">
+        ${MODE=="HADIR"
+            ? "✅ VERIFIKASI HADIR BERHASIL"
+            : "🟠 VERIFIKASI TERLAMBAT"}
     </div>
 
 </div>
