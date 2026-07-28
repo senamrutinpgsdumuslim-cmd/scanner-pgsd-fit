@@ -61,21 +61,72 @@ function mulaiScanner(){
 
     )
 
-    .then(function(){
+.then(function(data){
 
-        hasil.innerHTML="📷 Arahkan QR Code ke Kamera";
+    console.log(data);
 
-    })
+    if(data.sukses){
 
-    .catch(function(err){
+        tampilPopup(data);
 
-        console.error(err);
+    }else{
 
-        hasil.innerHTML="❌ Kamera gagal dibuka";
+        popup.style.display="flex";
 
-    });
+        popupContent.innerHTML=`
 
-}
+<div class="verify-card">
+
+    <div style="padding:35px;text-align:center;">
+
+        <h2 style="color:#dc2626;font-size:30px;">❌</h2>
+
+        <h3>${data.pesan}</h3>
+
+        <br>
+
+        <button class="btn-ok" onclick="lanjutScan()">
+            🔄 KEMBALI SCAN
+        </button>
+
+    </div>
+
+</div>
+
+`;
+
+    }
+
+})
+   .catch(function(err){
+
+    console.error(err);
+
+    popup.style.display="flex";
+
+    popupContent.innerHTML=`
+
+<div class="verify-card">
+
+    <div style="padding:35px;text-align:center;">
+
+        <h2 style="color:#dc2626;">❌</h2>
+
+        <h3>Gagal Menghubungi Server</h3>
+
+        <br>
+
+        <button class="btn-ok" onclick="lanjutScan()">
+            🔄 KEMBALI SCAN
+        </button>
+
+    </div>
+
+</div>
+
+`;
+
+});
 
 // ==========================================
 // TAMPIL POPUP
@@ -249,11 +300,6 @@ function suksesScan(decodedText){
             tampilPopup(data);
 
       }else{
-
-popup.style.display="flex";
-
-popupContent.innerHTML=`
-}else{
 
 popup.style.display="flex";
 
