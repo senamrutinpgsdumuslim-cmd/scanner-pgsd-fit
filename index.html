@@ -2,13 +2,15 @@
 <html lang="id">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Scanner PGSD FIT</title>
 
 <link rel="stylesheet" href="style.css">
 
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
 
 </head>
 
@@ -16,23 +18,37 @@
 
 <div class="container">
 
-    <img src="assets/logo.png" width="90">
+    <img src="assets/logo.png" class="logo">
 
-    <h1>📷 Scanner PGSD FIT</h1>
+    <h1>SCANNER PGSD FIT</h1>
+
+    <!-- ========================= -->
+    <!-- PILIH MODE -->
+    <!-- ========================= -->
 
     <div id="pilihMode">
 
         <h2>Pilih Mode Scanner</h2>
 
-        <button onclick="pilihMode('HADIR')" class="hadir">
+        <button class="btn-hadir"
+                onclick="pilihMode('HADIR')">
+
             🟢 SCANNER HADIR
+
         </button>
 
-        <button onclick="pilihMode('TERLAMBAT')" class="terlambat">
+        <button class="btn-terlambat"
+                onclick="pilihMode('TERLAMBAT')">
+
             🟠 SCANNER TERLAMBAT
+
         </button>
 
     </div>
+
+    <!-- ========================= -->
+    <!-- SCANNER -->
+    <!-- ========================= -->
 
     <div id="scannerArea" style="display:none;">
 
@@ -40,11 +56,23 @@
 
         <div id="reader"></div>
 
-        <div id="hasil">
-            Arahkan QR ke kamera
+        <div id="hasil" class="info-scanner">
+
+            📷 Arahkan QR Code ke Kamera
+
         </div>
 
     </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- POPUP VERIFIKASI -->
+<!-- ===================================== -->
+
+<div id="popup" class="popup">
+
+    <div id="popupContent"></div>
 
 </div>
 
