@@ -1,3 +1,22 @@
+let MODE = "";
+
+function pilihMode(mode){
+
+    MODE = mode;
+
+    document.getElementById("pilihMode").style.display = "none";
+
+    document.getElementById("scannerArea").style.display = "block";
+
+    document.getElementById("judulMode").innerHTML =
+        mode=="HADIR"
+        ? "🟢 MODE HADIR"
+        : "🟠 MODE TERLAMBAT";
+
+    mulaiScanner();
+
+}
+
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz9S1SQRX_3f0Jen5PB_en0tg1mUqm6PrOdV1TZd86SP7BabVtshd56XGlTIMccy4LtRQ/exec";
 
 const hasil = document.getElementById("hasil");
@@ -19,7 +38,9 @@ function suksesScan(decodedText){
         headers:{
             "Content-Type":"application/x-www-form-urlencoded"
         },
-        body:"id="+encodeURIComponent(decodedText)
+        body=
+"id="+encodeURIComponent(decodedText)+
+"&mode="+encodeURIComponent(MODE)
     })
     .then(res=>res.json())
     .then(data=>{
@@ -33,7 +54,11 @@ function suksesScan(decodedText){
                 <div class="info">Unit : ${data.unit}</div>
                 <div class="info">Status : ${data.status}</div>
                 <div class="info">Jam : ${data.jam}</div>
-                <h2>✅ ABSENSI BERHASIL</h2>
+                <h2>${
+MODE=="HADIR"
+?"✅ HADIR BERHASIL"
+:"🟠 TERLAMBAT BERHASIL"
+}</h2>
             </div>
             `;
 
@@ -72,6 +97,8 @@ function suksesScan(decodedText){
 
 }
 
+function mulaiScanner(){
+
 Html5Qrcode.getCameras().then(devices=>{
 
     if(devices.length){
@@ -92,3 +119,5 @@ Html5Qrcode.getCameras().then(devices=>{
     }
 
 });
+
+}
