@@ -39,9 +39,14 @@ function suksesScan(decodedText){
         "id=" + encodeURIComponent(decodedText) +
         "&mode=" + encodeURIComponent(MODE)
 })
-    .then(res => res.json())
-    .then(data=>{
+.then(res => res.json())
+.then(data => {
 
+    console.log("RESPON SERVER :", data);
+
+    if(data.sukses){
+
+        ...
         if(data.sukses){
 
             hasil.innerHTML=`
