@@ -20,6 +20,7 @@ function pilihMode(mode){
         : "🟠 MODE TERLAMBAT";
 
     mulaiScanner();
+
 }
 
 function suksesScan(decodedText){
@@ -31,50 +32,22 @@ function suksesScan(decodedText){
     hasil.innerHTML = "⏳ Memproses...";
 
     fetch(URL_APPS_SCRIPT,{
-    method:"POST",
-    headers:{
-        "Content-Type":"application/x-www-form-urlencoded"
-    },
-    body:
-        "id=" + encodeURIComponent(decodedText) +
-        "&mode=" + encodeURIComponent(MODE)
-})
-.then(res => res.json())
-.then(data => {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded"
+        },
+        body:
+            "id=" + encodeURIComponent(decodedText) +
+            "&mode=" + encodeURIComponent(MODE)
+    })
+    .then(res => res.json())
+    .then(data => {
 
-    console.log("RESPON SERVER :", data);
+        console.log("RESPON SERVER :", data);
 
-    if(data.sukses){
+        if(data.sukses){
 
-        hasil.innerHTML = `
-            <div class="berhasil">
-                <div class="nama">${data.nama}</div>
-                <div class="info">NPM : ${data.npm}</div>
-                <div class="info">Unit : ${data.unit}</div>
-                <div class="info">Status : ${data.status}</div>
-                <div class="info">Jam : ${data.jam}</div>
-                <h2>${MODE==="HADIR" ? "✅ HADIR BERHASIL" : "🟠 TERLAMBAT BERHASIL"}</h2>
-            </div>
-        `;
-
-    }else{
-
-        hasil.innerHTML = `
-            <div class="gagal">
-                <h2>❌ ${data.pesan}</h2>
-            </div>
-        `;
-
-    }
-
-    setTimeout(()=>{
-        hasil.innerHTML="Arahkan QR ke kamera";
-        scanning=true;
-    },2000);
-
-})
-
-            hasil.innerHTML=`
+            hasil.innerHTML = `
                 <div class="berhasil">
                     <div class="nama">${data.nama}</div>
                     <div class="info">NPM : ${data.npm}</div>
@@ -87,7 +60,7 @@ function suksesScan(decodedText){
 
         }else{
 
-            hasil.innerHTML=`
+            hasil.innerHTML = `
                 <div class="gagal">
                     <h2>❌ ${data.pesan}</h2>
                 </div>
@@ -96,8 +69,8 @@ function suksesScan(decodedText){
         }
 
         setTimeout(()=>{
-            hasil.innerHTML="Arahkan QR ke kamera";
-            scanning=true;
+            hasil.innerHTML = "Arahkan QR ke kamera";
+            scanning = true;
         },2000);
 
     })
@@ -105,11 +78,11 @@ function suksesScan(decodedText){
 
         console.error(err);
 
-        hasil.innerHTML="❌ Gagal menghubungi server";
+        hasil.innerHTML = "❌ Gagal menghubungi server";
 
         setTimeout(()=>{
-            hasil.innerHTML="Arahkan QR ke kamera";
-            scanning=true;
+            hasil.innerHTML = "Arahkan QR ke kamera";
+            scanning = true;
         },2000);
 
     });
@@ -121,7 +94,7 @@ function mulaiScanner(){
     Html5Qrcode.getCameras().then(devices=>{
 
         if(!devices.length){
-            hasil.innerHTML="❌ Kamera tidak ditemukan";
+            hasil.innerHTML = "❌ Kamera tidak ditemukan";
             return;
         }
 
