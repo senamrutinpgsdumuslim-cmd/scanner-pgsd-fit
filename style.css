@@ -108,3 +108,59 @@ h1{
         opacity:1;
     }
 }
+
+.scan-card{
+    background:linear-gradient(135deg,#0f9d58,#0b8043);
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    animation:zoomIn .35s ease;
+}
+
+.scan-logo{
+    width:80px;
+    margin-bottom:10px;
+}
+
+.scan-title{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.scan-nama{
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+.scan-item{
+    background:rgba(255,255,255,.15);
+    margin:8px 0;
+    padding:10px;
+    border-radius:10px;
+    text-align:left;
+}
+
+.scan-ok{
+    margin-top:20px;
+    background:#fff;
+    color:#0f9d58;
+    font-weight:bold;
+    font-size:22px;
+    padding:15px;
+    border-radius:15px;
+}
+
+@keyframes zoomIn{
+    from{
+        transform:scale(.85);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
