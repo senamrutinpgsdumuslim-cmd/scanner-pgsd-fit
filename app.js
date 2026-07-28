@@ -176,9 +176,11 @@ popupContent.innerHTML="";
 
 function lanjutScan(){
 
-    tutupPopup();
+    popup.style.display="none";
 
-    hasil.innerHTML="📷 Arahkan QR Code";
+    popupContent.innerHTML="";
+
+    hasil.innerHTML="📷 Arahkan QR Code ke Kamera";
 
     scanning=true;
 
@@ -228,27 +230,37 @@ function suksesScan(decodedText){
 
             tampilPopup(data);
 
-        }else{
+      }else{
 
-            popup.style.display="flex";
+popup.style.display="flex";
 
-            popupContent.innerHTML=`
+popupContent.innerHTML=`
 
-            <div class="verify-card">
+<div class="verify-card">
 
-                <div style="padding:40px;text-align:center;">
+<div style="padding:35px;text-align:center;">
 
-                    <h2 style="color:#dc2626;">
-                        ❌ ${data.pesan}
-                    </h2>
+<h2 style="color:#dc2626;">
+❌ ${data.pesan}
+</h2>
 
-                </div>
+<br>
 
-            </div>
+<button
+class="btn-ok"
+onclick="lanjutScan()">
 
-            `;
+OKE
 
-        }
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
         
 // menunggu tombol OKE ditekan
 
@@ -278,18 +290,18 @@ function suksesScan(decodedText){
 
         `;
 
-        setTimeout(function(){
+popupContent.innerHTML += `
 
-            tutupPopup();
+<div style="padding:20px;text-align:center;">
 
-            hasil.innerHTML="📷 Arahkan QR Code ke Kamera";
+<button
+class="btn-ok"
+onclick="lanjutScan()">
 
-            scanning=true;
+OKE
 
-            html5QrCode.resume();
+</button>
 
-        },3000);
+</div>
 
-    });
-
-}
+`;
