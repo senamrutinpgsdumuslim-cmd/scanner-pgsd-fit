@@ -59,6 +59,11 @@ function mulaiScanner(){
 
 function suksesScan(decodedText){
 
+    alert("QR = " + decodedText);
+
+    if(!scanning) return;
+function suksesScan(decodedText){
+
     if(!scanning) return;
 
     scanning = false;
