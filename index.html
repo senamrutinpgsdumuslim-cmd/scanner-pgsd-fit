@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,19 +16,40 @@
 
 <div class="container">
 
-<h1>📷 Scanner PGSD FIT</h1>
+    <img src="assets/logo.png" width="90">
 
-<div id="reader"></div>
+    <h1>📷 Scanner PGSD FIT</h1>
 
-<div id="hasil">
+    <div id="pilihMode">
 
-Arahkan QR ke kamera
+        <h2>Pilih Mode Scanner</h2>
 
-</div>
+        <button onclick="pilihMode('HADIR')" class="hadir">
+            🟢 SCANNER HADIR
+        </button>
+
+        <button onclick="pilihMode('TERLAMBAT')" class="terlambat">
+            🟠 SCANNER TERLAMBAT
+        </button>
+
+    </div>
+
+    <div id="scannerArea" style="display:none;">
+
+        <h2 id="judulMode"></h2>
+
+        <div id="reader"></div>
+
+        <div id="hasil">
+            Arahkan QR ke kamera
+        </div>
+
+    </div>
 
 </div>
 
 <script src="app.js"></script>
 
 </body>
+
 </html>
