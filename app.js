@@ -175,6 +175,7 @@ popupContent.innerHTML="";
 }
 
 function lanjutScan(){
+    alert("TOMBOL OKE DITEKAN");
 
     popup.style.display = "none";
     popupContent.innerHTML = "";
