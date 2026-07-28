@@ -235,14 +235,23 @@ function suksesScan(decodedText){
 popup.style.display="flex";
 
 popupContent.innerHTML=`
+}else{
+
+popup.style.display="flex";
+
+popupContent.innerHTML=`
 
 <div class="verify-card">
 
 <div style="padding:35px;text-align:center;">
 
-<h2 style="color:#dc2626;">
-❌ ${data.pesan}
+<h2 style="color:#dc2626;font-size:28px;">
+❌
 </h2>
+
+<h3 style="margin-top:10px;">
+${data.pesan}
+</h3>
 
 <br>
 
@@ -250,7 +259,7 @@ popupContent.innerHTML=`
 class="btn-ok"
 onclick="lanjutScan()">
 
-OKE
+🔄 KEMBALI SCAN
 
 </button>
 
@@ -261,7 +270,7 @@ OKE
 `;
 
 }
-        
+
 // menunggu tombol OKE ditekan
 
     })
