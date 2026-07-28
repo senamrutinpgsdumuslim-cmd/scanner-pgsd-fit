@@ -7,6 +7,10 @@ const html5QrCode = new Html5Qrcode("reader");
 
 let scanning = false;
 
+// ==============================
+// PILIH MODE
+// ==============================
+
 function pilihMode(mode){
 
     MODE = mode;
@@ -15,78 +19,89 @@ function pilihMode(mode){
     document.getElementById("scannerArea").style.display = "block";
 
     document.getElementById("judulMode").innerHTML =
-        mode === "HADIR"
-            ? "🟢 MODE HADIR"
-            : "🟠 MODE TERLAMBAT";
+        MODE === "HADIR"
+        ? "🟢 MODE HADIR"
+        : "🟠 MODE TERLAMBAT";
 
     mulaiScanner();
 }
+
+// ==============================
+// MULAI SCANNER
+// ==============================
 
 function mulaiScanner(){
 
     hasil.innerHTML = "📷 Mengaktifkan kamera...";
 
-    Html5Qrcode.getCameras()
-    .then(function(devices){
+    scanning = true;
 
-        if(devices.length === 0){
-            hasil.innerHTML = "❌ Kamera tidak ditemukan";
-            return;
-        }
+    html5QrCode.start(
 
-        scanning = true;
+        {
+            facingMode: "environment"
+        },
 
-        return html5QrCode.start(
-            devices[0].id,
-            {
-                fps:10,
-                qrbox:250
-            },
-            suksesScan,
-            function(error){}
-        );
+        {
+            fps: 10,
+            qrbox: 250
+        },
 
-    })
-    .catch(function(err){
+        suksesScan,
+
+        function(error){}
+
+    ).catch(function(err){
 
         console.error(err);
 
-        hasil.innerHTML = "❌ Gagal membuka kamera";
+        hasil.innerHTML = "❌ Kamera gagal dibuka";
+
+        alert("ERROR KAMERA : " + err);
 
     });
 
 }
 
-function suksesScan(decodedText){
+// ==============================
+// SETELAH QR TERBACA
+// ==============================
 
-    alert("QR = " + decodedText);
-
-    if(!scanning) return;
 function suksesScan(decodedText){
 
     if(!scanning) return;
 
     scanning = false;
 
+    console.log("QR TERBACA :", decodedText);
+
     hasil.innerHTML = "⏳ Memproses...";
 
     html5QrCode.pause(true);
 
     fetch(URL_APPS_SCRIPT,{
+
         method:"POST",
+
         headers:{
             "Content-Type":"application/x-www-form-urlencoded"
         },
+
         body:
-            "id="+encodeURIComponent(decodedText)+
-            "&mode="+encodeURIComponent(MODE)
+            "id=" + encodeURIComponent(decodedText) +
+            "&mode=" + encodeURIComponent(MODE)
+
     })
+
     .then(function(res){
+
         return res.json();
+
     })
+
     .then(function(data){
 
-        console.log(data);
+        console.log("RESPON SERVER :", data);
 
         if(data.sukses){
 
@@ -122,6 +137,7 @@ function suksesScan(decodedText){
         },2000);
 
     })
+
     .catch(function(err){
 
         console.error(err);
