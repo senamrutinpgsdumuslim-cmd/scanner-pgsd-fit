@@ -1,4 +1,3 @@
-alert("APP.JS BERHASIL DIMUAT");
 let MODE = "";
 
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec";
@@ -9,6 +8,8 @@ const html5QrCode = new Html5Qrcode("reader");
 let scanning = true;
 
 function pilihMode(mode){
+
+    alert("MODE = " + mode);
 
     MODE = mode;
 
@@ -22,7 +23,6 @@ function pilihMode(mode){
 
     mulaiScanner();
 }
-
 function suksesScan(decodedText){
 
     if(!scanning) return;
