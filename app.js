@@ -17,7 +17,7 @@ function pilihMode(mode){
 
 }
 
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz9S1SQRX_3f0Jen5PB_en0tg1mUqm6PrOdV1TZd86SP7BabVtshd56XGlTIMccy4LtRQ/exec";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec";
 
 const hasil = document.getElementById("hasil");
 
