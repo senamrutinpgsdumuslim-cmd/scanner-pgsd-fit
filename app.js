@@ -57,8 +57,6 @@ function mulaiScanner(){
 
         hasil.innerHTML = "❌ Kamera gagal dibuka";
 
-        alert("ERROR KAMERA : " + err);
-
     });
 
 }
@@ -102,8 +100,6 @@ function suksesScan(decodedText){
     .then(function(data){
 
         console.log("RESPON SERVER :", data);
-
-        alert(JSON.stringify(data));
 
         if(data.sukses){
 
