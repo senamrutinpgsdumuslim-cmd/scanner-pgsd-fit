@@ -126,8 +126,6 @@ function lanjutScan(){
 
     scanning = true;
 
-    html5QrCode.resume();
-
 }
 
 // =============================
@@ -139,8 +137,6 @@ function suksesScan(decodedText){
     if(!scanning) return;
 
     scanning = false;
-
-    html5QrCode.pause(true);
 
     hasil.innerHTML = "⏳ Memproses...";
 
