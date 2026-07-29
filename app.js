@@ -71,29 +71,25 @@ function mulaiScanner(){
 
     }else{
 
-        popup.style.display="flex";
+        popup.style.display = "flex";
 
-        popupContent.innerHTML=`
+        popupContent.innerHTML = `
+        <div class="verify-card">
+            <div style="padding:35px;text-align:center;">
 
-<div class="verify-card">
+                <h2 style="color:#dc2626;font-size:30px;">❌</h2>
 
-    <div style="padding:35px;text-align:center;">
+                <h3>${data.pesan}</h3>
 
-        <h2 style="color:#dc2626;font-size:30px;">❌</h2>
+                <br>
 
-        <h3>${data.pesan}</h3>
+                <button class="btn-ok" onclick="lanjutScan()">
+                    🔄 KEMBALI SCAN
+                </button>
 
-        <br>
-
-        <button class="btn-ok" onclick="lanjutScan()">
-            🔄 KEMBALI SCAN
-        </button>
-
-    </div>
-
-</div>
-
-`;
+            </div>
+        </div>
+        `;
 
     }
 
