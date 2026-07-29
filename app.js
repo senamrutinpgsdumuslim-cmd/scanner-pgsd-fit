@@ -40,26 +40,28 @@ function pilihMode(mode){
 
 function mulaiScanner(){
 
-    hasil.innerHTML="📷 Mengaktifkan Kamera...";
+    hasil.innerHTML = "📷 Mengaktifkan Kamera...";
 
-    scanning=true;
+    scanning = true;
 
     html5QrCode.start(
-
+        { facingMode: "environment" },
         {
-            facingMode:"environment"
+            fps: 10,
+            qrbox: 260
         },
-
-        {
-            fps:10,
-            qrbox:260
-        },
-
         suksesScan,
-
         function(error){}
-
     )
+    .then(function(){
+        hasil.innerHTML = "📷 Arahkan QR Code ke Kamera";
+    })
+    .catch(function(err){
+        console.error(err);
+        hasil.innerHTML = "❌ Kamera gagal dibuka";
+    });
+
+}
 
 .then(function(data){
 
@@ -222,7 +224,6 @@ popupContent.innerHTML="";
 }
 
 function lanjutScan(){
-    alert("TOMBOL OKE DITEKAN");
 
     popup.style.display = "none";
     popupContent.innerHTML = "";
@@ -231,9 +232,9 @@ function lanjutScan(){
 
     scanning = true;
 
-    try{
+    html5QrCode.resume();
 
-        html5QrCode.resume();
+}
 
     }catch(e){
 
