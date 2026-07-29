@@ -1,5 +1,5 @@
 // ==========================================
-// SCANNER PGSD FIT
+// SCANNER PGSD FIT (VERSI BARU)
 // ==========================================
 
 let MODE = "";
@@ -14,9 +14,9 @@ const html5QrCode = new Html5Qrcode("reader");
 
 let scanning = false;
 
-// ==========================================
+// =============================
 // PILIH MODE
-// ==========================================
+// =============================
 
 function pilihMode(mode){
 
@@ -26,17 +26,17 @@ function pilihMode(mode){
     document.getElementById("scannerArea").style.display = "block";
 
     document.getElementById("judulMode").innerHTML =
-        MODE=="HADIR"
-        ? "🟢 MODE HADIR"
-        : "🟠 MODE TERLAMBAT";
+        mode === "HADIR"
+            ? "🟢 MODE HADIR"
+            : "🟠 MODE TERLAMBAT";
 
     mulaiScanner();
 
 }
 
-// ==========================================
+// =============================
 // MULAI SCANNER
-// ==========================================
+// =============================
 
 function mulaiScanner(){
 
@@ -48,7 +48,7 @@ function mulaiScanner(){
         { facingMode: "environment" },
         {
             fps: 10,
-            qrbox: 260
+            qrbox: 250
         },
         suksesScan,
         function(error){}
@@ -65,111 +65,57 @@ function mulaiScanner(){
     });
 
 }
-    .catch(function(err){
-        console.error(err);
-        hasil.innerHTML = "❌ Kamera gagal dibuka";
-    });
 
-}
-
-});
-
-// ==========================================
+// =============================
 // TAMPIL POPUP
-// ==========================================
+// =============================
 
 function tampilPopup(data){
 
-popup.style.display="flex";
+    popup.style.display = "flex";
 
-popupContent.innerHTML=`
+    popupContent.innerHTML = `
+    <div class="verify-card ${MODE==="HADIR" ? "hadir-card" : "terlambat-card"}">
 
-<div class="verify-card ${MODE=="HADIR"?"hadir-card":"terlambat-card"}">
+        <img src="assets/logo.png" class="verify-logo">
 
-<img src="assets/logo.png" class="verify-logo">
+        <div class="verify-header">
+            ${MODE==="HADIR" ? "ABSENSI HADIR" : "ABSENSI TERLAMBAT"}
+        </div>
 
-<div class="verify-header">
-${MODE=="HADIR"?"ABSENSI HADIR":"ABSENSI TERLAMBAT"}
-</div>
+        <div class="verify-check">✔</div>
 
-<div class="verify-check">✔</div>
+        <div class="verify-name">
+            ${data.nama}
+        </div>
 
-<div class="verify-name">
-${data.nama}
-</div>
+        <table class="verify-table">
+            <tr><td>NPM</td><td>${data.npm}</td></tr>
+            <tr><td>Angkatan</td><td>${data.angkatan}</td></tr>
+            <tr><td>Jenis Kelamin</td><td>${data.jk}</td></tr>
+            <tr><td>Unit</td><td>${data.unit}</td></tr>
+            <tr><td>Status</td><td>${data.statusAnggota}</td></tr>
+            <tr><td>Jam</td><td>${data.jam}</td></tr>
+        </table>
 
-<table class="verify-table">
+        <div class="verify-footer">
+            ${MODE==="HADIR" ? "✅ VERIFIKASI HADIR BERHASIL" : "🟠 VERIFIKASI TERLAMBAT"}
+        </div>
 
-<tr>
-<td>NPM</td>
-<td>${data.npm}</td>
-</tr>
+        <div style="padding:20px;text-align:center;">
+            <button class="btn-ok" onclick="lanjutScan()">
+                ✅ SCAN BERIKUTNYA
+            </button>
+        </div>
 
-<tr>
-<td>Angkatan</td>
-<td>${data.angkatan}</td>
-</tr>
-
-<tr>
-<td>Jenis Kelamin</td>
-<td>${data.jk}</td>
-</tr>
-
-<tr>
-<td>Unit</td>
-<td>${data.unit}</td>
-</tr>
-
-<tr>
-<td>Status</td>
-<td>${data.statusAnggota}</td>
-</tr>
-
-<tr>
-<td>Jam</td>
-<td>${data.jam}</td>
-</tr>
-
-</table>
-
-<div class="verify-footer">
-
-${MODE=="HADIR"
-?
-"✅ VERIFIKASI HADIR BERHASIL"
-:
-"🟠 VERIFIKASI TERLAMBAT"}
-
-</div>
-<div style="padding:20px;text-align:center;">
-
-<button
-class="btn-ok"
-onclick="lanjutScan()">
-
-✅ OKE
-
-</button>
-
-</div>
-
-</div>
-
-`;
+    </div>
+    `;
 
 }
 
-// ==========================================
-// TUTUP POPUP
-// ==========================================
-
-function tutupPopup(){
-
-popup.style.display="none";
-
-popupContent.innerHTML="";
-
-}
+// =============================
+// LANJUT SCAN
+// =============================
 
 function lanjutScan(){
 
@@ -184,9 +130,9 @@ function lanjutScan(){
 
 }
 
-// ==========================================
-// SETELAH QR TERBACA
-// ==========================================
+// =============================
+// QR TERBACA
+// =============================
 
 function suksesScan(decodedText){
 
@@ -200,7 +146,7 @@ function suksesScan(decodedText){
 
     fetch(URL_APPS_SCRIPT,{
 
-        method:"POST",
+        method: "POST",
 
         headers:{
             "Content-Type":"application/x-www-form-urlencoded"
@@ -213,56 +159,40 @@ function suksesScan(decodedText){
     })
 
     .then(function(res){
-
         return res.json();
-
     })
 
     .then(function(data){
-
-        console.log(data);
 
         if(data.sukses){
 
             tampilPopup(data);
 
-      }else{
+        }else{
 
-popup.style.display="flex";
+            popup.style.display = "flex";
 
-popupContent.innerHTML=`
+            popupContent.innerHTML = `
+            <div class="verify-card">
 
-<div class="verify-card">
+                <div style="padding:35px;text-align:center;">
 
-<div style="padding:35px;text-align:center;">
+                    <h2 style="color:#dc2626;font-size:30px;">❌</h2>
 
-<h2 style="color:#dc2626;font-size:28px;">
-❌
-</h2>
+                    <h3>${data.pesan}</h3>
 
-<h3 style="margin-top:10px;">
-${data.pesan}
-</h3>
+                    <br>
 
-<br>
+                    <button class="btn-ok" onclick="lanjutScan()">
+                        🔄 KEMBALI SCAN
+                    </button>
 
-<button
-class="btn-ok"
-onclick="lanjutScan()">
+                </div>
 
-🔄 KEMBALI SCAN
+            </div>
+            `;
 
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-// menunggu tombol OKE ditekan
+        }
 
     })
 
@@ -270,38 +200,28 @@ onclick="lanjutScan()">
 
         console.error(err);
 
-        popup.style.display="flex";
+        popup.style.display = "flex";
 
-        popupContent.innerHTML=`
-
+        popupContent.innerHTML = `
         <div class="verify-card">
 
-            <div style="padding:40px;text-align:center;">
+            <div style="padding:35px;text-align:center;">
 
-                <h2 style="color:#dc2626;">
+                <h2 style="color:#dc2626;">❌</h2>
 
-                    ❌ Gagal Menghubungi Server
+                <h3>Gagal Menghubungi Server</h3>
 
-                </h2>
+                <br>
+
+                <button class="btn-ok" onclick="lanjutScan()">
+                    🔄 KEMBALI SCAN
+                </button>
 
             </div>
 
         </div>
-
         `;
 
-popupContent.innerHTML += `
+    });
 
-<div style="padding:20px;text-align:center;">
-
-<button
-class="btn-ok"
-onclick="lanjutScan()">
-
-OKE
-
-</button>
-
-</div>
-
-`;
+}
