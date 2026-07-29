@@ -71,67 +71,6 @@ html5QrCode.start(
 
 }
 
-.then(function(data){
-
-    console.log(data);
-
-    if(data.sukses){
-
-        tampilPopup(data);
-
-    }else{
-
-        popup.style.display = "flex";
-
-        popupContent.innerHTML = `
-        <div class="verify-card">
-            <div style="padding:35px;text-align:center;">
-
-                <h2 style="color:#dc2626;font-size:30px;">❌</h2>
-
-                <h3>${data.pesan}</h3>
-
-                <br>
-
-                <button class="btn-ok" onclick="lanjutScan()">
-                    🔄 KEMBALI SCAN
-                </button>
-
-            </div>
-        </div>
-        `;
-
-    }
-
-})
-   .catch(function(err){
-
-    console.error(err);
-
-    popup.style.display="flex";
-
-    popupContent.innerHTML=`
-
-<div class="verify-card">
-
-    <div style="padding:35px;text-align:center;">
-
-        <h2 style="color:#dc2626;">❌</h2>
-
-        <h3>Gagal Menghubungi Server</h3>
-
-        <br>
-
-        <button class="btn-ok" onclick="lanjutScan()">
-            🔄 KEMBALI SCAN
-        </button>
-
-    </div>
-
-</div>
-
-`;
-
 });
 
 // ==========================================
@@ -241,24 +180,6 @@ function lanjutScan(){
     scanning = true;
 
     html5QrCode.resume();
-
-}
-
-    }catch(e){
-
-        console.log("Resume gagal, mulai ulang scanner");
-
-        html5QrCode.stop().then(function(){
-
-            mulaiScanner();
-
-        }).catch(function(){
-
-            mulaiScanner();
-
-        });
-
-    }
 
 }
 
