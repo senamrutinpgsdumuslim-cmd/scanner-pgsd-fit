@@ -8,29 +8,30 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9
 // JAM REALTIME
 // ===============================
 
-function updateClock(){
+function updateClock() {
+const now = new Date();
 
-    const now = new Date();
+```
+const options = {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+};
 
-    const options = {
-        weekday:"long",
-        day:"2-digit",
-        month:"long",
-        year:"numeric",
-        hour:"2-digit",
-        minute:"2-digit",
-        second:"2-digit"
-    };
+const clock = document.getElementById("clock");
 
-    const clock = document.getElementById("clock");
-
-    if(clock){
-        clock.textContent = now.toLocaleString("id-ID", options);
-    }
+if (clock) {
+    clock.textContent = now.toLocaleString("id-ID", options);
+}
+```
 
 }
 
-setInterval(updateClock,1000);
+setInterval(updateClock, 1000);
 updateClock();
 
 // ===============================
@@ -40,56 +41,61 @@ updateClock();
 let attendanceChart;
 let unitChart;
 
-function initCharts(){
+function initCharts() {
 
-    attendanceChart = new Chart(
-        document.getElementById("attendanceChart"),
-        {
-            type:"line",
-            data:{
-                labels:["P1","P2","P3","P4","P5","P6","P7","P8"],
-                datasets:[
-                    {
-                        label:"Kehadiran",
-                        data:[0,0,0,0,0,0,0,0],
-                        borderColor:"#1565C0",
-                        backgroundColor:"rgba(21,101,192,.15)",
-                        fill:true,
-                        tension:.35
-                    }
-                ]
-            },
-            options:{
-                responsive:true,
-                maintainAspectRatio:false
-            }
+```
+attendanceChart = new Chart(
+    document.getElementById("attendanceChart"),
+    {
+        type: "line",
+        data: {
+            labels: ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8"],
+            datasets: [
+                {
+                    label: "Kehadiran",
+                    data: [0,0,0,0,0,0,0,0],
+                    borderColor: "#1565C0",
+                    backgroundColor: "rgba(21,101,192,.15)",
+                    fill: true,
+                    tension: .35
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false
         }
-    );
+    }
+);
 
-    unitChart = new Chart(
-        document.getElementById("unitChart"),
-        {
-            type:"doughnut",
-            data:{
-                labels:["A","B","C","D"],
-                datasets:[
-                    {
-                        data:[1,1,1,1],
-                        backgroundColor:[
-                            "#1565C0",
-                            "#16A34A",
-                            "#F97316",
-                            "#7C3AED"
-                        ]
-                    }
-                ]
-            },
-            options:{
-                responsive:true,
-                maintainAspectRatio:false
-            }
+unitChart = new Chart(
+    document.getElementById("unitChart"),
+    {
+        type: "doughnut",
+        data: {
+            labels: ["Hadir", "Terlambat", "Izin", "Aktif"],
+            datasets: [
+                {
+                    data: [1,1,1,1],
+                    backgroundColor: [
+                        "#1565C0",
+                        "#F97316",
+                        "#64748B",
+                        "#16A34A"
+                    ],
+                    borderWidth: 0
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false
         }
-    );
+    }
+);
+```
 
 }
 
@@ -97,76 +103,83 @@ function initCharts(){
 // AMBIL DATA DASHBOARD
 // ===============================
 
-function loadDashboard(){
+function loadDashboard() {
 
-    fetch(API_URL)
+```
+fetch(API_URL)
 
-    .then(function(res){
-        return res.json();
-    })
+.then(res => res.json())
 
-    .then(function(data){
+.then(data => {
 
-        if(!data.sukses) return;
+    if (!data.sukses) return;
 
-        // Statistik
-        document.querySelectorAll(".number")[0].textContent = data.statistik.hadir;
-        document.querySelectorAll(".number")[1].textContent = data.statistik.terlambat;
-        document.querySelectorAll(".number")[2].textContent = data.statistik.izin;
-        document.querySelectorAll(".number")[3].textContent = data.statistik.pesertaAktif;
+    // ===============================
+    // UPDATE STATISTIK
+    // ===============================
 
-        // Tabel terbaru
-        const tbody = document.querySelector("table tbody");
+    document.querySelectorAll(".number")[0].textContent = data.statistik.hadir;
+    document.querySelectorAll(".number")[1].textContent = data.statistik.terlambat;
+    document.querySelectorAll(".number")[2].textContent = data.statistik.izin;
+    document.querySelectorAll(".number")[3].textContent = data.statistik.pesertaAktif;
 
-        tbody.innerHTML = "";
+    // ===============================
+    // UPDATE TABEL
+    // ===============================
 
-        data.terbaru.forEach(function(item){
+    const tbody = document.querySelector("table tbody");
 
-            tbody.innerHTML += `
-                <tr>
-                    <td>${item.npm}</td>
-                    <td>${item.nama}</td>
-                    <td>${item.pertemuan}</td>
-                    <td>
-                        <span class="badge ${item.status==="HADIR"?"hadir":"terlambat"}">
-                            ${item.status}
-                        </span>
-                    </td>
-                </tr>
-            `;
+    tbody.innerHTML = "";
 
-        });
+    data.terbaru.forEach(item => {
 
-        // Update chart
-        attendanceChart.data.datasets[0].data = [
-            data.statistik.hadir,
-            data.statistik.hadir,
-            data.statistik.hadir,
-            data.statistik.hadir,
-            data.statistik.hadir,
-            data.statistik.hadir,
-            data.statistik.hadir,
-            data.statistik.hadir
-        ];
-
-        attendanceChart.update();
-
-        unitChart.data.datasets[0].data = [
-            data.statistik.hadir,
-            data.statistik.terlambat,
-            data.statistik.izin,
-            data.statistik.pesertaAktif
-        ];
-
-        unitChart.update();
-
-    })
-
-    .catch(function(err){
-
-        console.error(err);
+        tbody.innerHTML += `
+            <tr>
+                <td>${item.npm}</td>
+                <td>${item.nama}</td>
+                <td>${item.pertemuan}</td>
+                <td>
+                    <span class="badge ${item.status === "HADIR" ? "hadir" : "terlambat"}">
+                        ${item.status}
+                    </span>
+                </td>
+            </tr>
+        `;
 
     });
+
+    // ===============================
+    // UPDATE GRAFIK
+    // ===============================
+
+    attendanceChart.data.datasets[0].data = [
+        data.statistik.hadir,
+        data.statistik.hadir,
+        data.statistik.hadir,
+        data.statistik.hadir,
+        data.statistik.hadir,
+        data.statistik.hadir,
+        data.statistik.hadir,
+        data.statistik.hadir
+    ];
+
+    attendanceChart.update("none");
+
+    unitChart.data.datasets[0].data = [
+        data.statistik.hadir,
+        data.statistik.terlambat,
+        data.statistik.izin,
+        data.statistik.pesertaAktif
+    ];
+
+    unitChart.update("none");
+
+})
+
+.catch(err => {
+    console.error(err);
+});
+```
 
 }
 
@@ -174,12 +187,15 @@ function loadDashboard(){
 // START
 // ===============================
 
-window.onload = function(){
+window.onload = function() {
 
-    initCharts();
+```
+initCharts();
 
-    loadDashboard();
+loadDashboard();
 
-    setInterval(loadDashboard,5000);
+// Refresh setiap 15 detik
+setInterval(loadDashboard, 15000);
+```
 
 };
