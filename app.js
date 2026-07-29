@@ -44,26 +44,27 @@ function mulaiScanner(){
 
     scanning = true;
 
-html5QrCode.start(
-    { facingMode: "environment" },
-    {
-        fps: 10,
-        qrbox: 260
-    },
-    suksesScan,
-    function(error){}
-).then(function(){
+    html5QrCode.start(
+        { facingMode: "environment" },
+        {
+            fps: 10,
+            qrbox: 260
+        },
+        suksesScan,
+        function(error){}
+    ).then(function(){
 
-    hasil.innerHTML = "📷 Arahkan QR Code ke Kamera";
+        hasil.innerHTML = "📷 Arahkan QR Code ke Kamera";
 
-}).catch(function(err){
+    }).catch(function(err){
 
-    console.error(err);
+        console.error(err);
 
-    hasil.innerHTML = "❌ Kamera gagal dibuka";
+        hasil.innerHTML = "❌ Kamera gagal dibuka";
 
-});
-    })
+    });
+
+}
     .catch(function(err){
         console.error(err);
         hasil.innerHTML = "❌ Kamera gagal dibuka";
