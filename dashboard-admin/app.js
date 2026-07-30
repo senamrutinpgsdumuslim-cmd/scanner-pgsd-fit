@@ -184,6 +184,4 @@ window.onload = function() {
 
     loadDashboard();
 
-    setInterval(loadDashboard,30000);
-
 };
