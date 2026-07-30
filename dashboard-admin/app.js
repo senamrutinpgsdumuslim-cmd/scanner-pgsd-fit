@@ -33,6 +33,7 @@ updateClock();
 // ===============================
 let attendanceChart;
 let unitChart;
+let lastData = "";
 
 function initCharts() {
 
@@ -95,10 +96,17 @@ function loadDashboard() {
 
     fetch(API_URL)
     .then(res => res.json())
-    .then(data => {
+.then(data => {
 
-        if (!data.sukses) return;
+    if (!data.sukses) return;
 
+    const current = JSON.stringify(data.statistik);
+
+    if(current === lastData){
+        return;
+    }
+
+    lastData = current;
         // Statistik
         const stat = data.statistik;
 
@@ -172,6 +180,6 @@ window.onload = function() {
 
     loadDashboard();
 
-    setInterval(loadDashboard, 15000);
+    setInterval(loadDashboard,30000);
 
 };
