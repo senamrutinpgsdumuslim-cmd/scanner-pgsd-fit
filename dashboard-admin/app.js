@@ -9,7 +9,6 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9
 // ===============================
 let attendanceChart;
 let unitChart;
-let lastData = "";
 
 function initCharts() {
 
@@ -69,51 +68,59 @@ function initCharts() {
 // LOAD DASHBOARD
 // ===============================
 async function loadDashboard() {
-  try {
-    const res = await fetch(API_URL);
-    const result = await res.json();
+    try {
+        const res = await fetch(API_URL);
+        const result = await res.json();
 
-    console.log(result);
+        console.log(result);
 
-    if (!result.sukses) return;
+        if (!result.sukses) return;
 
-    // Statistik
-    document.getElementById('hadirCount').textContent = result.statistik.hadir;
-    document.getElementById('terlambatCount').textContent = result.statistik.terlambat;
-    document.getElementById('izinCount').textContent = result.statistik.izin;
-    document.getElementById('pesertaAktifCount').textContent = result.statistik.pesertaAktif;
+        // Statistik
+        document.getElementById("hadirCount").textContent = result.statistik.hadir;
+        document.getElementById("terlambatCount").textContent = result.statistik.terlambat;
+        document.getElementById("izinCount").textContent = result.statistik.izin;
+        document.getElementById("pesertaAktifCount").textContent = result.statistik.pesertaAktif;
 
-    // Tabel absensi terbaru
-    const tbody = document.getElementById('absensiTerbaru');
+        // Tabel absensi terbaru
+        const tbody = document.getElementById("absensiTerbaru");
 
-    if (tbody) {
-      tbody.innerHTML = '';
+        if (tbody) {
+            tbody.innerHTML = "";
 
-      (result.statistik.terbaru || []).forEach(item => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${item.npm}</td>
-            <td>${item.nama}</td>
-            <td>Pertemuan ${item.pertemuan}</td>
-            <td>
-              <span class="badge ${item.status === 'HADIR' ? 'hadir' : 'terlambat'}">
-                ${item.status}
-              </span>
-            </td>
-          </tr>
-        `;
-      });
+            (result.statistik.terbaru || []).forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.npm}</td>
+                        <td>${item.nama}</td>
+                        <td>Pertemuan ${item.pertemuan}</td>
+                        <td>
+                            <span class="badge ${item.status === 'HADIR' ? 'hadir' : 'terlambat'}">
+                                ${item.status}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Update chart unit
+        if (unitChart && result.statistik.unit) {
+            const unitData = result.statistik.unit;
+            unitChart.data.labels = Object.keys(unitData);
+            unitChart.data.datasets[0].data = Object.values(unitData);
+            unitChart.update();
+        }
+
+    } catch (err) {
+        console.error("Dashboard error:", err);
     }
-
-  } catch (err) {
-    console.error('Dashboard error:', err);
-  }
-window.onload = function () {
-  initCharts();
-  loadDashboard();
-};
-    })
-    .catch(err => {
-      console.error('Dashboard error:', err);
-    });
 }
+
+// ===============================
+// START
+// ===============================
+window.onload = function () {
+    initCharts();
+    loadDashboard();
+};
