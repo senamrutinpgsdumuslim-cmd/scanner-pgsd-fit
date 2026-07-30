@@ -122,9 +122,7 @@ function lanjutScan(){
     popup.style.display = "none";
     popupContent.innerHTML = "";
 
-    hasil.innerHTML = "📷 Arahkan QR Code ke Kamera";
-
-    scanning = true;
+    processing = false;
 
 }
 
