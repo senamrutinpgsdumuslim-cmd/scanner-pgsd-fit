@@ -1,152 +1,147 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Admin PGSD FIT</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin PGSD FIT</title>
 
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<div class="dashboard">
+  <div class="dashboard">
 
     <aside class="sidebar">
+      <div>
         <div class="sidebar-brand">
-            <img src="logo-pgsdfit.png">
-            <h2>PGSD FIT</h2>
-            <p>Dashboard Admin</p>
+          <img src="logo-pgsdfit.png" alt="Logo PGSD FIT">
+          <h2>PGSD FIT</h2>
+          <p>Dashboard Admin</p>
         </div>
 
         <nav class="menu">
-            <a href="#" class="active">Dashboard</a>
-            <a href="#">Data Mahasiswa</a>
-            <a href="#">Absensi</a>
-            <a href="#">Izin</a>
-            <a href="#">Rekap Semester</a>
-            <a href="#">Export</a>
-            <a href="#">Pengaturan</a>
+          <a href="#" class="active">Dashboard</a>
+          <a href="#">Data Mahasiswa</a>
+          <a href="#">Absensi</a>
+          <a href="#">Izin</a>
+          <a href="#">Rekap Semester</a>
+          <a href="#">Export</a>
+          <a href="#">Pengaturan</a>
         </nav>
+      </div>
 
-        <div class="sidebar-footer">
-            Universitas Almuslim
-        </div>
+      <div class="sidebar-footer">
+        Universitas Almuslim
+      </div>
     </aside>
 
     <main class="main">
 
-        <header class="topbar">
+      <header class="topbar">
+        <div class="logo-group">
+          <img src="logo-univ.png" alt="Universitas">
+          <img src="logo-prodi.png" alt="Prodi">
+          <img src="logo-pgsdfit.png" alt="PGSD FIT">
 
-            <div class="logo-group">
+          <div class="title">
+            <h1>Dashboard Admin PGSD FIT</h1>
+            <p>Universitas Almuslim • Program Studi PGSD</p>
+          </div>
+        </div>
 
-<img src="logo-univ.png">
-<img src="logo-prodi.png">
-<img src="logo-pgsdfit.png">
+        <div class="admin-box">
+          <div class="avatar">A</div>
+          <div class="admin-info">
+            <strong>Admin PGSD FIT</strong>
+            <span id="clock">Memuat waktu...</span>
+          </div>
+        </div>
+      </header>
 
-                <div class="title">
-                    <h1>Dashboard Admin PGSD FIT</h1>
-                    <p>Universitas Almuslim • Program Studi PGSD</p>
-                </div>
+      <section class="cards">
 
-            </div>
+        <div class="card blue">
+          <h3>Hadir Hari Ini</h3>
+          <div class="number" id="hadirCount">0</div>
+          <span>Data kehadiran hari ini</span>
+        </div>
 
-           <div class="admin-box">
-  <div class="avatar">A</div>
-  <div class="admin-info">
-    <strong>Admin PGSD FIT</strong>
-    <span>Dashboard terhubung</span>
-  </div>
-</div>
+        <div class="card orange">
+          <h3>Terlambat</h3>
+          <div class="number" id="terlambatCount">0</div>
+          <span>Perlu evaluasi</span>
+        </div>
 
-        </header>
+        <div class="card green">
+          <h3>Izin</h3>
+          <div class="number" id="izinCount">0</div>
+          <span>Izin aktif</span>
+        </div>
 
-        <section class="cards">
+        <div class="card purple">
+          <h3>Peserta Aktif</h3>
+          <div class="number" id="pesertaAktifCount">0</div>
+          <span>Mahasiswa aktif</span>
+        </div>
 
-<div class="card blue">
-    <h3>Hadir Hari Ini</h3>
-    <div class="number" id="hadir">0</div>
-    <span>Kehadiran hari ini</span>
-</div>
+      </section>
 
-<div class="card orange">
-    <h3>Terlambat</h3>
-    <div class="number" id="terlambat">0</div>
-    <span>Datang setelah batas waktu</span>
-</div>
+      <section class="charts">
 
-<div class="card green">
-    <h3>Izin</h3>
-    <div class="number" id="izin">0</div>
-    <span>Izin diterima hari ini</span>
-</div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Grafik Kehadiran</h3>
+          </div>
+          <canvas id="attendanceChart"></canvas>
+        </div>
 
-<div class="card purple">
-    <h3>Peserta Aktif</h3>
-    <div class="number" id="pesertaAktif">0</div>
-    <span>Mahasiswa aktif</span>
-</div>
+        <div class="chart-card small">
+          <div class="chart-header">
+            <h3>Kehadiran Per Unit</h3>
+          </div>
+          <canvas id="unitChart"></canvas>
+        </div>
 
-        </section>
+      </section>
 
-        <section class="charts">
+      <section class="table-card">
 
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3>Grafik Kehadiran</h3>
-                </div>
-                <canvas id="attendanceChart"></canvas>
-            </div>
+        <div class="table-header">
+          <h3>Absensi Terbaru</h3>
+          <button type="button" onclick="loadDashboard()">Refresh</button>
+        </div>
 
-            <div class="chart-card small">
-                <div class="chart-header">
-                    <h3>Kehadiran Per Unit</h3>
-                </div>
-                <canvas id="unitChart"></canvas>
-            </div>
-
-        </section>
-
-<section class="table-card">
-
-    <div class="table-header">
-        <h3>Absensi Terbaru</h3>
-        <button>Lihat Semua</button>
-    </div>
-
-    <table>
-
-        <thead>
+        <table>
+          <thead>
             <tr>
-                <th>NPM</th>
-                <th>Nama</th>
-                <th>Pertemuan</th>
-                <th>Status</th>
+              <th>NPM</th>
+              <th>Nama</th>
+              <th>Pertemuan</th>
+              <th>Status</th>
             </tr>
-        </thead>
+          </thead>
 
-        <tbody id="absensiTerbaru">
+          <tbody id="absensiTerbaru">
             <tr>
-                <td colspan="4" style="text-align:center;color:#64748b;">
-                    Memuat data...
-                </td>
+              <td colspan="4" style="text-align:center;color:#64748b;">
+                Memuat data...
+              </td>
             </tr>
-        </tbody>
+          </tbody>
+        </table>
 
-    </table>
-
-</section>
+      </section>
 
     </main>
 
-</div>
+  </div>
 
-<script src="app.js"></script>
-
+  <script src="app.js"></script>
 </body>
 </html>
