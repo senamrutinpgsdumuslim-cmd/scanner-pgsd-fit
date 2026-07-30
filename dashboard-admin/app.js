@@ -2,7 +2,7 @@
 // DASHBOARD ADMIN PGSD FIT
 // =========================================
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec?api=dashboard";
+const API_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRhBqSXTAa7CIUYq8DLYaJdyNMVRfjZKaLT6-k5ZEvEAJXVWOVLMXiuWz6_hRzRb29uzn0qOLMULNTxechLTI9iAbpBnxbsCOLbT4RycThLFt2W6kz2Jq0T50ob7KSy0CmCfUMJCaMwhh5AbDdHTCnCfavD3G9DGQzbGxsZ5IiDeQizrBjfcX539jjZ4Yusa1-QmFB2ZUZtdkXMRy_Za1YoCn94o6MeDbQhz_QoAR81R6wAhPbRAIzZpHSH29C8hiRddyE7bbCb7BDnyWkXT8cKbcPNzLoSSMb5dRd-qZc8R0uwYuE&lib=M_MJiyGsmcL4d-509ZpQkcS60fTy-4oIV";
 
 // ===============================
 // JAM REALTIME
