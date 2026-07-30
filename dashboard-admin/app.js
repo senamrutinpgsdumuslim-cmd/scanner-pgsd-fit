@@ -92,7 +92,7 @@ document.getElementById('izin').textContent = data.statistik.izin;
 document.getElementById('pesertaAktif').textContent = data.statistik.pesertaAktif;
 
         // Tabel terbaru
-        const tbody = document.querySelector("table tbody");
+        const tbody = document.getElementById("absensiTerbaru");
         if (tbody) {
             tbody.innerHTML = "";
 
