@@ -25,7 +25,6 @@ function updateClock() {
     }
 }
 
-setInterval(updateClock, 1000);
 updateClock();
 
 // ===============================
@@ -136,35 +135,7 @@ function loadDashboard() {
             });
         }
 
-// Grafik kehadiran (hanya update jika berubah)
-const newAttendance = [
-    stat.hadir,
-    stat.hadir,
-    stat.hadir,
-    stat.hadir,
-    stat.hadir,
-    stat.hadir,
-    stat.hadir,
-    stat.hadir
-];
-
-if (JSON.stringify(attendanceChart.data.datasets[0].data) !== JSON.stringify(newAttendance)) {
-    attendanceChart.data.datasets[0].data = newAttendance;
-    attendanceChart.update("none");
-}
-
-// Grafik unit (hanya update jika berubah)
-const unit = data.unit || {};
-const newLabels = Object.keys(unit).length ? Object.keys(unit) : ["Belum Ada Data"];
-const newValues = Object.keys(unit).length ? Object.values(unit) : [1];
-
-if (
-    JSON.stringify(unitChart.data.labels) !== JSON.stringify(newLabels) ||
-    JSON.stringify(unitChart.data.datasets[0].data) !== JSON.stringify(newValues)
-) {
-    unitChart.data.labels = newLabels;
-    unitChart.data.datasets[0].data = newValues;
-    unitChart.update("none");
+// Grafik tidak di-update otomatis untuk menghindari kedip layar
 }
 
         updateClock();
