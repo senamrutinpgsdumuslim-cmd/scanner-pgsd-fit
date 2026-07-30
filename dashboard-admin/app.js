@@ -69,38 +69,51 @@ function initCharts() {
 // LOAD DASHBOARD
 // ===============================
 async function loadDashboard() {
-  const res = await fetch(API_URL);
-  const data = await res.json();
+  try {
+    const res = await fetch(API_URL);
+    const result = await res.json();
 
-  document.getElementById('hadirCount').textContent =
-    data.statistik.hadir;
+    console.log(result);
 
-  document.getElementById('terlambatCount').textContent =
-    data.statistik.terlambat;
+    if (!result.sukses) return;
 
-  document.getElementById('izinCount').textContent =
-    data.statistik.izin;
+    // Statistik
+    document.getElementById('hadirCount').textContent = result.statistik.hadir;
+    document.getElementById('terlambatCount').textContent = result.statistik.terlambat;
+    document.getElementById('izinCount').textContent = result.statistik.izin;
+    document.getElementById('pesertaAktifCount').textContent = result.statistik.pesertaAktif;
 
-  document.getElementById('pesertaAktifCount').textContent =
-    data.statistik.pesertaAktif;
+    // Tabel absensi terbaru
+    const tbody = document.getElementById('absensiTerbaru');
+
+    if (tbody) {
+      tbody.innerHTML = '';
+
+      (result.statistik.terbaru || []).forEach(item => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${item.npm}</td>
+            <td>${item.nama}</td>
+            <td>Pertemuan ${item.pertemuan}</td>
+            <td>
+              <span class="badge ${item.status === 'HADIR' ? 'hadir' : 'terlambat'}">
+                ${item.status}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+  } catch (err) {
+    console.error('Dashboard error:', err);
+  }
 }
 
-      // Tabel terbaru
-      const tbody = document.getElementById('absensiTerbaru');
-      if (tbody) {
-        tbody.innerHTML = '';
-
-        data.terbaru.forEach(item => {
-          tbody.innerHTML += `
-            <tr>
-              <td>${item.npm}</td>
-              <td>${item.nama}</td>
-              <td>${item.pertemuan}</td>
-              <td><span class="badge ${item.status === 'HADIR' ? 'hadir' : 'terlambat'}">${item.status}</span></td>
-            </tr>
-          `;
-        });
-      }
+window.onload = function () {
+  initCharts();
+  loadDashboard();
+};
     })
     .catch(err => {
       console.error('Dashboard error:', err);
