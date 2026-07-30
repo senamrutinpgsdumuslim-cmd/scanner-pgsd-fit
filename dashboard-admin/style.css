@@ -1,6 +1,10 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 body{background:#eef3f8;color:#1f2937}
-.dashboard{display:flex;min-height:100vh}
+.dashboard{
+    display:flex;
+    height:100vh;
+    overflow:hidden;
+}
 .sidebar{
     width:260px;
     min-width:260px;
@@ -10,10 +14,12 @@ body{background:#eef3f8;color:#1f2937}
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    position:sticky;
+    position:fixed;
+    left:0;
     top:0;
     height:100vh;
     overflow-y:auto;
+    z-index:1000;
 }
 .sidebar-brand{text-align:center}
 .sidebar-brand img{width:80px;margin-bottom:10px}
@@ -24,9 +30,11 @@ body{background:#eef3f8;color:#1f2937}
 .menu a:hover,.menu a.active{background:rgba(255,255,255,.15)}
 .sidebar-footer{text-align:center;font-size:13px;opacity:.7}
 .main{
-    flex:1;
-    padding:24px;
+    margin-left:260px;
     width:calc(100% - 260px);
+    height:100vh;
+    overflow-y:auto;
+    padding:24px;
 }
 .topbar{background:#fff;border-radius:18px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .logo-group{display:flex;align-items:center;gap:12px}
@@ -92,4 +100,19 @@ html, body{
 
 canvas{
     max-width:100% !important;
+}
+/* Scrollbar rapi */
+.sidebar::-webkit-scrollbar,
+.main::-webkit-scrollbar{
+    width:8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.main::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.25);
+    border-radius:8px;
+}
+
+.main::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
 }
