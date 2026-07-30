@@ -1,7 +1,20 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 body{background:#eef3f8;color:#1f2937}
 .dashboard{display:flex;min-height:100vh}
-.sidebar{width:250px;background:#1565C0;color:#fff;padding:24px;display:flex;flex-direction:column;justify-content:space-between}
+.sidebar{
+    width:260px;
+    min-width:260px;
+    background:#1565C0;
+    color:#fff;
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+}
 .sidebar-brand{text-align:center}
 .sidebar-brand img{width:80px;margin-bottom:10px}
 .sidebar-brand h2{font-size:24px}
