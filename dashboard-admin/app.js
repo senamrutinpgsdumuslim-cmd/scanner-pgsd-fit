@@ -108,8 +108,6 @@ async function loadDashboard() {
   } catch (err) {
     console.error('Dashboard error:', err);
   }
-}
-
 window.onload = function () {
   initCharts();
   loadDashboard();
