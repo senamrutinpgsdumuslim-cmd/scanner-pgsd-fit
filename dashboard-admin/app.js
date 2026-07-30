@@ -5,29 +5,6 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec?api=dashboard";
 
 // ===============================
-// JAM REALTIME
-// ===============================
-function updateClock() {
-    const now = new Date();
-    const options = {
-        weekday: "long",
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-    };
-
-    const clock = document.getElementById("clock");
-    if (clock) {
-        clock.textContent = now.toLocaleString("id-ID", options);
-    }
-}
-
-updateClock();
-
-// ===============================
 // CHART
 // ===============================
 let attendanceChart;
@@ -137,9 +114,6 @@ function loadDashboard() {
 
 // Grafik tidak di-update otomatis untuk menghindari kedip layar
 }
-
-        updateClock();
-
     })
     .catch(err => {
         console.error("Dashboard error:", err);
