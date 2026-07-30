@@ -129,20 +129,20 @@ function lanjutScan(){
 }
 
 // =============================
-// QR TERBACA
+// QR TERBACA (VERSI CEPAT)
 // =============================
+
+let processing = false;
 
 function suksesScan(decodedText){
 
-    if(!scanning) return;
+    if(processing) return;
 
-    scanning = false;
-
-    hasil.innerHTML = "⏳ Memproses...";
+    processing = true;
 
     fetch(URL_APPS_SCRIPT,{
 
-        method: "POST",
+        method:"POST",
 
         headers:{
             "Content-Type":"application/x-www-form-urlencoded"
@@ -170,21 +170,14 @@ function suksesScan(decodedText){
 
             popupContent.innerHTML = `
             <div class="verify-card">
-
                 <div style="padding:35px;text-align:center;">
-
                     <h2 style="color:#dc2626;font-size:30px;">❌</h2>
-
                     <h3>${data.pesan}</h3>
-
                     <br>
-
                     <button class="btn-ok" onclick="lanjutScan()">
                         🔄 KEMBALI SCAN
                     </button>
-
                 </div>
-
             </div>
             `;
 
@@ -200,21 +193,14 @@ function suksesScan(decodedText){
 
         popupContent.innerHTML = `
         <div class="verify-card">
-
             <div style="padding:35px;text-align:center;">
-
                 <h2 style="color:#dc2626;">❌</h2>
-
                 <h3>Gagal Menghubungi Server</h3>
-
                 <br>
-
                 <button class="btn-ok" onclick="lanjutScan()">
                     🔄 KEMBALI SCAN
                 </button>
-
             </div>
-
         </div>
         `;
 
