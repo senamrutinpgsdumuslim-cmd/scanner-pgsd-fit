@@ -68,21 +68,22 @@ function initCharts() {
 // ===============================
 // LOAD DASHBOARD
 // ===============================
-function loadDashboard() {
-  fetch(API_URL)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.sukses) return;
+async function loadDashboard() {
+  const res = await fetch(API_URL);
+  const data = await res.json();
 
-      const current = JSON.stringify(data.statistik);
-      if (current === lastData) return;
-      lastData = current;
+  document.getElementById('hadirCount').textContent =
+    data.statistik.hadir;
 
-      // Statistik
-      document.getElementById('hadir').textContent = data.statistik.hadir;
-      document.getElementById('terlambat').textContent = data.statistik.terlambat;
-      document.getElementById('izin').textContent = data.statistik.izin;
-      document.getElementById('pesertaAktif').textContent = data.statistik.pesertaAktif;
+  document.getElementById('terlambatCount').textContent =
+    data.statistik.terlambat;
+
+  document.getElementById('izinCount').textContent =
+    data.statistik.izin;
+
+  document.getElementById('pesertaAktifCount').textContent =
+    data.statistik.pesertaAktif;
+}
 
       // Tabel terbaru
       const tbody = document.getElementById('absensiTerbaru');
