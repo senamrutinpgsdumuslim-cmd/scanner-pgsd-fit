@@ -69,64 +69,39 @@ function initCharts() {
 // LOAD DASHBOARD
 // ===============================
 function loadDashboard() {
-
-    fetch(API_URL)
+  fetch(API_URL)
     .then(res => res.json())
-.then(data => {
+    .then(data => {
+      if (!data.sukses) return;
 
-    if (!data.sukses) return;
+      const current = JSON.stringify(data.statistik);
+      if (current === lastData) return;
+      lastData = current;
 
-    const current = JSON.stringify(data.statistik);
+      // Statistik
+      document.getElementById('hadir').textContent = data.statistik.hadir;
+      document.getElementById('terlambat').textContent = data.statistik.terlambat;
+      document.getElementById('izin').textContent = data.statistik.izin;
+      document.getElementById('pesertaAktif').textContent = data.statistik.pesertaAktif;
 
-    if(current === lastData){
-        return;
-    }
+      // Tabel terbaru
+      const tbody = document.getElementById('absensiTerbaru');
+      if (tbody) {
+        tbody.innerHTML = '';
 
-    lastData = current;
-        // Statistik
-        const stat = data.statistik;
-
-document.getElementById('hadir').textContent = data.statistik.hadir;
-document.getElementById('terlambat').textContent = data.statistik.terlambat;
-document.getElementById('izin').textContent = data.statistik.izin;
-document.getElementById('pesertaAktif').textContent = data.statistik.pesertaAktif;
-
-        // Tabel terbaru
-        const tbody = document.getElementById("absensiTerbaru");
-        if (tbody) {
-            tbody.innerHTML = "";
-
-            data.terbaru.forEach(item => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${item.npm}</td>
-                        <td>${item.nama}</td>
-                        <td>${item.pertemuan}</td>
-                        <td>
-                            <span class="badge ${item.status==='HADIR' ? 'hadir' : 'terlambat'}">
-                                ${item.status}
-                            </span>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-// Grafik tidak di-update otomatis untuk menghindari kedip layar
-}
+        data.terbaru.forEach(item => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${item.npm}</td>
+              <td>${item.nama}</td>
+              <td>${item.pertemuan}</td>
+              <td><span class="badge ${item.status === 'HADIR' ? 'hadir' : 'terlambat'}">${item.status}</span></td>
+            </tr>
+          `;
+        });
+      }
     })
     .catch(err => {
-        console.error("Dashboard error:", err);
+      console.error('Dashboard error:', err);
     });
 }
-
-// ===============================
-// START
-// ===============================
-window.onload = function() {
-
-    initCharts();
-
-    loadDashboard();
-
-};
