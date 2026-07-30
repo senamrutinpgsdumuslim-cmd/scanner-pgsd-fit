@@ -136,32 +136,36 @@ function loadDashboard() {
             });
         }
 
-        // Grafik kehadiran
-        attendanceChart.data.datasets[0].data = [
-            stat.hadir,
-            stat.hadir,
-            stat.hadir,
-            stat.hadir,
-            stat.hadir,
-            stat.hadir,
-            stat.hadir,
-            stat.hadir
-        ];
-        attendanceChart.update("none");
+// Grafik kehadiran (hanya update jika berubah)
+const newAttendance = [
+    stat.hadir,
+    stat.hadir,
+    stat.hadir,
+    stat.hadir,
+    stat.hadir,
+    stat.hadir,
+    stat.hadir,
+    stat.hadir
+];
 
-        // Grafik unit
-        const unit = data.unit || {};
+if (JSON.stringify(attendanceChart.data.datasets[0].data) !== JSON.stringify(newAttendance)) {
+    attendanceChart.data.datasets[0].data = newAttendance;
+    attendanceChart.update("none");
+}
 
-        unitChart.data.labels = Object.keys(unit);
-        unitChart.data.datasets[0].data = Object.values(unit);
+// Grafik unit (hanya update jika berubah)
+const unit = data.unit || {};
+const newLabels = Object.keys(unit).length ? Object.keys(unit) : ["Belum Ada Data"];
+const newValues = Object.keys(unit).length ? Object.values(unit) : [1];
 
-        if (Object.keys(unit).length === 0) {
-            unitChart.data.labels = ["Belum Ada Data"];
-            unitChart.data.datasets[0].data = [1];
-            unitChart.data.datasets[0].backgroundColor = ["#CBD5E1"];
-        }
-
-        unitChart.update("none");
+if (
+    JSON.stringify(unitChart.data.labels) !== JSON.stringify(newLabels) ||
+    JSON.stringify(unitChart.data.datasets[0].data) !== JSON.stringify(newValues)
+) {
+    unitChart.data.labels = newLabels;
+    unitChart.data.datasets[0].data = newValues;
+    unitChart.update("none");
+}
 
         updateClock();
 
