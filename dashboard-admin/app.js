@@ -86,10 +86,10 @@ function loadDashboard() {
         // Statistik
         const stat = data.statistik;
 
-document.getElementById('hadirCount').textContent = data.statistik.hadir;
-document.getElementById('terlambatCount').textContent = data.statistik.terlambat;
-document.getElementById('izinCount').textContent = data.statistik.izin;
-document.getElementById('aktifCount').textContent = data.statistik.pesertaAktif;
+document.getElementById('hadir').textContent = data.statistik.hadir;
+document.getElementById('terlambat').textContent = data.statistik.terlambat;
+document.getElementById('izin').textContent = data.statistik.izin;
+document.getElementById('pesertaAktif').textContent = data.statistik.pesertaAktif;
 
         // Tabel terbaru
         const tbody = document.querySelector("table tbody");
