@@ -113,6 +113,47 @@ canvas{
     border-radius:8px;
 }
 
+.ranking-card{
+  margin-top:24px;
+}
+
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.live-badge{
+  background:#16a34a;
+  color:white;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.ranking-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 0;
+}
+
+.ranking-item .left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.medal{
+  font-size:20px;
+}
+
+.loading{
+  color:#64748b;
+}
+
 .main::-webkit-scrollbar-thumb{
     background:#cbd5e1;
 }
