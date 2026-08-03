@@ -75,144 +75,82 @@ function initCharts() {
 // LOAD DASHBOARD
 // =========================================
 async function loadDashboard() {
-
   try {
-
-    const res = await fetch(API_URL);
+    const res = await fetch(API_URL + "&t=" + Date.now());
     const result = await res.json();
-
-    console.log(result);
 
     if (!result.sukses) return;
 
-    // =========================
-    // STATISTIK
-    // =========================
-    document.getElementById("hadirCount").textContent =
-      result.statistik.hadir;
+    // Statistik
+    document.getElementById("hadirCount").textContent = result.statistik.hadir;
+    document.getElementById("terlambatCount").textContent = result.statistik.terlambat;
+    document.getElementById("izinCount").textContent = result.statistik.izin;
+    document.getElementById("pesertaAktifCount").textContent = result.statistik.pesertaAktif;
 
-    document.getElementById("terlambatCount").textContent =
-      result.statistik.terlambat;
-
-    document.getElementById("izinCount").textContent =
-      result.statistik.izin;
-
-    document.getElementById("pesertaAktifCount").textContent =
-      result.statistik.pesertaAktif;
-
-    // =========================
-    // ABSENSI TERBARU
-    // =========================
+    // Absensi terbaru
     const tbody = document.getElementById("absensiTerbaru");
-
     if (tbody) {
-
       tbody.innerHTML = "";
-
       (result.terbaru || []).forEach(item => {
-
         tbody.innerHTML += `
           <tr>
             <td>${item.npm}</td>
             <td>${item.nama}</td>
             <td>P${item.pertemuan}</td>
             <td>
-              <span class="badge ${item.status === "HADIR" ? "hadir" : "terlambat"}">
+              <span class="badge ${item.status === 'HADIR' ? 'hadir' : 'terlambat'}">
                 ${item.status}
               </span>
             </td>
           </tr>
         `;
-
       });
-
     }
 
-    // =========================
-    // GRAFIK UNIT
-    // =========================
+    // Grafik unit
     if (unitChart && result.unit) {
-
-      const labels = Object.keys(result.unit);
-      const values = Object.values(result.unit);
-
-      unitChart.data.labels = labels;
-      unitChart.data.datasets[0].data = values;
+      unitChart.data.labels = Object.keys(result.unit);
+      unitChart.data.datasets[0].data = Object.values(result.unit);
       unitChart.update();
-
     }
 
-    // =========================
-    // RANKING UNIT PER ANGKATAN
-    // =========================
-    const rankingContainer =
-      document.getElementById("rankingContainer");
-
-    if (rankingContainer && result.rankingUnit) {
-
+    // Ranking unit
+    const ranking = document.getElementById("rankingContainer");
+    if (ranking && result.rankingUnit) {
       let html = "";
 
       Object.keys(result.rankingUnit).forEach(angkatan => {
-
-        html += `
-          <div class="ranking-section">
-            <h3>🏆 Angkatan ${angkatan}</h3>
-            <table class="ranking-table">
-              <thead>
-                <tr>
-                  <th>Peringkat</th>
-                  <th>Unit</th>
-                  <th>Persentase</th>
-                  <th>Hadir</th>
-                </tr>
-              </thead>
-              <tbody>
-        `;
-
-        const medal = ["🥇","🥈","🥉"];
+        html += `<h3>Angkatan ${angkatan}</h3>`;
 
         result.rankingUnit[angkatan].forEach((u,i)=>{
-
+          const medal=["🥇","🥈","🥉"];
           html += `
-            <tr>
-              <td>${medal[i] || (i+1)}</td>
-              <td><b>Unit ${u.unit}</b></td>
-              <td>${u.persentase}</td>
-              <td>${u.hadir}</td>
-            </tr>
+            <div class="ranking-item">
+              <div class="left">
+                <span class="medal">${medal[i]}</span>
+                <span>Unit ${u.unit}</span>
+              </div>
+              <div class="right">
+                <b>${u.persentase}</b>
+              </div>
+            </div>
           `;
-
         });
 
-        html += `
-              </tbody>
-            </table>
-          </div>
-        `;
-
+        html += `<hr>`;
       });
 
-      rankingContainer.innerHTML = html;
-
+      ranking.innerHTML = html;
     }
 
   } catch(err) {
-
-    console.error("Dashboard error:", err);
-
+    console.error(err);
   }
-
 }
 
-// =========================================
-// AUTO REFRESH
-// =========================================
-window.onload = function () {
-
+// Auto refresh 30 detik
+window.onload = function() {
   initCharts();
   loadDashboard();
-
-  // refresh otomatis setiap 30 detik
   setInterval(loadDashboard, 30000);
-
 };
