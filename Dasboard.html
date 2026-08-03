@@ -1,1 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard PGSD FIT</title>
 
+<style>
+body{
+  font-family:Arial,sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+}
+
+h1{
+  text-align:center;
+  color:#0f4c81;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  margin:25px 0;
+}
+
+.card{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+  text-align:center;
+}
+
+.card h2{
+  margin:0;
+  color:#0f4c81;
+  font-size:32px;
+}
+
+.section{
+  margin-top:30px;
+}
+
+.section h3{
+  background:#0f4c81;
+  color:white;
+  padding:12px;
+  border-radius:8px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+}
+
+th{
+  background:#fafafa;
+}
+
+.rank{
+  font-size:20px;
+}
+
+footer{
+  text-align:center;
+  margin-top:25px;
+  color:#777;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Dashboard PGSD FIT</h1>
+
+<div class="grid">
+
+<div class="card">
+<div>Hadir</div>
+<h2 id="hadir">0</h2>
+</div>
+
+<div class="card">
+<div>Terlambat</div>
+<h2 id="terlambat">0</h2>
+</div>
+
+<div class="card">
+<div>Izin</div>
+<h2 id="izin">0</h2>
+</div>
+
+<div class="card">
+<div>Peserta Aktif</div>
+<h2 id="aktif">0</h2>
+</div>
+
+</div>
+
+<div id="ranking"></div>
+
+<footer>
+Update otomatis setiap 30 detik
+</footer>
+
+</div>
+
+<script>
+
+const API = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec?api=dashboard";
+
+async function loadDashboard(){
+
+  const res = await fetch(API);
+  const data = await res.json();
+
+  document.getElementById("hadir").textContent =
+    data.statistik.hadir;
+
+  document.getElementById("terlambat").textContent =
+    data.statistik.terlambat;
+
+  document.getElementById("izin").textContent =
+    data.statistik.izin;
+
+  document.getElementById("aktif").textContent =
+    data.statistik.pesertaAktif;
+
+  let html = "";
+
+  Object.keys(data.rankingUnit).forEach(angkatan=>{
+
+    html += `
+      <div class="section">
+        <h3>Angkatan ${angkatan}</h3>
+        <table>
+          <tr>
+            <th>Peringkat</th>
+            <th>Unit</th>
+            <th>Persentase</th>
+            <th>Hadir</th>
+          </tr>
+    `;
+
+    const medal=["🥇","🥈","🥉"];
+
+    data.rankingUnit[angkatan].forEach((u,i)=>{
+
+      html += `
+      <tr>
+        <td class="rank">${medal[i]}</td>
+        <td>Unit ${u.unit}</td>
+        <td>${u.persentase}</td>
+        <td>${u.hadir}</td>
+      </tr>
+      `;
+
+    });
+
+    html += `</table></div>`;
+
+  });
+
+  document.getElementById("ranking").innerHTML = html;
+
+}
+
+loadDashboard();
+
+setInterval(loadDashboard,30000);
+
+</script>
+
+</body>
+</html>
