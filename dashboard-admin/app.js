@@ -56,19 +56,23 @@ options: {
           ]
         }]
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: false,
-        plugins: {
-          legend: {
-            position: "bottom"
-          }
-        }
+options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: false,
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        precision: 0
       }
     }
-  );
-
+  },
+  plugins: {
+    legend: {
+      display: true
+    }
+  }
 }
 
 // =========================================
