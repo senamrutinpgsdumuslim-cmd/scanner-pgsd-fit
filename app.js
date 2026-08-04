@@ -117,19 +117,17 @@ function tampilPopup(data){
 // LANJUT SCAN
 // =============================
 
-async function lanjutScan(){
+function lanjutScan(){
 
     popup.style.display = "none";
     popupContent.innerHTML = "";
 
-    processing = false;
+    hasil.innerHTML = "📷 Arahkan QR Code ke Kamera";
 
-    // Aktifkan kembali kamera
-    try{
-        await html5QrCode.resume();
-    }catch(e){
-        console.error(e);
-    }
+    // beri jeda 2 detik agar QR yang sama tidak terbaca lagi
+    setTimeout(function(){
+        processing = false;
+    }, 2000);
 
 }
 
@@ -145,37 +143,26 @@ async function suksesScan(decodedText){
 
     processing = true;
 
-    // Hentikan kamera sementara agar QR tidak terbaca berulang
-    try{
-        await html5QrCode.pause(true);
-    }catch(e){}
+    hasil.innerHTML = "⏳ Memproses absensi...";
 
     try{
 
         const res = await fetch(URL_APPS_SCRIPT,{
-
             method:"POST",
-
             headers:{
                 "Content-Type":"application/x-www-form-urlencoded"
             },
-
             body:
                 "id=" + encodeURIComponent(decodedText) +
                 "&mode=" + encodeURIComponent(MODE)
-
         });
 
         const data = await res.json();
 
         if(data.sukses){
-
             tampilPopup(data);
-
         }else{
-
             popup.style.display = "flex";
-
             popupContent.innerHTML = `
             <div class="verify-card">
                 <div style="padding:35px;text-align:center;">
@@ -187,7 +174,6 @@ async function suksesScan(decodedText){
                     </button>
                 </div>
             </div>`;
-
         }
 
     }catch(err){
@@ -195,7 +181,6 @@ async function suksesScan(decodedText){
         console.error(err);
 
         popup.style.display = "flex";
-
         popupContent.innerHTML = `
         <div class="verify-card">
             <div style="padding:35px;text-align:center;">
