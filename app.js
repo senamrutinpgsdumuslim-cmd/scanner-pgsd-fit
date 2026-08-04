@@ -117,12 +117,19 @@ function tampilPopup(data){
 // LANJUT SCAN
 // =============================
 
-function lanjutScan(){
+async function lanjutScan(){
 
     popup.style.display = "none";
     popupContent.innerHTML = "";
 
     processing = false;
+
+    // Aktifkan kembali kamera
+    try{
+        await html5QrCode.resume();
+    }catch(e){
+        console.error(e);
+    }
 
 }
 
