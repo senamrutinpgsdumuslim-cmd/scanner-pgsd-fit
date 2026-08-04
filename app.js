@@ -66,6 +66,9 @@ async function suksesScan(decodedText) {
 
   try {
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
     const response = await fetch(URL_APPS_SCRIPT, {
       method: "POST",
       headers: {
@@ -73,47 +76,64 @@ async function suksesScan(decodedText) {
       },
       body:
         "id=" + encodeURIComponent(decodedText) +
-        "&mode=" + encodeURIComponent(MODE)
+        "&mode=" + encodeURIComponent(MODE),
+      signal: controller.signal
     });
 
-    const data = await response.json();
+    clearTimeout(timeout);
+
+    const text = await response.text();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error("Respons server:", text);
+      throw new Error("Respons server bukan JSON");
+    }
+
+    if (!response.ok) {
+      throw new Error(data.pesan || "Server error");
+    }
 
     if (data.sukses) {
       tampilPopup(data);
     } else {
-      popup.style.display = "flex";
-      popupContent.innerHTML = `
-        <div class="verify-card">
-          <div style="padding:35px;text-align:center;">
-            <h2 style="color:#dc2626;">❌</h2>
-            <h3>${data.pesan}</h3>
-            <br>
-            <button class="btn-ok" onclick="lanjutScan()">
-              🔄 SCAN BERIKUTNYA
-            </button>
-          </div>
-        </div>`;
+      tampilError(data.pesan || "Gagal menyimpan absensi");
     }
 
   } catch (err) {
 
     console.error(err);
 
-    popup.style.display = "flex";
-    popupContent.innerHTML = `
-      <div class="verify-card">
-        <div style="padding:35px;text-align:center;">
-          <h2 style="color:#dc2626;">❌</h2>
-          <h3>Gagal Menghubungi Server</h3>
-          <br>
-          <button class="btn-ok" onclick="lanjutScan()">
-            🔄 SCAN BERIKUTNYA
-          </button>
-        </div>
-      </div>`;
+    tampilError(
+      err.name === "AbortError"
+        ? "Koneksi timeout (15 detik)"
+        : (err.message || "Gagal menghubungi server")
+    );
 
   }
 
+}
+
+// =============================
+// POPUP ERROR
+// =============================
+function tampilError(pesan) {
+
+  popup.style.display = "flex";
+
+  popupContent.innerHTML = `
+    <div class="verify-card">
+      <div style="padding:35px;text-align:center;">
+        <h2 style="color:#dc2626;">❌</h2>
+        <h3>${pesan}</h3>
+        <br>
+        <button class="btn-ok" onclick="lanjutScan()">
+          🔄 SCAN BERIKUTNYA
+        </button>
+      </div>
+    </div>`;
 }
 
 // =============================
