@@ -1,10 +1,11 @@
-R// ==========================================
-// SCANNER PGSD FIT (VERSI BARU)
+// ==========================================
+// SCANNER PGSD FIT (FINAL STABIL)
 // ==========================================
 
-let MODE = "";
-
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec";
+
+let MODE = "HADIR";
+let processing = false;
 
 const hasil = document.getElementById("hasil");
 const popup = document.getElementById("popup");
@@ -12,187 +13,165 @@ const popupContent = document.getElementById("popupContent");
 
 const html5QrCode = new Html5Qrcode("reader");
 
-let scanning = false;
-
 // =============================
 // PILIH MODE
 // =============================
+function pilihMode(mode) {
+  MODE = mode;
 
-function pilihMode(mode){
+  document.getElementById("pilihMode").style.display = "none";
+  document.getElementById("scannerArea").style.display = "block";
 
-    MODE = mode;
+  document.getElementById("judulMode").innerHTML =
+    mode === "HADIR"
+      ? "🟢 MODE HADIR"
+      : "🟠 MODE TERLAMBAT";
 
-    document.getElementById("pilihMode").style.display = "none";
-    document.getElementById("scannerArea").style.display = "block";
-
-    document.getElementById("judulMode").innerHTML =
-        mode === "HADIR"
-            ? "🟢 MODE HADIR"
-            : "🟠 MODE TERLAMBAT";
-
-    mulaiScanner();
-
+  mulaiScanner();
 }
 
 // =============================
 // MULAI SCANNER
 // =============================
+function mulaiScanner() {
+  hasil.innerHTML = "📷 Mengaktifkan kamera...";
 
-function mulaiScanner(){
+  html5QrCode.start(
+    { facingMode: "environment" },
+    {
+      fps: 10,
+      qrbox: 250
+    },
+    suksesScan,
+    function () {}
+  )
+  .then(function () {
+    hasil.innerHTML = "📷 Arahkan QR Code ke kamera";
+  })
+  .catch(function (err) {
+    console.error(err);
+    hasil.innerHTML = "❌ Kamera gagal dibuka";
+  });
+}
 
-    hasil.innerHTML = "📷 Mengaktifkan Kamera...";
+// =============================
+// QR BERHASIL TERBACA
+// =============================
+async function suksesScan(decodedText) {
 
-    scanning = true;
+  if (processing) return;
+  processing = true;
 
-    html5QrCode.start(
-        { facingMode: "environment" },
-        {
-            fps: 10,
-            qrbox: 250
-        },
-        suksesScan,
-        function(error){}
-    ).then(function(){
+  hasil.innerHTML = "⏳ Memproses absensi...";
 
-        hasil.innerHTML = "📷 Arahkan QR Code ke Kamera";
+  try {
 
-    }).catch(function(err){
-
-        console.error(err);
-
-        hasil.innerHTML = "❌ Kamera gagal dibuka";
-
+    const response = await fetch(URL_APPS_SCRIPT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body:
+        "id=" + encodeURIComponent(decodedText) +
+        "&mode=" + encodeURIComponent(MODE)
     });
+
+    const data = await response.json();
+
+    if (data.sukses) {
+      tampilPopup(data);
+    } else {
+      popup.style.display = "flex";
+      popupContent.innerHTML = `
+        <div class="verify-card">
+          <div style="padding:35px;text-align:center;">
+            <h2 style="color:#dc2626;">❌</h2>
+            <h3>${data.pesan}</h3>
+            <br>
+            <button class="btn-ok" onclick="lanjutScan()">
+              🔄 SCAN BERIKUTNYA
+            </button>
+          </div>
+        </div>`;
+    }
+
+  } catch (err) {
+
+    console.error(err);
+
+    popup.style.display = "flex";
+    popupContent.innerHTML = `
+      <div class="verify-card">
+        <div style="padding:35px;text-align:center;">
+          <h2 style="color:#dc2626;">❌</h2>
+          <h3>Gagal Menghubungi Server</h3>
+          <br>
+          <button class="btn-ok" onclick="lanjutScan()">
+            🔄 SCAN BERIKUTNYA
+          </button>
+        </div>
+      </div>`;
+
+  }
 
 }
 
 // =============================
-// TAMPIL POPUP
+// POPUP BERHASIL
 // =============================
+function tampilPopup(data) {
 
-function tampilPopup(data){
+  popup.style.display = "flex";
 
-    popup.style.display = "flex";
+  popupContent.innerHTML = `
+    <div class="verify-card ${MODE === "HADIR" ? "hadir-card" : "terlambat-card"}">
 
-    popupContent.innerHTML = `
-    <div class="verify-card ${MODE==="HADIR" ? "hadir-card" : "terlambat-card"}">
+      <img src="assets/logo.png" class="verify-logo">
 
-        <img src="assets/logo.png" class="verify-logo">
+      <div class="verify-header">
+        ${MODE === "HADIR" ? "ABSENSI HADIR" : "ABSENSI TERLAMBAT"}
+      </div>
 
-        <div class="verify-header">
-            ${MODE==="HADIR" ? "ABSENSI HADIR" : "ABSENSI TERLAMBAT"}
-        </div>
+      <div class="verify-check">✔</div>
 
-        <div class="verify-check">✔</div>
+      <div class="verify-name">
+        ${data.nama}
+      </div>
 
-        <div class="verify-name">
-            ${data.nama}
-        </div>
+      <table class="verify-table">
+        <tr><td>NPM</td><td>${data.npm}</td></tr>
+        <tr><td>Angkatan</td><td>${data.angkatan}</td></tr>
+        <tr><td>Jenis Kelamin</td><td>${data.jk}</td></tr>
+        <tr><td>Unit</td><td>${data.unit}</td></tr>
+        <tr><td>Status</td><td>${data.statusAnggota}</td></tr>
+        <tr><td>Jam</td><td>${data.jam}</td></tr>
+      </table>
 
-        <table class="verify-table">
-            <tr><td>NPM</td><td>${data.npm}</td></tr>
-            <tr><td>Angkatan</td><td>${data.angkatan}</td></tr>
-            <tr><td>Jenis Kelamin</td><td>${data.jk}</td></tr>
-            <tr><td>Unit</td><td>${data.unit}</td></tr>
-            <tr><td>Status</td><td>${data.statusAnggota}</td></tr>
-            <tr><td>Jam</td><td>${data.jam}</td></tr>
-        </table>
+      <div class="verify-footer">
+        ${MODE === "HADIR" ? "✅ VERIFIKASI HADIR BERHASIL" : "🟠 VERIFIKASI TERLAMBAT"}
+      </div>
 
-        <div class="verify-footer">
-            ${MODE==="HADIR" ? "✅ VERIFIKASI HADIR BERHASIL" : "🟠 VERIFIKASI TERLAMBAT"}
-        </div>
+      <div style="padding:20px;text-align:center;">
+        <button class="btn-ok" onclick="lanjutScan()">
+          ✅ SCAN BERIKUTNYA
+        </button>
+      </div>
 
-        <div style="padding:20px;text-align:center;">
-            <button class="btn-ok" onclick="lanjutScan()">
-                ✅ SCAN BERIKUTNYA
-            </button>
-        </div>
-
-    </div>
-    `;
-
+    </div>`;
 }
 
 // =============================
 // LANJUT SCAN
 // =============================
+function lanjutScan() {
 
-function lanjutScan(){
+  popup.style.display = "none";
+  popupContent.innerHTML = "";
 
-    popup.style.display = "none";
-    popupContent.innerHTML = "";
+  hasil.innerHTML = "📷 Arahkan QR Code ke kamera";
 
-    hasil.innerHTML = "📷 Arahkan QR Code ke Kamera";
-
-    // beri jeda 2 detik agar QR yang sama tidak terbaca lagi
-    setTimeout(function(){
-        processing = false;
-    }, 2000);
-
-}
-
-// =============================
-// QR TERBACA (VERSI CEPAT)
-// =============================
-
-let processing = false;
-
-async function suksesScan(decodedText){
-
-    if(processing) return;
-
-    processing = true;
-
-    hasil.innerHTML = "⏳ Memproses absensi...";
-
-    try{
-
-        const res = await fetch(URL_APPS_SCRIPT,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/x-www-form-urlencoded"
-            },
-            body:
-                "id=" + encodeURIComponent(decodedText) +
-                "&mode=" + encodeURIComponent(MODE)
-        });
-
-        const data = await res.json();
-
-        if(data.sukses){
-            tampilPopup(data);
-        }else{
-            popup.style.display = "flex";
-            popupContent.innerHTML = `
-            <div class="verify-card">
-                <div style="padding:35px;text-align:center;">
-                    <h2 style="color:#dc2626;font-size:30px;">❌</h2>
-                    <h3>${data.pesan}</h3>
-                    <br>
-                    <button class="btn-ok" onclick="lanjutScan()">
-                        🔄 KEMBALI SCAN
-                    </button>
-                </div>
-            </div>`;
-        }
-
-    }catch(err){
-
-        console.error(err);
-
-        popup.style.display = "flex";
-        popupContent.innerHTML = `
-        <div class="verify-card">
-            <div style="padding:35px;text-align:center;">
-                <h2 style="color:#dc2626;">❌</h2>
-                <h3>Gagal Menghubungi Server</h3>
-                <br>
-                <button class="btn-ok" onclick="lanjutScan()">
-                    🔄 KEMBALI SCAN
-                </button>
-            </div>
-        </div>`;
-
-    }
+  setTimeout(function () {
+    processing = false;
+  }, 1500);
 
 }
