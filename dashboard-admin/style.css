@@ -100,7 +100,12 @@ html, body{
     border-radius:18px;
     padding:22px;
     box-shadow:0 8px 24px rgba(0,0,0,.08);
-    min-height:360px;
+    height:340px;
+}
+
+.chart-card canvas{
+    width:100% !important;
+    height:260px !important;
 }
 
 .ranking-card{
