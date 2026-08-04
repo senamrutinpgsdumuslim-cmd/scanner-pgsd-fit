@@ -132,31 +132,34 @@ function lanjutScan(){
 
 let processing = false;
 
-function suksesScan(decodedText){
+async function suksesScan(decodedText){
 
     if(processing) return;
 
     processing = true;
 
-    fetch(URL_APPS_SCRIPT,{
+    // Hentikan kamera sementara agar QR tidak terbaca berulang
+    try{
+        await html5QrCode.pause(true);
+    }catch(e){}
 
-        method:"POST",
+    try{
 
-        headers:{
-            "Content-Type":"application/x-www-form-urlencoded"
-        },
+        const res = await fetch(URL_APPS_SCRIPT,{
 
-        body:
-            "id=" + encodeURIComponent(decodedText) +
-            "&mode=" + encodeURIComponent(MODE)
+            method:"POST",
 
-    })
+            headers:{
+                "Content-Type":"application/x-www-form-urlencoded"
+            },
 
-    .then(function(res){
-        return res.json();
-    })
+            body:
+                "id=" + encodeURIComponent(decodedText) +
+                "&mode=" + encodeURIComponent(MODE)
 
-    .then(function(data){
+        });
+
+        const data = await res.json();
 
         if(data.sukses){
 
@@ -176,14 +179,11 @@ function suksesScan(decodedText){
                         🔄 KEMBALI SCAN
                     </button>
                 </div>
-            </div>
-            `;
+            </div>`;
 
         }
 
-    })
-
-    .catch(function(err){
+    }catch(err){
 
         console.error(err);
 
@@ -199,9 +199,8 @@ function suksesScan(decodedText){
                     🔄 KEMBALI SCAN
                 </button>
             </div>
-        </div>
-        `;
+        </div>`;
 
-    });
+    }
 
 }
