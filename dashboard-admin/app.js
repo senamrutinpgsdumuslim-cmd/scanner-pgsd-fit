@@ -106,7 +106,13 @@ async function loadDashboard() {
         `;
       });
     }
-
+    
+// Grafik kehadiran
+if (attendanceChart && result.grafik) {
+  attendanceChart.data.labels = result.grafik.map((_, i) => `P${i+1}`);
+  attendanceChart.data.datasets[0].data = result.grafik;
+  attendanceChart.update();
+}
     // Grafik unit
     if (unitChart && result.unit) {
       unitChart.data.labels = Object.keys(result.unit);
