@@ -28,13 +28,18 @@ body{
 .brand{
   display:flex;
   align-items:center;
-  gap:12px;
-  font-weight:700;
-  font-size:20px;
+  gap:14px;
 }
 
 .brand img{
-  width:50px;
+  width:54px;
+  height:54px;
+}
+
+.brand span{
+  font-size:24px;
+  font-weight:700;
+  white-space:nowrap;
 }
 
 .menu{
