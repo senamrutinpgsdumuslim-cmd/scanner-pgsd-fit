@@ -27,11 +27,11 @@ function initCharts() {
           tension: 0.35
         }]
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: false
-      }
+options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: false
+}
     }
   );
 
