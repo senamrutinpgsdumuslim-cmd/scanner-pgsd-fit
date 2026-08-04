@@ -12,80 +12,81 @@ let unitChart;
 // =========================================
 function initCharts() {
 
-  // Label 15 pertemuan
+  const attendanceCanvas = document.getElementById("attendanceChart");
+  const unitCanvas = document.getElementById("unitChart");
+
+  if (!attendanceCanvas || !unitCanvas) {
+    console.error("Canvas chart tidak ditemukan");
+    return;
+  }
+
   const labels = Array.from({ length: 15 }, (_, i) => `P${i + 1}`);
 
-  attendanceChart = new Chart(
-    document.getElementById("attendanceChart"),
-    {
-      type: "line",
-      data: {
-        labels: labels,
-        datasets: [{
-          label: "Kehadiran",
-          data: new Array(15).fill(0),
-          borderColor: "#1565C0",
-          backgroundColor: "rgba(21,101,192,.15)",
-          fill: true,
-          tension: 0.35,
-          pointRadius: 4,
-          pointHoverRadius: 6
-        }]
+  attendanceChart = new Chart(attendanceCanvas, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Kehadiran",
+        data: new Array(15).fill(0),
+        borderColor: "#1565C0",
+        backgroundColor: "rgba(21,101,192,.15)",
+        fill: true,
+        tension: 0.35,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: {
+          position: "top"
+        }
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: false,
-        plugins: {
-          legend: {
-            position: "top"
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              precision: 0
-            }
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
           }
         }
       }
     }
-  );
+  });
 
-  unitChart = new Chart(
-    document.getElementById("unitChart"),
-    {
-      type: "doughnut",
-      data: {
-        labels: [],
-        datasets: [{
-          data: [],
-          backgroundColor: [
-            "#1565C0",
-            "#16A34A",
-            "#F97316",
-            "#7C3AED",
-            "#E11D48",
-            "#0891B2",
-            "#65A30D",
-            "#EA580C",
-            "#475569"
-          ]
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: false,
-        plugins: {
-          legend: {
-            position: "bottom"
-          }
+  unitChart = new Chart(unitCanvas, {
+    type: "doughnut",
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        backgroundColor: [
+          "#1565C0",
+          "#16A34A",
+          "#F97316",
+          "#7C3AED",
+          "#E11D48",
+          "#0891B2",
+          "#65A30D",
+          "#EA580C",
+          "#475569"
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: {
+          position: "bottom"
         }
       }
     }
-  );
+  });
 
 }
 // =========================================
