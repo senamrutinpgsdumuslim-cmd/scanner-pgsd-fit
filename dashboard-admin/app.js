@@ -12,26 +12,44 @@ let unitChart;
 // =========================================
 function initCharts() {
 
+  // Label 15 pertemuan
+  const labels = Array.from({ length: 15 }, (_, i) => `P${i + 1}`);
+
   attendanceChart = new Chart(
     document.getElementById("attendanceChart"),
     {
       type: "line",
       data: {
-        labels: ["P1","P2","P3","P4","P5","P6","P7","P8"],
+        labels: labels,
         datasets: [{
           label: "Kehadiran",
-          data: [0,0,0,0,0,0,0,0],
+          data: new Array(15).fill(0),
           borderColor: "#1565C0",
           backgroundColor: "rgba(21,101,192,.15)",
           fill: true,
-          tension: 0.35
+          tension: 0.35,
+          pointRadius: 4,
+          pointHoverRadius: 6
         }]
       },
-options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: false
-}
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: {
+            position: "top"
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0
+            }
+          }
+        }
+      }
     }
   );
 
@@ -56,25 +74,20 @@ options: {
           ]
         }]
       },
-options: {
-  responsive: true,
-  maintainAspectRatio: false,
-  animation: false,
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        precision: 0
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: {
+            position: "bottom"
+          }
+        }
       }
     }
-  },
-  plugins: {
-    legend: {
-      display: true
-    }
-  }
-}
+  );
 
+}
 // =========================================
 // LOAD DASHBOARD
 // =========================================
@@ -110,7 +123,7 @@ async function loadDashboard() {
         `;
       });
     }
-    
+
 // Grafik kehadiran
 if (attendanceChart && result.grafik) {
   attendanceChart.data.labels = result.grafik.labels;
