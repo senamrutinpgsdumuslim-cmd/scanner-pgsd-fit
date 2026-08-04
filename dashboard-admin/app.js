@@ -109,8 +109,8 @@ async function loadDashboard() {
     
 // Grafik kehadiran
 if (attendanceChart && result.grafik) {
-  attendanceChart.data.labels = result.grafik.map((_, i) => `P${i+1}`);
-  attendanceChart.data.datasets[0].data = result.grafik;
+  attendanceChart.data.labels = result.grafik.labels;
+  attendanceChart.data.datasets[0].data = result.grafik.data;
   attendanceChart.update();
 }
     // Grafik unit
