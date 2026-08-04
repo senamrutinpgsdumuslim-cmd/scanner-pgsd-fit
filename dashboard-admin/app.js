@@ -3,7 +3,6 @@
 // =========================================
 
 const API_URL = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec?api=dashboard";
-
 let attendanceChart;
 let unitChart;
 
