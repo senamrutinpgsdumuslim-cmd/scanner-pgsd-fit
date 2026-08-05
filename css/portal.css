@@ -1,530 +1,335 @@
-/* =========================================
-   PGSD FIT 2026 — Final portal stylesheet
-   ========================================= */
+/* ===== PGSD FIT 2026 FINAL CSS ===== */
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-:root{
-  --navy:#081a4d;
-  --blue:#1747b0;
-  --blue-dark:#0F3D8C;
-  --gold:#f59e0b;
-  --bg:#f4f7fb;
-  --surface:#ffffff;
-  --text:#1e293b;
-  --muted:#64748b;
-  --border:#e2e8f0;
-  --shadow:0 12px 30px rgba(15,23,42,.08);
-  --shadow-lg:0 18px 45px rgba(15,23,42,.15);
-  --radius:24px;
-}
-
-html{
-  scroll-behavior:smooth;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-  font-family:"Poppins",sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
+font-family:'Poppins',sans-serif;
+background:#f4f7fb;
+color:#1e293b;
+line-height:1.7;
 }
 
-/* =========================================
-   Hero
-   ========================================= */
+.container{
+width:min(1200px,92%);
+margin:0 auto;
+}
+
+/* ===== Hero ===== */
 
 .hero{
-  min-height:72vh;
-  background:linear-gradient(135deg,var(--navy),var(--blue),var(--gold));
-  color:#fff;
-  display:flex;
-  flex-direction:column;
+background:linear-gradient(135deg,#081a4d,#1747b0,#f59e0b);
+color:#fff;
 }
 
-.hero.hero-detail{
-  min-height:46vh;
+.hero-detail{
+min-height:420px;
 }
 
 .navbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:24px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:24px 8%;
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
+display:flex;
+align-items:center;
+gap:12px;
 }
 
 .logo-small{
-  width:56px;
-  height:56px;
-  border-radius:16px;
-  padding:6px;
-  object-fit:contain;
-  box-shadow:0 10px 25px rgba(0,0,0,.18);
+width:56px;
+height:56px;
+border-radius:16px;
+padding:6px;
+object-fit:contain;
+box-shadow:0 10px 25px rgba(0,0,0,.18);
 }
 
 .logo-small:nth-child(1),
 .logo-small:nth-child(2){
-  background:#fff;
+background:#fff;
 }
 
 .logo-small:nth-child(3){
-  background:var(--blue-dark);
+background:#0F3D8C;
 }
 
 .brand-text h3{
-  font-size:26px;
-  font-weight:800;
+font-size:24px;
+font-weight:700;
 }
 
 .brand-text p{
-  font-size:13px;
-  opacity:.9;
+font-size:13px;
+opacity:.9;
 }
 
 .menu{
-  display:flex;
-  gap:28px;
-  align-items:center;
+display:flex;
+gap:28px;
+align-items:center;
 }
 
 .menu a{
-  color:#fff;
-  text-decoration:none;
-  font-weight:500;
-  transition:.25s;
-}
-
-.menu a:hover{
-  opacity:.85;
-}
-
-.btn-dashboard{
-  background:#fff;
-  color:var(--blue)!important;
-  padding:12px 22px;
-  border-radius:999px;
-  font-weight:700;
+color:#fff;
+text-decoration:none;
+font-weight:500;
 }
 
 .hero-content{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:50px 20px 70px;
+text-align:center;
+padding:70px 20px 90px;
 }
 
-.hero-logo{
-  width:180px;
-  margin-bottom:28px;
-  filter:drop-shadow(0 16px 30px rgba(0,0,0,.35));
+.hero-content h1{
+font-size:72px;
+font-weight:800;
+margin-bottom:18px;
 }
 
-.hero h1{
-  font-size:68px;
-  font-weight:800;
-  margin-bottom:18px;
+.hero-content p{
+font-size:22px;
+opacity:.95;
 }
 
-.hero.hero-detail h1{
-  font-size:58px;
-}
+/* ===== Statistik ===== */
 
-.hero p{
-  font-size:21px;
-  max-width:760px;
-  line-height:1.8;
-}
-
-.hero-buttons{
-  margin-top:40px;
-  display:flex;
-  gap:18px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-
-.btn-primary,
-.btn-secondary{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  border-radius:999px;
-  font-weight:700;
-  transition:.25s;
-}
-
-.btn-primary{
-  background:var(--gold);
-  color:#fff;
-  padding:16px 34px;
-  box-shadow:0 12px 28px rgba(245,158,11,.35);
-}
-
-.btn-primary:hover{
-  transform:translateY(-2px);
-}
-
-.btn-secondary{
-  border:2px solid rgba(255,255,255,.9);
-  color:#fff;
-  padding:16px 34px;
-}
-
-.btn-secondary:hover{
-  background:rgba(255,255,255,.08);
-}
-
-/* =========================================
-   Section
-   ========================================= */
-
-.stats-section,
-.dokumentasi-section{
-  padding:80px 8%;
-}
-
-.stats-section{
-  background:#fff;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:46px;
-}
-
-.section-title h2{
-  font-size:42px;
-  color:var(--blue);
-  margin-bottom:10px;
-}
-
-.section-title p{
-  color:var(--muted);
-  max-width:760px;
-  margin:0 auto;
-}
-
-/* =========================================
-   Stats
-   ========================================= */
-
-.stats-container{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:24px;
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:24px;
+margin-top:-70px;
+margin-bottom:80px;
 }
 
 .stat-card{
-  background:var(--surface);
-  border-radius:var(--radius);
-  padding:34px 24px;
-  text-align:center;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
+background:#fff;
+border-radius:24px;
+padding:36px 24px;
+text-align:center;
+border:1px solid #e2e8f0;
+box-shadow:0 18px 40px rgba(15,23,42,.08);
 }
 
-.stat-card h2,
-.stat-card h3{
-  font-size:46px;
-  color:var(--blue);
-  margin-bottom:10px;
-  font-weight:800;
+.stat-card h2{
+font-size:48px;
+color:#1747b0;
+margin-bottom:10px;
+font-weight:800;
 }
 
 .stat-card p{
-  color:var(--muted);
+color:#64748b;
+font-weight:500;
 }
 
-/* =========================================
-   Gallery
-   ========================================= */
+/* ===== Galeri ===== */
+
+.gallery-section{
+padding:30px 0 80px;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:40px;
+}
+
+.section-title h2{
+font-size:42px;
+color:#1747b0;
+margin-bottom:10px;
+}
+
+.section-title p{
+color:#64748b;
+}
 
 .gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:28px;
+width:100%;
+display:flex;
+justify-content:center;
 }
 
-.gallery-card{
-  background:var(--surface);
-  border-radius:var(--radius);
-  overflow:hidden;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
-  transition:.35s;
-   
-.gallery-card:hover{
-  transform:translateY(-8px);
-  box-shadow:var(--shadow-lg);
+.empty-card{
+width:100%;
+max-width:760px;
+background:#fff;
+border-radius:28px;
+overflow:hidden;
+border:1px solid #e2e8f0;
+box-shadow:0 20px 45px rgba(15,23,42,.10);
 }
 
-.gallery-card img{
-  width:100%;
-  height:240px;
-  object-fit:contain;
-  background:var(--blue-dark);
-  padding:28px;
+.empty-icon{
+height:260px;
+background:#0F3D8C;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.empty-logo{
+width:170px;
+height:auto;
 }
 
 .gallery-content{
-  padding:24px;
+padding:36px;
+text-align:center;
 }
 
 .gallery-content h3{
-  color:var(--blue);
-  font-size:24px;
-  margin-bottom:8px;
+font-size:32px;
+color:#1747b0;
+margin-bottom:16px;
 }
 
 .gallery-content p{
-  color:var(--muted);
-  line-height:1.7;
-}
-
-/* =========================================
-   Empty state
-   ========================================= */
-
-.empty-card{
-  grid-column:1 / -1;
-  max-width:760px;
-  width:100%;
-  margin:0 auto;
-  background:#fff;
-  border-radius:28px;
-  overflow:hidden;
-  box-shadow:0 20px 45px rgba(15,23,42,.12);
-  border:1px solid #e2e8f0;
-}
-
-.empty-card .gallery-content{
-  padding:36px;
-  text-align:center;
-}
-
-.empty-card h3{
-  font-size:34px;
-  color:#1747b0;
-  margin-bottom:16px;
-}
-
-.empty-card p{
-  color:#64748b;
-  line-height:1.8;
-  font-size:17px;
+color:#64748b;
+line-height:1.8;
+margin-bottom:22px;
 }
 
 .status-badge{
-  display:inline-block;
-  margin-top:18px;
-  padding:10px 18px;
-  border-radius:999px;
-  background:#FEF3C7;
-  color:#92400E;
-  font-weight:600;
-}
-
-/* =========================================
-   Detail pertemuan
-   ========================================= */
-
-.detail-wrapper{
-  max-width:1200px;
-  margin:0 auto;
-}
-
-.detail-header{
-  text-align:center;
-  margin-bottom:36px;
-}
-
-.detail-header h2{
-  font-size:44px;
-  color:var(--blue);
-  margin-bottom:8px;
-}
-
-.detail-header p{
-  color:var(--muted);
-}
-
-.detail-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:22px;
-  margin-bottom:36px;
-}
-
-.detail-card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:28px;
-  text-align:center;
-  box-shadow:var(--shadow);
-}
-
-.detail-card h3{
-  font-size:40px;
-  color:var(--blue);
-  margin-bottom:8px;
-}
-
-.detail-card p{
-  color:var(--muted);
-}
-
-.detail-section{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:26px;
-  padding:36px;
-  box-shadow:var(--shadow);
-  margin-bottom:28px;
-}
-
-.detail-section h3{
-  font-size:28px;
-  color:var(--blue);
-  margin-bottom:16px;
+display:inline-block;
+padding:12px 22px;
+border-radius:999px;
+background:#FEF3C7;
+color:#92400E;
+font-weight:600;
 }
 
 .photo-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
 }
 
-.photo-item{
-  border-radius:20px;
-  overflow:hidden;
-  border:1px solid var(--border);
-  background:#fff;
+.photo-grid img{
+width:100%;
+border-radius:18px;
+object-fit:cover;
+aspect-ratio:4/3;
 }
 
-.photo-item img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  display:block;
+/* ===== Card ===== */
+
+.note-card{
+background:#fff;
+border-radius:24px;
+padding:34px;
+margin:0 auto 40px;
+border:1px solid #e2e8f0;
+box-shadow:0 15px 35px rgba(15,23,42,.08);
 }
 
-.note-box{
-  background:#f8fafc;
-  border-left:5px solid var(--gold);
-  padding:20px;
-  border-radius:16px;
-  color:var(--text);
+.note-card h2{
+color:#1747b0;
+margin-bottom:18px;
 }
 
-.back-area{
-  text-align:center;
-  margin-top:24px;
+.list-item{
+padding:16px 0;
+border-bottom:1px solid #e2e8f0;
 }
 
-/* =========================================
-   Utility
-   ========================================= */
-
-.center{
-  text-align:center;
+.list-item:last-child{
+border-bottom:none;
 }
+
+/* ===== Tombol ===== */
+
+.back-wrap{
+text-align:center;
+margin:40px 0 70px;
+}
+
+.btn-primary{
+display:inline-block;
+background:#f59e0b;
+color:#fff;
+text-decoration:none;
+padding:16px 34px;
+border-radius:999px;
+font-weight:700;
+box-shadow:0 12px 28px rgba(245,158,11,.35);
+transition:.3s;
+}
+
+.btn-primary:hover{
+transform:translateY(-3px);
+}
+
+/* ===== Footer ===== */
 
 .footer{
-  padding:34px;
-  text-align:center;
-  background:var(--navy);
-  color:#fff;
-  margin-top:40px;
+width:100%;
+background:#081a4d;
+color:#fff;
+text-align:center;
+padding:28px;
 }
 
-/* =========================================
-   Responsive
-   ========================================= */
+/* ===== Responsive ===== */
 
-@media (max-width:1200px){
-
-  .stats-container,
-  .detail-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-/* Grid dokumentasi */
-.gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:28px;
-  align-items:start;
+@media(max-width:992px){
+.stats-grid{
+grid-template-columns:repeat(2,1fr);
 }
 
-@media (max-width:768px){
+.hero-content h1{
+font-size:56px;
+}
+}
 
-  .navbar{
-    flex-direction:column;
-    gap:18px;
-  }
+@media(max-width:768px){
 
-  .menu{
-    flex-wrap:wrap;
-    justify-content:center;
-  }
+.navbar{
+flex-direction:column;
+gap:20px;
+}
 
-  .hero{
-    min-height:64vh;
-  }
+.menu{
+flex-wrap:wrap;
+justify-content:center;
+}
 
-  .hero h1{
-    font-size:46px;
-  }
+.hero-content{
+padding:60px 20px 80px;
+}
 
-  .hero.hero-detail h1{
-    font-size:40px;
-  }
+.hero-content h1{
+font-size:42px;
+}
 
-  .hero p{
-    font-size:18px;
-  }
+.hero-content p{
+font-size:18px;
+}
 
-  .hero-buttons{
-    width:100%;
-    max-width:340px;
-  }
+.stats-grid{
+grid-template-columns:1fr;
+margin-top:-40px;
+}
 
-  .hero-buttons a{
-    width:100%;
-  }
+.section-title h2{
+font-size:32px;
+}
 
-  .stats-container,
-  .gallery-grid,
-  .detail-grid,
-  .photo-grid{
-    grid-template-columns:1fr;
-  }
+.gallery-content{
+padding:28px;
+}
 
-  .section-title h2{
-    font-size:34px;
-  }
+.gallery-content h3{
+font-size:26px;
+}
 
-  .detail-section{
-    padding:24px;
-  }
-
-  .gallery-card img,
-  .photo-item img{
-    height:220px;
-  }
+.note-card{
+padding:26px;
+}
 }
