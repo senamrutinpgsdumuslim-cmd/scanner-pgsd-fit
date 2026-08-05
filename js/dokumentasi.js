@@ -20,16 +20,20 @@ async function loadDokumentasi() {
       return;
     }
 
-    container.innerHTML = data.map(item => `
-      <a href="pertemuan.html?id=${item.pertemuan}" class="gallery-card">
-        <img src="assets/logo-pgsdfit-2026.png" alt="PGSD FIT">
-        <div class="gallery-content">
-          <h3>Pertemuan ${item.pertemuan}</h3>
-          <p>${item.tanggal || '-'}</p>
-          <span class="status-badge">${item.status || 'Belum dipublikasikan'}</span>
-        </div>
-      </a>
-    `).join('');
+container.innerHTML = `
+  <div class="gallery-card empty-card">
+    <div class="empty-icon">📷</div>
+    <div class="gallery-content">
+      <h3>Belum ada dokumentasi</h3>
+      <p>
+        Semester Ganjil 2027 belum dimulai. Dokumentasi foto, rekap kehadiran,
+        dan statistik peserta akan dipublikasikan setelah pelaksanaan
+        Pertemuan 1 dan diverifikasi oleh panitia PGSD FIT.
+      </p>
+      <span class="status-badge">Menunggu pelaksanaan Pertemuan 1</span>
+    </div>
+  </div>
+`;
 
   } catch (err) {
     document.getElementById('listPertemuan').innerHTML = `
