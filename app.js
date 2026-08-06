@@ -61,13 +61,13 @@ async function suksesScan(decodedText) {
 
   if (processing) return;
   processing = true;
-
+await html5QrCode.pause(true);
   hasil.innerHTML = "⏳ Memproses absensi...";
 
   try {
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+const controller = new AbortController();
+const timeout = setTimeout(() => controller.abort(), 30000);
 
     const response = await fetch(URL_APPS_SCRIPT, {
       method: "POST",
@@ -108,7 +108,7 @@ async function suksesScan(decodedText) {
 
     tampilError(
       err.name === "AbortError"
-        ? "Koneksi timeout (15 detik)"
+        ? "Koneksi timeout (30 detik)"
         : (err.message || "Gagal menghubungi server")
     );
 
@@ -183,15 +183,19 @@ function tampilPopup(data) {
 // =============================
 // LANJUT SCAN
 // =============================
-function lanjutScan() {
+async function lanjutScan() {
 
   popup.style.display = "none";
   popupContent.innerHTML = "";
 
   hasil.innerHTML = "📷 Arahkan QR Code ke kamera";
 
-  setTimeout(function () {
-    processing = false;
-  }, 1500);
+  processing = false;
+
+  try {
+    await html5QrCode.resume();
+  } catch (e) {
+    console.error(e);
+  }
 
 }
