@@ -536,3 +536,61 @@ async function lanjutScan() {
 
   }
 }
+async function kembaliKePilihanMode() {
+
+  // Hentikan kamera
+  if (html5QrCode) {
+
+    try {
+      await html5QrCode.stop();
+    } catch (e) {
+      console.error("Gagal menghentikan kamera:", e);
+    }
+
+    html5QrCode = null;
+  }
+
+  // Reset status proses
+  processing = false;
+
+  // Sembunyikan area kamera
+  const scannerArea =
+    document.getElementById("scannerArea");
+
+  if (scannerArea) {
+    scannerArea.style.display = "none";
+  }
+
+  // Tampilkan pilihan mode
+  const pilihMode =
+    document.getElementById("pilihMode");
+
+  if (pilihMode) {
+    pilihMode.style.display = "block";
+  }
+
+  // Bersihkan reader
+  const reader =
+    document.getElementById("reader");
+
+  if (reader) {
+    reader.innerHTML = "";
+  }
+
+  // Reset judul
+  const judulMode =
+    document.getElementById("judulMode");
+
+  if (judulMode) {
+    judulMode.textContent = "";
+  }
+
+  // Reset tulisan hasil
+  const hasil =
+    document.getElementById("hasil");
+
+  if (hasil) {
+    hasil.innerHTML =
+      "📷 Pilih mode scanner terlebih dahulu";
+  }
+}
