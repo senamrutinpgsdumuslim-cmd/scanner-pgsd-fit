@@ -4,6 +4,7 @@
 <head>
 
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -21,28 +22,51 @@
 
 <div class="container">
 
-  <!-- =========================================
+  <!-- =====================================================
        LOGIN PANITIA
-       ========================================= -->
+       ===================================================== -->
   <div id="loginPanitia">
 
     <div class="header">
 
-      <img
-        src="assets/logo.png"
-        class="logo"
-        alt="PGSD FIT"
-      >
+      <!-- DUA LOGO -->
+      <div class="scanner-brand">
 
-      <h1>SCANNER PGSD FIT</h1>
+        <img
+          src="assets/logo-pgsd.png"
+          class="scanner-logo logo-left"
+          alt="Prodi PGSD"
+        >
 
-      <p>🔐 Akses khusus panitia</p>
+        <div class="scanner-title">
+
+          <h1>
+            SCANNER PGSD FIT
+          </h1>
+
+          <p>
+            🔐 Akses khusus panitia
+          </p>
+
+        </div>
+
+        <img
+          src="assets/logo-pgsdfit-2026.png"
+          class="scanner-logo logo-right"
+          alt="PGSD FIT"
+        >
+
+      </div>
 
     </div>
 
+
+    <!-- LOGIN PIN -->
     <div class="login-box">
 
-      <h2>Verifikasi Panitia</h2>
+      <h2>
+        Verifikasi Panitia
+      </h2>
 
       <p>
         Masukkan PIN untuk membuka scanner absensi.
@@ -60,6 +84,7 @@
       <button
         class="btn masuk"
         id="btnMasuk"
+        type="button"
         onclick="verifikasiPanitia()"
       >
         🔐 BUKA SCANNER
@@ -75,39 +100,52 @@
   </div>
 
 
-  <!-- =========================================
-       SCANNER
-       ========================================= -->
+  <!-- =====================================================
+       SCANNER UTAMA
+       ===================================================== -->
   <div
     id="scannerUtama"
     style="display:none;"
   >
 
-<div class="header">
+    <!-- HEADER SCANNER -->
+    <div class="header">
 
-  <div class="scanner-brand">
+      <div class="scanner-brand">
 
-    <img
-      src="assets/logo-pgsd.png"
-      class="scanner-logo logo-left"
-      alt="Prodi PGSD"
-    >
+        <!-- LOGO PRODI PGSD -->
+        <img
+          src="assets/logo-pgsd.png"
+          class="scanner-logo logo-left"
+          alt="Prodi PGSD"
+        >
 
-    <div class="scanner-title">
-      <h1>SCANNER PGSD FIT</h1>
-      <p>Senam Rutin Prodi PGSD</p>
-    </div>
+        <!-- JUDUL -->
+        <div class="scanner-title">
 
-    <img
-      src="assets/logo-pgsdfit-2026.png"
-      class="scanner-logo logo-right"
-      alt="PGSD FIT"
-    >
+          <h1>
+            SCANNER PGSD FIT
+          </h1>
 
-  </div>
+          <p>
+            Senam Rutin Prodi PGSD
+          </p>
 
-</div>
-        style="margin-top:10px;">
+        </div>
+
+        <!-- LOGO PGSD FIT -->
+        <img
+          src="assets/logo-pgsdfit-2026.png"
+          class="scanner-logo logo-right"
+          alt="PGSD FIT"
+        >
+
+      </div>
+
+
+      <!-- TOMBOL KUNCI -->
+      <div style="margin-top:10px;text-align:center;">
+
         <button
           type="button"
           onclick="kunciScanner()"
@@ -115,16 +153,19 @@
         >
           🔒 Kunci Scanner
         </button>
+
       </div>
 
     </div>
 
 
-    <!-- PILIH MODE -->
-
+    <!-- ===================================================
+         PILIH MODE
+         =================================================== -->
     <div id="pilihMode">
 
       <button
+        type="button"
         class="btn hadir"
         onclick="pilihMode('HADIR')"
       >
@@ -132,6 +173,7 @@
       </button>
 
       <button
+        type="button"
         class="btn terlambat"
         onclick="pilihMode('TERLAMBAT')"
       >
@@ -141,8 +183,9 @@
     </div>
 
 
-    <!-- AREA SCANNER -->
-
+    <!-- ===================================================
+         AREA SCANNER
+         =================================================== -->
     <div
       id="scannerArea"
       style="display:none;"
@@ -153,7 +196,7 @@
       <div id="reader"></div>
 
       <div id="hasil">
-        📷 Arahkan QR Code ke Kamera
+        📷 Arahkan QR Code ke kamera
       </div>
 
     </div>
@@ -163,102 +206,237 @@
 </div>
 
 
-<!-- POPUP -->
-<div id="popup" class="popup">
+<!-- =====================================================
+     POPUP HASIL SCAN
+     ===================================================== -->
+<div
+  id="popup"
+  class="popup"
+>
+
   <div id="popupContent"></div>
+
 </div>
 
-<!-- PIN PANITIA -->
+
+<!-- =====================================================
+     LOGIN PIN PANITIA
+     ===================================================== -->
 <script>
+
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec";
-  
+
+
 function verifikasiPanitia() {
 
-  const pin = document.getElementById("pinPanitia").value.trim();
-  const btn = document.getElementById("btnMasuk");
-  const pesan = document.getElementById("pesanLogin");
+  const pin =
+    document
+      .getElementById("pinPanitia")
+      .value
+      .trim();
+
+  const btn =
+    document.getElementById("btnMasuk");
+
+  const pesan =
+    document.getElementById("pesanLogin");
+
 
   if (!pin) {
-    pesan.textContent = "Masukkan PIN panitia.";
-    pesan.className = "pesan-login error";
+
+    pesan.textContent =
+      "Masukkan PIN panitia.";
+
+    pesan.className =
+      "pesan-login error";
+
     return;
+
   }
 
+
   btn.disabled = true;
-  btn.textContent = "Memeriksa...";
-  pesan.textContent = "";
 
-  window.pinScannerCallback = function(data) {
+  btn.textContent =
+    "Memeriksa...";
 
-    btn.disabled = false;
-    btn.textContent = "🔐 BUKA SCANNER";
+  pesan.textContent =
+    "";
 
-    if (!data || !data.sukses) {
+  pesan.className =
+    "pesan-login";
+
+
+  // ==========================================
+  // CALLBACK JSONP
+  // ==========================================
+
+  window.pinScannerCallback =
+    function(data) {
+
+      btn.disabled = false;
+
+      btn.textContent =
+        "🔐 BUKA SCANNER";
+
+
+      // PIN SALAH
+      if (!data || !data.sukses) {
+
+        pesan.textContent =
+          (
+            data &&
+            data.pesan
+          )
+            ? data.pesan
+            : "PIN panitia salah.";
+
+        pesan.className =
+          "pesan-login error";
+
+        return;
+
+      }
+
+
+      // ========================================
+      // PIN BENAR
+      // ========================================
+
+      document
+        .getElementById("loginPanitia")
+        .style.display = "none";
+
+
+      document
+        .getElementById("scannerUtama")
+        .style.display = "block";
+
+
+      // Bersihkan pesan
       pesan.textContent =
-        (data && data.pesan) ? data.pesan : "PIN panitia salah.";
+        "";
 
-      pesan.className = "pesan-login error";
-      return;
-    }
+      pesan.className =
+        "pesan-login";
 
-    // PIN BENAR
-    document.getElementById("loginPanitia").style.display = "none";
-    document.getElementById("scannerUtama").style.display = "block";
-    pesan.textContent = "";
-pesan.className = "pesan-login";
 
-    document.getElementById("pinPanitia").value = "";
+      // Bersihkan PIN
+      document
+        .getElementById("pinPanitia")
+        .value = "";
 
-    const oldScript = document.getElementById("pinJsonp");
-    if (oldScript) {
-      oldScript.remove();
-    }
-  };
 
-  const oldScript = document.getElementById("pinJsonp");
+      // Hapus script JSONP
+      const oldScript =
+        document
+          .getElementById("pinJsonp");
+
+      if (oldScript) {
+        oldScript.remove();
+      }
+
+    };
+
+
+  // ==========================================
+  // HAPUS REQUEST LAMA
+  // ==========================================
+
+  const oldScript =
+    document
+      .getElementById("pinJsonp");
+
   if (oldScript) {
     oldScript.remove();
   }
 
-  const script = document.createElement("script");
 
-  script.id = "pinJsonp";
+  // ==========================================
+  // REQUEST JSONP
+  // ==========================================
+
+  const script =
+    document.createElement("script");
+
+  script.id =
+    "pinJsonp";
+
 
   script.src =
     APPS_SCRIPT_URL +
     "?api=cekPinScanner" +
-    "&pin=" + encodeURIComponent(pin) +
+    "&pin=" +
+    encodeURIComponent(pin) +
     "&callback=pinScannerCallback" +
-    "&_=" + Date.now();
+    "&_=" +
+    Date.now();
 
-  script.onerror = function() {
 
-    btn.disabled = false;
-    btn.textContent = "🔐 BUKA SCANNER";
+  script.onerror =
+    function() {
 
-    pesan.textContent =
-      "Gagal menghubungi server Apps Script.";
+      btn.disabled = false;
 
-    pesan.className = "pesan-login error";
+      btn.textContent =
+        "🔐 BUKA SCANNER";
 
-    script.remove();
-  };
 
-  document.body.appendChild(script);
+      pesan.textContent =
+        "Gagal menghubungi server Apps Script.";
+
+      pesan.className =
+        "pesan-login error";
+
+
+      script.remove();
+
+    };
+
+
+  document
+    .body
+    .appendChild(script);
+
 }
+
+
+// ==========================================
+// KUNCI SCANNER
+// ==========================================
 
 function kunciScanner() {
 
-  document.getElementById("scannerUtama").style.display = "none";
-  document.getElementById("loginPanitia").style.display = "block";
-  document.getElementById("pesanLogin").textContent = "";
+  document
+    .getElementById("scannerUtama")
+    .style.display = "none";
+
+
+  document
+    .getElementById("loginPanitia")
+    .style.display = "block";
+
+
+  document
+    .getElementById("pinPanitia")
+    .value = "";
+
+
+  document
+    .getElementById("pesanLogin")
+    .textContent = "";
 
 }
+
 </script>
 
-<!-- SCANNER APP LAMA -->
+
+<!-- =====================================================
+     APP SCANNER LAMA
+     ===================================================== -->
 <script src="app.js"></script>
+
 
 </body>
 </html>
