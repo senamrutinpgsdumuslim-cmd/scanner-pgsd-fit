@@ -529,3 +529,80 @@ background:#15803d;
   }
 
 }
+/* =========================================
+   LOGO SCANNER - BACKGROUND GELAP
+   ========================================= */
+
+.scanner-logo{
+  width:64px;
+  height:64px;
+  object-fit:contain;
+  display:block;
+
+  /* background di belakang logo */
+  background:#0F3D8C;
+
+  /* bentuk lingkaran */
+  border-radius:50%;
+
+  /* jarak logo dari background */
+  padding:6px;
+
+  /* bayangan */
+  box-shadow:
+    0 8px 18px rgba(0,0,0,.18);
+}
+
+.scanner-brand{
+  width:100%;
+  display:grid;
+  grid-template-columns:80px 1fr 80px;
+  align-items:center;
+  gap:14px;
+}
+
+.scanner-title{
+  text-align:center;
+}
+
+.scanner-title h1{
+  margin:0;
+  color:#174EA6;
+  font-weight:800;
+}
+
+.scanner-title p{
+  margin:4px 0 0;
+}
+
+.logo-left{
+  justify-self:center;
+}
+
+.logo-right{
+  justify-self:center;
+}
+
+/* HP */
+@media(max-width:600px){
+
+  .scanner-brand{
+    grid-template-columns:58px 1fr 58px;
+    gap:8px;
+  }
+
+  .scanner-logo{
+    width:50px;
+    height:50px;
+    padding:5px;
+  }
+
+  .scanner-title h1{
+    font-size:21px;
+    line-height:1.1;
+  }
+
+  .scanner-title p{
+    font-size:12px;
+  }
+}
