@@ -169,13 +169,14 @@ const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzGgypyFAEkYSJEPnlxuf7AP28-1YeS9NwFgq9HMkNwJe-OqN87vP2gIrhxcXblIvRp1Q/exec";
 
 
+<script>
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzGgypyFAEkYSJEPnlxuf7AP28-1YeS9NwFgq9HMkNwJe-OqN87vP2gIrhxcXblIvRp1Q/exec";
+
 function verifikasiPanitia() {
 
   const pin =
-    document
-      .getElementById("pinPanitia")
-      .value
-      .trim();
+    document.getElementById("pinPanitia").value.trim();
 
   const btn =
     document.getElementById("btnMasuk");
@@ -183,116 +184,87 @@ function verifikasiPanitia() {
   const pesan =
     document.getElementById("pesanLogin");
 
-
   if (!pin) {
+    pesan.textContent = "Masukkan PIN panitia terlebih dahulu.";
+    pesan.className = "pesan-login error";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Memeriksa...";
+  pesan.textContent = "";
+
+  // Callback JSONP
+  window.pinScannerCallback = function(data) {
+
+    btn.disabled = false;
+    btn.textContent = "🔐 BUKA SCANNER";
+
+    if (!data || !data.sukses) {
+
+      pesan.textContent =
+        data && data.pesan
+          ? data.pesan
+          : "PIN panitia salah.";
+
+      pesan.className = "pesan-login error";
+      return;
+    }
+
+    // PIN BENAR
+    document.getElementById("loginPanitia").style.display = "none";
+    document.getElementById("scannerUtama").style.display = "block";
+
+    document.getElementById("pinPanitia").value = "";
+
+    // Hapus script JSONP
+    const oldScript =
+      document.getElementById("pinJsonp");
+
+    if (oldScript) {
+      oldScript.remove();
+    }
+  };
+
+  // Buat script JSONP
+  const script = document.createElement("script");
+
+  script.id = "pinJsonp";
+
+  script.src =
+    APPS_SCRIPT_URL +
+    "?api=cekPinScanner" +
+    "&pin=" +
+    encodeURIComponent(pin) +
+    "&callback=pinScannerCallback" +
+    "&_=" +
+    Date.now();
+
+  script.onerror = function() {
+
+    btn.disabled = false;
+    btn.textContent = "🔐 BUKA SCANNER";
 
     pesan.textContent =
-      "Masukkan PIN panitia terlebih dahulu.";
+      "Gagal menghubungi server Apps Script.";
 
     pesan.className =
       "pesan-login error";
 
-    return;
+    script.remove();
+  };
 
-  }
-
-
-  btn.disabled = true;
-  btn.textContent = "Memeriksa...";
-
-  pesan.textContent = "";
-
-
-  fetch(
-    APPS_SCRIPT_URL +
-    "?api=cekPinScanner&pin=" +
-    encodeURIComponent(pin)
-  )
-
-    .then(function(response) {
-
-      if (!response.ok) {
-        throw new Error(
-          "Server tidak merespons dengan benar."
-        );
-      }
-
-      return response.json();
-
-    })
-
-    .then(function(data) {
-
-      if (!data || !data.sukses) {
-
-        pesan.textContent =
-          data && data.pesan
-            ? data.pesan
-            : "PIN panitia salah.";
-
-        pesan.className =
-          "pesan-login error";
-
-        btn.disabled = false;
-        btn.textContent = "🔐 BUKA SCANNER";
-
-        return;
-
-      }
-
-
-      // PIN BENAR
-      document
-        .getElementById("loginPanitia")
-        .style.display = "none";
-
-      document
-        .getElementById("scannerUtama")
-        .style.display = "block";
-
-
-      document
-        .getElementById("pinPanitia")
-        .value = "";
-
-    })
-
-    .catch(function(error) {
-
-      console.error(error);
-
-      pesan.textContent =
-        "Gagal menghubungi server.";
-
-      pesan.className =
-        "pesan-login error";
-
-      btn.disabled = false;
-      btn.textContent = "🔐 BUKA SCANNER";
-
-    });
-
+  document.body.appendChild(script);
 }
-
 
 function kunciScanner() {
 
-  document
-    .getElementById("scannerUtama")
-    .style.display = "none";
+  document.getElementById("scannerUtama").style.display = "none";
+  document.getElementById("loginPanitia").style.display = "block";
 
-  document
-    .getElementById("loginPanitia")
-    .style.display = "block";
-
-  document
-    .getElementById("pesanLogin")
-    .textContent = "";
-
+  document.getElementById("pesanLogin").textContent = "";
 }
-
 </script>
-
 
 <script src="app.js"></script>
 
