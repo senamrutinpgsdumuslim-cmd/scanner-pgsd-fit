@@ -3,14 +3,17 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<title>Scanner PGSD FIT</title>
+  <title>Scanner PGSD FIT</title>
 
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
-<script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
 
 </head>
 
@@ -18,61 +21,278 @@
 
 <div class="container">
 
+  <!-- =========================================
+       LOGIN PANITIA
+       ========================================= -->
+  <div id="loginPanitia">
+
     <div class="header">
 
-        <img src="assets/logo.png" class="logo">
+      <img
+        src="assets/logo.png"
+        class="logo"
+        alt="PGSD FIT"
+      >
 
-        <h1>SCANNER PGSD FIT</h1>
+      <h1>SCANNER PGSD FIT</h1>
 
-        <p>Senam Rutin Prodi PGSD</p>
+      <p>🔐 Akses khusus panitia</p>
 
     </div>
+
+    <div class="login-box">
+
+      <h2>Verifikasi Panitia</h2>
+
+      <p>
+        Masukkan PIN untuk membuka scanner absensi.
+      </p>
+
+      <input
+        type="password"
+        id="pinPanitia"
+        inputmode="numeric"
+        maxlength="10"
+        placeholder="Masukkan PIN panitia"
+        autocomplete="off"
+      >
+
+      <button
+        class="btn masuk"
+        id="btnMasuk"
+        onclick="verifikasiPanitia()"
+      >
+        🔐 BUKA SCANNER
+      </button>
+
+      <div
+        id="pesanLogin"
+        class="pesan-login"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       SCANNER
+       ========================================= -->
+  <div
+    id="scannerUtama"
+    style="display:none;"
+  >
+
+    <div class="header">
+
+      <img
+        src="assets/logo.png"
+        class="logo"
+        alt="PGSD FIT"
+      >
+
+      <h1>SCANNER PGSD FIT</h1>
+
+      <p>Senam Rutin Prodi PGSD</p>
+
+      <div style="margin-top:10px;">
+        <button
+          type="button"
+          onclick="kunciScanner()"
+          class="btn keluar"
+        >
+          🔒 Kunci Scanner
+        </button>
+      </div>
+
+    </div>
+
 
     <!-- PILIH MODE -->
 
     <div id="pilihMode">
 
-        <button class="btn hadir"
-            onclick="pilihMode('HADIR')">
+      <button
+        class="btn hadir"
+        onclick="pilihMode('HADIR')"
+      >
+        🟢 SCANNER HADIR
+      </button>
 
-            🟢 SCANNER HADIR
-
-        </button>
-
-        <button class="btn terlambat"
-            onclick="pilihMode('TERLAMBAT')">
-
-            🟠 SCANNER TERLAMBAT
-
-        </button>
+      <button
+        class="btn terlambat"
+        onclick="pilihMode('TERLAMBAT')"
+      >
+        🟠 SCANNER TERLAMBAT
+      </button>
 
     </div>
+
 
     <!-- AREA SCANNER -->
 
-    <div id="scannerArea" style="display:none;">
+    <div
+      id="scannerArea"
+      style="display:none;"
+    >
 
-        <h2 id="judulMode"></h2>
+      <h2 id="judulMode"></h2>
 
-        <div id="reader"></div>
+      <div id="reader"></div>
 
-        <div id="hasil">
-
-            📷 Arahkan QR Code ke Kamera
-
-        </div>
+      <div id="hasil">
+        📷 Arahkan QR Code ke Kamera
+      </div>
 
     </div>
 
+  </div>
+
 </div>
+
 
 <!-- POPUP -->
 
 <div id="popup" class="popup">
 
-    <div id="popupContent"></div>
+  <div id="popupContent"></div>
 
 </div>
+
+
+<!-- =========================================
+     VERIFIKASI PIN
+     ========================================= -->
+<script>
+
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzGgypyFAEkYSJEPnlxuf7AP28-1YeS9NwFgq9HMkNwJe-OqN87vP2gIrhxcXblIvRp1Q/exec";
+
+
+function verifikasiPanitia() {
+
+  const pin =
+    document
+      .getElementById("pinPanitia")
+      .value
+      .trim();
+
+  const btn =
+    document.getElementById("btnMasuk");
+
+  const pesan =
+    document.getElementById("pesanLogin");
+
+
+  if (!pin) {
+
+    pesan.textContent =
+      "Masukkan PIN panitia terlebih dahulu.";
+
+    pesan.className =
+      "pesan-login error";
+
+    return;
+
+  }
+
+
+  btn.disabled = true;
+  btn.textContent = "Memeriksa...";
+
+  pesan.textContent = "";
+
+
+  fetch(
+    APPS_SCRIPT_URL +
+    "?api=cekPinScanner&pin=" +
+    encodeURIComponent(pin)
+  )
+
+    .then(function(response) {
+
+      if (!response.ok) {
+        throw new Error(
+          "Server tidak merespons dengan benar."
+        );
+      }
+
+      return response.json();
+
+    })
+
+    .then(function(data) {
+
+      if (!data || !data.sukses) {
+
+        pesan.textContent =
+          data && data.pesan
+            ? data.pesan
+            : "PIN panitia salah.";
+
+        pesan.className =
+          "pesan-login error";
+
+        btn.disabled = false;
+        btn.textContent = "🔐 BUKA SCANNER";
+
+        return;
+
+      }
+
+
+      // PIN BENAR
+      document
+        .getElementById("loginPanitia")
+        .style.display = "none";
+
+      document
+        .getElementById("scannerUtama")
+        .style.display = "block";
+
+
+      document
+        .getElementById("pinPanitia")
+        .value = "";
+
+    })
+
+    .catch(function(error) {
+
+      console.error(error);
+
+      pesan.textContent =
+        "Gagal menghubungi server.";
+
+      pesan.className =
+        "pesan-login error";
+
+      btn.disabled = false;
+      btn.textContent = "🔐 BUKA SCANNER";
+
+    });
+
+}
+
+
+function kunciScanner() {
+
+  document
+    .getElementById("scannerUtama")
+    .style.display = "none";
+
+  document
+    .getElementById("loginPanitia")
+    .style.display = "block";
+
+  document
+    .getElementById("pesanLogin")
+    .textContent = "";
+
+}
+
+</script>
+
 
 <script src="app.js"></script>
 
