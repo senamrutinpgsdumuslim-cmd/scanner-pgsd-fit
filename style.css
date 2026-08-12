@@ -606,3 +606,39 @@ background:#15803d;
     font-size:12px;
   }
 }
+.kembali-mode{
+  width:100%;
+  margin-top:16px;
+  padding:14px 18px;
+
+  background:linear-gradient(
+    135deg,
+    #0F3D8C,
+    #174EA6
+  ) !important;
+
+  color:#fff !important;
+
+  border:none;
+  border-radius:14px;
+
+  font-size:15px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 18px rgba(15,61,140,.25);
+
+  transition:.2s ease;
+}
+
+.kembali-mode:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 12px 24px rgba(15,61,140,.35);
+}
+
+.kembali-mode:active{
+  transform:scale(.98);
+}
