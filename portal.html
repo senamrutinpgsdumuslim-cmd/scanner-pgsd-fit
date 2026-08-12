@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -15,52 +14,107 @@
 
 <body>
 
+<script>
+  // =====================================================
+  // SATU URL WEB APP UNTUK SEMUA FITUR
+  // =====================================================
+  const WEB_APP_URL =
+    "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3lIJIgH8Y6H5m0nrU_3rw/exec";
+
+  function bukaFitur(page) {
+    window.location.href = WEB_APP_URL + "?page=" + encodeURIComponent(page);
+  }
+
+  function bukaCekID() {
+    bukaFitur("cekid");
+  }
+
+  function bukaIzin() {
+    bukaFitur("izin");
+  }
+
+  function bukaIDCard() {
+    bukaFitur("idcard");
+  }
+</script>
+
 <header class="hero">
 
   <nav class="navbar">
 
-<div class="brand">
+    <div class="brand">
 
-  <img src="assets/logo-umuslim.png" class="logo-small" alt="Universitas Almuslim">
-  <img src="assets/logo-pgsd.png" class="logo-small" alt="Prodi PGSD">
-  <img src="assets/logo-pgsdfit-2026.png" class="logo-small" alt="PGSD FIT 2026">
+      <img src="assets/logo-umuslim.png"
+           class="logo-small"
+           alt="Universitas Almuslim">
 
-  <div class="brand-text">
-    <h3>PGSD FIT 2026</h3>
-    <p>Portal Resmi Senam Rutin PGSD Universitas Almuslim</p>
-  </div>
+      <img src="assets/logo-pgsd.png"
+           class="logo-small"
+           alt="Prodi PGSD">
 
-</div>
+      <img src="assets/logo-pgsdfit-2026.png"
+           class="logo-small"
+           alt="PGSD FIT 2026">
 
-<div class="menu">
-  <a href="#tentang">Tentang</a>
-  <a href="dokumentasi.html">Dokumentasi</a>
-  <a href="#jadwal">Jadwal</a>
-  <a href="Dashboard.html" class="btn-dashboard">Dashboard</a>
-</div>
+      <div class="brand-text">
+        <h3>PGSD FIT 2026</h3>
+        <p>Portal Resmi Senam Rutin PGSD Universitas Almuslim</p>
+      </div>
+
+    </div>
+
+    <div class="menu">
+      <a href="#tentang">Tentang</a>
+      <a href="dokumentasi.html">Dokumentasi</a>
+      <a href="#jadwal">Jadwal</a>
+      <button type="button" onclick="bukaCekID()">Cek ID</button>
+      <button type="button" onclick="bukaIzin()">Izin</button>
+      <button type="button" onclick="bukaIDCard()">ID Card</button>
+      <a href="Dashboard.html" class="btn-dashboard">Dashboard Admin</a>
+    </div>
 
   </nav>
 
   <div class="hero-content">
 
-<img src="assets/logo-pgsdfit-2026.png" class="hero-logo" alt="PGSD FIT 2026">
+    <img src="assets/logo-pgsdfit-2026.png"
+         class="hero-logo"
+         alt="PGSD FIT 2026">
 
-<h1>PGSD FIT 2026</h1>
+    <h1>PGSD FIT 2026</h1>
 
-<p>
-  Portal resmi Senam Rutin Program Studi PGSD Universitas Almuslim
-</p>
+    <p>
+      Portal resmi Senam Rutin Program Studi PGSD Universitas Almuslim
+    </p>
 
-<div class="hero-buttons">
-  <a href="Dashboard.html" class="btn-primary">Masuk Dashboard</a>
-  <a href="dokumentasi.html" class="btn-secondary">Lihat Dokumentasi</a>
-  <a href="https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec?page=cekid"
-   class="menu-card">
-  <span>🔎</span>
-  <strong>Cek ID Peserta</strong>
-  <small>Cari ID menggunakan NPM</small>
-</a>
-</div>
+    <!-- FITUR UTAMA -->
+    <div class="hero-buttons">
+
+      <button type="button"
+              class="menu-card"
+              onclick="bukaCekID()">
+        <span>🔎</span>
+        <strong>Cek ID Peserta</strong>
+        <small>Cari ID menggunakan NPM</small>
+      </button>
+
+      <button type="button"
+              class="menu-card"
+              onclick="bukaIzin()">
+        <span>📝</span>
+        <strong>Pengajuan Izin</strong>
+        <small>Ajukan izin kegiatan</small>
+      </button>
+
+      <button type="button"
+              class="menu-card"
+              onclick="bukaIDCard()">
+        <span>🎫</span>
+        <strong>Cetak ID Card</strong>
+        <small>Lihat identitas dan download kartu</small>
+      </button>
+
+    </div>
 
   </div>
 
@@ -98,27 +152,30 @@
   </div>
 
   <div class="gallery-grid">
-<div class="gallery-card empty-card">
 
-  <div class="empty-icon">📷</div>
+    <div class="gallery-card empty-card">
 
-  <div class="gallery-content">
+      <div class="empty-icon">📷</div>
 
-    <h3>Belum Ada Dokumentasi</h3>
+      <div class="gallery-content">
 
-    <p>
-      Semester Ganjil 2027 belum dimulai.
-      Dokumentasi dan rekap kehadiran akan dipublikasikan setelah
-      pelaksanaan Pertemuan 1 dan diverifikasi oleh panitia PGSD FIT.
-    </p>
+        <h3>Belum Ada Dokumentasi</h3>
 
-    <a href="dokumentasi.html" class="btn-primary" style="margin-top:18px;">
-      Buka Arsip Dokumentasi
-    </a>
+        <p>
+          Semester Ganjil 2027 belum dimulai.
+          Dokumentasi dan rekap kehadiran akan dipublikasikan setelah
+          pelaksanaan Pertemuan 1 dan diverifikasi oleh panitia PGSD FIT.
+        </p>
 
-  </div>
+        <a href="dokumentasi.html"
+           class="btn-primary"
+           style="margin-top:18px;">
+          Buka Arsip Dokumentasi
+        </a>
 
-</div>
+      </div>
+
+    </div>
 
   </div>
 
@@ -128,20 +185,21 @@
 
   <div class="about-content">
 
-<h2>Tentang PGSD FIT</h2>
+    <h2>Tentang PGSD FIT</h2>
 
-<p>
-  PGSD FIT merupakan program Senam Rutin Program Studi Pendidikan Guru Sekolah Dasar
-  Universitas Almuslim yang bertujuan meningkatkan kebugaran, kedisiplinan,
-  dan kebersamaan mahasiswa melalui kegiatan olahraga rutin setiap semester.
-</p>
+    <p>
+      PGSD FIT merupakan program Senam Rutin Program Studi Pendidikan Guru
+      Sekolah Dasar Universitas Almuslim yang bertujuan meningkatkan
+      kebugaran, kedisiplinan, dan kebersamaan mahasiswa melalui kegiatan
+      olahraga rutin setiap semester.
+    </p>
 
-<ul>
-  <li>Rekap kehadiran digital</li>
-  <li>Sistem izin online</li>
-  <li>Dashboard statistik</li>
-  <li>Arsip dokumentasi resmi</li>
-</ul>
+    <ul>
+      <li>Rekap kehadiran digital</li>
+      <li>Sistem izin online</li>
+      <li>Dashboard statistik</li>
+      <li>Arsip dokumentasi resmi</li>
+    </ul>
 
   </div>
 
@@ -155,16 +213,17 @@
   </div>
 
   <div class="schedule-card">
-    
-<h3>Rabu Pagi</h3>
 
-<p><strong>Semester:</strong> Ganjil 2027</p>
+    <h3>Rabu Pagi</h3>
 
-<p><strong>Status:</strong> Menunggu Jadwal Resmi</p>
+    <p><strong>Semester:</strong> Ganjil 2027</p>
 
-<p>
-  Informasi jadwal akan diperbarui melalui dashboard dan pengumuman resmi PGSD FIT.
-</p>
+    <p><strong>Status:</strong> Menunggu Jadwal Resmi</p>
+
+    <p>
+      Informasi jadwal akan diperbarui melalui dashboard dan pengumuman
+      resmi PGSD FIT.
+    </p>
 
   </div>
 
