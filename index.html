@@ -304,15 +304,20 @@ function verifikasiPanitia() {
       // PIN BENAR
       // ========================================
 
-      document
-        .getElementById("loginPanitia")
-        .style.display = "none";
+// PIN BENAR
+document.getElementById("loginPanitia").style.display = "none";
+document.getElementById("scannerUtama").style.display = "block";
 
+// TAMPILKAN PILIHAN MODE SCANNER
+document.getElementById("pilihMode").style.display = "block";
 
-      document
-        .getElementById("scannerUtama")
-        .style.display = "block";
+// Pastikan area kamera masih tersembunyi
+document.getElementById("scannerArea").style.display = "none";
 
+pesan.textContent = "";
+pesan.className = "pesan-login";
+
+document.getElementById("pinPanitia").value = "";
 
       // Bersihkan pesan
       pesan.textContent =
