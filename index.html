@@ -159,21 +159,16 @@
 <!-- PIN PANITIA -->
 <script>
 const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzGgypyFAEkYSJEPnlxuf7AP28-1YeS9NwFgq9HMkNwJe-OqN87vP2gIrhxcXblIvRp1Q/exec";
-  
+  "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec";
+
 function verifikasiPanitia() {
 
-  const pin =
-    document.getElementById("pinPanitia").value.trim();
-
-  const btn =
-    document.getElementById("btnMasuk");
-
-  const pesan =
-    document.getElementById("pesanLogin");
+  const pin = document.getElementById("pinPanitia").value.trim();
+  const btn = document.getElementById("btnMasuk");
+  const pesan = document.getElementById("pesanLogin");
 
   if (!pin) {
-    pesan.textContent = "Masukkan PIN panitia terlebih dahulu.";
+    pesan.textContent = "Masukkan PIN panitia.";
     pesan.className = "pesan-login error";
     return;
   }
@@ -188,11 +183,8 @@ function verifikasiPanitia() {
     btn.textContent = "🔐 BUKA SCANNER";
 
     if (!data || !data.sukses) {
-
       pesan.textContent =
-        data && data.pesan
-          ? data.pesan
-          : "PIN panitia salah.";
+        (data && data.pesan) ? data.pesan : "PIN panitia salah.";
 
       pesan.className = "pesan-login error";
       return;
@@ -204,34 +196,27 @@ function verifikasiPanitia() {
 
     document.getElementById("pinPanitia").value = "";
 
-    const oldScript =
-      document.getElementById("pinJsonp");
-
+    const oldScript = document.getElementById("pinJsonp");
     if (oldScript) {
       oldScript.remove();
     }
   };
 
-  const oldScript =
-    document.getElementById("pinJsonp");
-
+  const oldScript = document.getElementById("pinJsonp");
   if (oldScript) {
     oldScript.remove();
   }
 
-  const script =
-    document.createElement("script");
+  const script = document.createElement("script");
 
   script.id = "pinJsonp";
 
   script.src =
     APPS_SCRIPT_URL +
     "?api=cekPinScanner" +
-    "&pin=" +
-    encodeURIComponent(pin) +
+    "&pin=" + encodeURIComponent(pin) +
     "&callback=pinScannerCallback" +
-    "&_=" +
-    Date.now();
+    "&_=" + Date.now();
 
   script.onerror = function() {
 
@@ -241,8 +226,7 @@ function verifikasiPanitia() {
     pesan.textContent =
       "Gagal menghubungi server Apps Script.";
 
-    pesan.className =
-      "pesan-login error";
+    pesan.className = "pesan-login error";
 
     script.remove();
   };
@@ -253,9 +237,7 @@ function verifikasiPanitia() {
 function kunciScanner() {
 
   document.getElementById("scannerUtama").style.display = "none";
-
   document.getElementById("loginPanitia").style.display = "block";
-
   document.getElementById("pesanLogin").textContent = "";
 
 }
