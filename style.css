@@ -395,3 +395,73 @@ background:#15803d;
   }
 
 }
+/* =========================================
+   TOMBOL AKSES SCANNER PANITIA
+   ========================================= */
+
+.btn.masuk{
+  display:block;
+  width:100%;
+  min-height:56px;
+
+  margin-top:16px;
+  padding:14px 18px;
+
+  border:none;
+  border-radius:14px;
+
+  background:#174ea6 !important;
+  color:#ffffff !important;
+
+  font-size:17px;
+  font-weight:800;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 20px rgba(23,78,166,.25);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+.btn.masuk:hover{
+  background:#123f8a !important;
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 12px 26px rgba(23,78,166,.32);
+}
+
+.btn.masuk:active{
+  transform:scale(.98);
+}
+
+/* Saat sedang memeriksa PIN */
+.btn.masuk:disabled{
+  background:#174ea6 !important;
+  color:#ffffff !important;
+  opacity:1 !important;
+  cursor:wait;
+}
+
+/* Pesan di bawah tombol */
+.pesan-login{
+  min-height:26px;
+  margin-top:14px;
+
+  text-align:center;
+
+  font-size:14px;
+  font-weight:700;
+}
+
+.pesan-login.error{
+  color:#c62828;
+}
+
+.pesan-login.success{
+  color:#1b8a3a;
+}
