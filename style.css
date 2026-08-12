@@ -465,3 +465,67 @@ background:#15803d;
 .pesan-login.success{
   color:#1b8a3a;
 }
+/* =========================================
+   HEADER SCANNER + 2 LOGO
+   ========================================= */
+
+.scanner-brand{
+  width:100%;
+  display:grid;
+  grid-template-columns:72px 1fr 72px;
+  align-items:center;
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.scanner-logo{
+  width:64px;
+  height:64px;
+  object-fit:contain;
+  display:block;
+  margin:auto;
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.15));
+}
+
+.logo-left{
+  justify-self:start;
+}
+
+.logo-right{
+  justify-self:end;
+}
+
+.scanner-title{
+  text-align:center;
+}
+
+.scanner-title h1{
+  margin:0;
+}
+
+.scanner-title p{
+  margin:4px 0 0;
+}
+
+/* HP */
+@media(max-width:600px){
+
+  .scanner-brand{
+    grid-template-columns:58px 1fr 58px;
+    gap:8px;
+  }
+
+  .scanner-logo{
+    width:52px;
+    height:52px;
+  }
+
+  .scanner-title h1{
+    font-size:22px;
+  }
+
+  .scanner-title p{
+    font-size:13px;
+  }
+
+}
