@@ -217,27 +217,26 @@
 <section class="stats-section">
 
   <div class="stat-card">
-    <h2>184</h2>
+    <h2 id="statPesertaAktif">-</h2>
     <p>Peserta Aktif</p>
   </div>
 
   <div class="stat-card">
-    <h2>0</h2>
+    <h2 id="statTotalPertemuan">-</h2>
     <p>Total Pertemuan</p>
   </div>
 
   <div class="stat-card">
-    <h2>-</h2>
+    <h2 id="statRataKehadiran">-</h2>
     <p>Rata-rata Kehadiran</p>
   </div>
 
   <div class="stat-card">
-    <h2>-</h2>
+    <h2 id="statUnitTerbaik">-</h2>
     <p>Unit Terbaik</p>
   </div>
 
 </section>
-
 
 <!-- =====================================================
      GALERI
@@ -404,6 +403,72 @@
   </p>
 
 </footer>
+<script>
+const PORTAL_APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec";
 
+function loadPortalStats() {
+
+  fetch(
+    PORTAL_APPS_SCRIPT_URL +
+    "?api=portalStats"
+  )
+
+    .then(function(response) {
+      if (!response.ok) {
+        throw new Error("Gagal mengambil statistik.");
+      }
+
+      return response.json();
+    })
+
+    .then(function(data) {
+
+      if (!data || !data.sukses) {
+        throw new Error(
+          data && data.pesan
+            ? data.pesan
+            : "Data statistik tidak tersedia."
+        );
+      }
+
+      document.getElementById(
+        "statPesertaAktif"
+      ).textContent =
+        data.pesertaAktif;
+
+      document.getElementById(
+        "statTotalPertemuan"
+      ).textContent =
+        data.totalPertemuan;
+
+      document.getElementById(
+        "statRataKehadiran"
+      ).textContent =
+        data.rataRataKehadiran + "%";
+
+      document.getElementById(
+        "statUnitTerbaik"
+      ).textContent =
+        data.unitTerbaik;
+
+    })
+
+    .catch(function(error) {
+
+      console.error(
+        "Statistik portal:",
+        error
+      );
+
+    });
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  loadPortalStats
+);
+</script>
+  
 </body>
 </html>
