@@ -232,8 +232,8 @@
   </div>
 
   <div class="stat-card">
-    <h2 id="statUnitTerbaik">-</h2>
-    <p>Unit Terbaik</p>
+<h2 id="statUnitTerbaik">-</h2>
+<p id="labelUnitTerbaik">Unit Terbaik</p>
   </div>
 
 </section>
@@ -435,10 +435,19 @@ function loadPortalStats() {
     ).textContent =
       data.rataRataKehadiran + "%";
 
-    document.getElementById(
-      "statUnitTerbaik"
-    ).textContent =
-      data.unitTerbaik;
+document.getElementById(
+  "statUnitTerbaik"
+).textContent =
+  data.unitTerbaik || "-";
+
+document.getElementById(
+  "labelUnitTerbaik"
+).textContent =
+  data.unitTerbaik && data.angkatanTerbaik
+    ? "Unit " + data.unitTerbaik +
+      " • Angkatan " + data.angkatanTerbaik +
+      " • " + data.unitTerbaikPersen + "%"
+    : "Unit Terbaik";
 
     const oldScript =
       document.getElementById(
