@@ -246,55 +246,71 @@ html, body{
   flex-shrink: 0;
 }
 /* =========================================================
-   HEADER LOGO GROUP — PGSD FIT PREMIUM
-   ========================================================= */
+   HEADER DASHBOARD — LOGO + ADMIN INFO
+========================================================= */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+
+  padding: 22px 28px;
+  margin-bottom: 30px;
+}
+
+
+/* =========================
+   PANEL LOGO
+========================= */
 
 .logo-group {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 
-  padding: 12px 18px;
+  flex: 1;
 
-  /* Background khusus untuk logo */
+  min-height: 86px;
+
+  padding: 12px 20px;
+
   background:
     linear-gradient(
       135deg,
-      rgba(7, 38, 84, 0.96),
-      rgba(15, 76, 129, 0.94)
+      rgba(7, 38, 84, 0.98),
+      rgba(15, 76, 129, 0.96)
     );
 
-  border-radius: 18px;
+  border-radius: 20px;
 
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255,255,255,.16);
 
   box-shadow:
-    0 8px 22px rgba(15, 23, 42, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.10);
-
-  backdrop-filter: blur(10px);
+    0 10px 24px rgba(15,23,42,.16),
+    inset 0 1px 0 rgba(255,255,255,.10);
 
   position: relative;
   overflow: hidden;
 }
 
 
-/* Efek cahaya lembut di belakang logo */
+/* Efek cahaya */
 .logo-group::before {
   content: "";
 
   position: absolute;
 
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
 
-  top: -75px;
-  left: -45px;
+  top: -100px;
+  left: -60px;
 
   background:
     radial-gradient(
       circle,
-      rgba(59, 130, 246, 0.30),
+      rgba(59,130,246,.28),
       transparent 70%
     );
 
@@ -302,74 +318,64 @@ html, body{
 }
 
 
-/* =========================================================
-   LOGO
-   ========================================================= */
+/* =========================
+   SEMUA LOGO SAMA UKURAN
+========================= */
 
 .logo-group img {
-  width: 52px;
-  height: 52px;
+  position: relative;
+  z-index: 1;
+
+  width: 58px;
+  height: 58px;
+
+  flex: 0 0 58px;
 
   object-fit: contain;
 
   padding: 6px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.16),
-      rgba(255, 255, 255, 0.06)
-    );
-
-  border-radius: 12px;
+    rgba(255,255,255,.12);
 
   border:
-    1px solid rgba(255, 255, 255, 0.20);
+    1px solid rgba(255,255,255,.20);
+
+  border-radius: 14px;
 
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.15);
-
-  position: relative;
-  z-index: 1;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+    0 5px 14px rgba(0,0,0,.16);
 }
 
 
-/* Logo PGSD FIT dibuat sedikit lebih menonjol */
+/* Logo terakhir tetap SAMA UKURAN */
 .logo-group img:last-of-type {
   width: 58px;
   height: 58px;
 
-  padding: 5px;
+  flex: 0 0 58px;
+
+  padding: 6px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.22),
-      rgba(255, 255, 255, 0.10)
-    );
+    rgba(255,255,255,.16);
 
   border-color:
-    rgba(255, 255, 255, 0.32);
-
-  box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.05),
-    0 6px 16px rgba(0, 0, 0, 0.18);
+    rgba(255,255,255,.28);
 }
 
 
-/* =========================================================
-   JUDUL
-   ========================================================= */
+/* =========================
+   JUDUL DASHBOARD
+========================= */
 
 .logo-group .title {
   position: relative;
   z-index: 1;
 
-  margin-left: 4px;
+  margin-left: 6px;
+
+  min-width: 0;
 }
 
 
@@ -378,27 +384,174 @@ html, body{
 
   color: #ffffff;
 
-  font-size: 24px;
+  font-size: 25px;
+
   font-weight: 800;
 
   line-height: 1.15;
 
-  letter-spacing: -0.3px;
+  letter-spacing: -0.4px;
 }
 
 
 .logo-group .title p {
-  margin: 5px 0 0;
+  margin: 6px 0 0;
 
-  color: rgba(255, 255, 255, 0.78);
+  color:
+    rgba(255,255,255,.78);
 
   font-size: 13px;
 
   font-weight: 500;
-
-  line-height: 1.3;
 }
 
+
+/* =========================================================
+   ADMIN INFO — DIBERI JARAK DARI LOGO
+========================================================= */
+
+.admin-box {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  flex: 0 0 auto;
+
+  margin-left: 18px;
+
+  padding-left: 22px;
+
+  border-left:
+    1px solid #dbe3ee;
+
+  min-width: 280px;
+}
+
+
+.admin-box .avatar {
+  width: 52px;
+  height: 52px;
+
+  flex: 0 0 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1565c0,
+      #0f4c81
+    );
+
+  color: #ffffff;
+
+  font-size: 22px;
+
+  font-weight: 800;
+}
+
+
+.admin-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.admin-info strong {
+  font-size: 15px;
+
+  color: #172033;
+}
+
+
+.admin-info span {
+  font-size: 13px;
+
+  color: #64748b;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .topbar {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 18px;
+  }
+
+
+  .admin-box {
+
+    margin-left: 0;
+
+    padding-left: 0;
+
+    padding-top: 16px;
+
+    border-left: none;
+
+    border-top:
+      1px solid #dbe3ee;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .logo-group {
+    gap: 10px;
+
+    padding: 10px 12px;
+
+    min-height: 76px;
+  }
+
+
+  .logo-group img,
+  .logo-group img:last-of-type {
+
+    width: 46px;
+    height: 46px;
+
+    flex: 0 0 46px;
+
+    padding: 5px;
+
+    border-radius: 11px;
+  }
+
+
+  .logo-group .title h1 {
+    font-size: 18px;
+  }
+
+
+  .logo-group .title p {
+    font-size: 11px;
+  }
+
+
+  .admin-box {
+    min-width: 0;
+  }
+}
 
 /* =========================================================
    KARTU STATISTIK — JUDUL SEJAJAR
