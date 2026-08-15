@@ -703,3 +703,28 @@ html, body{
     font-size: 11px;
   }
 }
+
+.search-box input {
+  width: 100%;
+  padding: 13px 16px;
+
+  border: 1px solid #dbe3ee;
+  border-radius: 12px;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+
+.search-box input:focus {
+  border-color: #1565c0;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(21,101,192,.12);
+}
