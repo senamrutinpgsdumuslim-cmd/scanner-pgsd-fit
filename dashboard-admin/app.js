@@ -1,5 +1,5 @@
 // =========================================
-// DASHBOARD ADMIN PGSD FIT - FINAL
+// DASHBOARD ADMIN PGSD FIT
 // =========================================
 
 const API_URL =
@@ -8,6 +8,8 @@ const API_URL =
 let attendanceChart;
 let unitChart;
 
+let absensiTerbaruData = [];
+
 
 // =========================================
 // INIT CHART
@@ -15,13 +17,23 @@ let unitChart;
 function initCharts() {
 
   const attendanceCanvas =
-    document.getElementById("attendanceChart");
+    document.getElementById(
+      "attendanceChart"
+    );
 
   const unitCanvas =
-    document.getElementById("unitChart");
+    document.getElementById(
+      "unitChart"
+    );
 
-  if (!attendanceCanvas || !unitCanvas) {
-    console.error("Canvas chart tidak ditemukan");
+  if (
+    !attendanceCanvas ||
+    !unitCanvas
+  ) {
+    console.error(
+      "Canvas chart tidak ditemukan"
+    );
+
     return;
   }
 
@@ -33,102 +45,113 @@ function initCharts() {
     );
 
 
-  attendanceChart = new Chart(
-    attendanceCanvas,
-    {
-      type: "line",
+  attendanceChart =
+    new Chart(
+      attendanceCanvas,
+      {
+        type: "line",
 
-      data: {
-        labels: labels,
+        data: {
 
-        datasets: [{
-          label: "Kehadiran",
+          labels: labels,
 
-          data:
-            new Array(15).fill(0),
+          datasets: [{
+            label:
+              "Kehadiran",
 
-          borderColor: "#1565C0",
+            data:
+              new Array(15).fill(0),
 
-          backgroundColor:
-            "rgba(21,101,192,.15)",
+            borderColor:
+              "#1565C0",
 
-          fill: true,
+            backgroundColor:
+              "rgba(21,101,192,.15)",
 
-          tension: 0.35,
+            fill: true,
 
-          pointRadius: 4,
+            tension: 0.35,
 
-          pointHoverRadius: 6
-        }]
-      },
+            pointRadius: 4,
 
-      options: {
-        responsive: true,
-
-        maintainAspectRatio: false,
-
-        animation: false,
-
-        plugins: {
-          legend: {
-            position: "top"
-          }
+            pointHoverRadius: 6
+          }]
         },
 
-        scales: {
-          y: {
-            beginAtZero: true,
+        options: {
 
-            ticks: {
-              precision: 0
+          responsive: true,
+
+          maintainAspectRatio: false,
+
+          animation: false,
+
+          plugins: {
+            legend: {
+              position:
+                "top"
+            }
+          },
+
+          scales: {
+            y: {
+              beginAtZero: true,
+
+              ticks: {
+                precision: 0
+              }
             }
           }
         }
       }
-    }
-  );
+    );
 
 
-  unitChart = new Chart(
-    unitCanvas,
-    {
-      type: "doughnut",
+  unitChart =
+    new Chart(
+      unitCanvas,
+      {
+        type: "doughnut",
 
-      data: {
-        labels: [],
+        data: {
 
-        datasets: [{
-          data: [],
+          labels: [],
 
-          backgroundColor: [
-            "#1565C0",
-            "#16A34A",
-            "#F97316",
-            "#7C3AED",
-            "#E11D48",
-            "#0891B2",
-            "#65A30D",
-            "#EA580C",
-            "#475569"
-          ]
-        }]
-      },
+          datasets: [{
+            data: [],
 
-      options: {
-        responsive: true,
+            backgroundColor: [
+              "#1565C0",
+              "#16A34A",
+              "#F97316",
+              "#7C3AED",
+              "#E11D48",
+              "#0891B2",
+              "#65A30D",
+              "#EA580C",
+              "#475569"
+            ]
+          }]
+        },
 
-        maintainAspectRatio: false,
+        options: {
 
-        animation: false,
+          responsive: true,
 
-        plugins: {
-          legend: {
-            position: "bottom"
+          maintainAspectRatio: false,
+
+          animation: false,
+
+          plugins: {
+
+            legend: {
+              position:
+                "bottom"
+            }
           }
         }
       }
-    }
-  );
+    );
 }
 
 
@@ -145,6 +168,7 @@ async function loadDashboard() {
         "&t=" +
         Date.now()
       );
+
 
     const result =
       await res.json();
@@ -193,100 +217,102 @@ async function loadDashboard() {
       statistik.pesertaAktif ?? 0;
 
 
-    const alphaCount =
-      document.getElementById(
-        "alphaCount"
-      );
-
-    if (alphaCount) {
-
-      alphaCount.textContent =
-        statistik.alpha ?? 0;
-    }
-
-
     // =======================================
-    // ABSENSI TERBARU
+    // DATA ABSENSI TERBARU
     // =======================================
 
-    const tbody =
-      document.getElementById(
-        "absensiTerbaru"
-      );
+    absensiTerbaruData =
+      result.terbaru || [];
 
 
-    if (tbody) {
-
-      tbody.innerHTML = "";
-
-      const terbaru =
-        result.terbaru || [];
-
-
-      if (!terbaru.length) {
-
-        tbody.innerHTML = `
-          <tr>
-            <td
-              colspan="4"
-              style="
-                text-align:center;
-                color:#64748b;
-                padding:20px;
-              "
-            >
-              Belum ada data absensi.
-            </td>
-          </tr>
-        `;
-
-      } else {
-
-terbaru
-  .filter(function(item) {
-    return (
-      item.status === "HADIR" ||
-      item.status === "TERLAMBAT"
+    renderAbsensiTerbaru(
+      absensiTerbaruData
     );
-  })
-  .forEach(function(item) {
 
-    const status =
-      String(item.status || "-")
-        .trim()
-        .toUpperCase();
 
-    let badgeClass = "hadir";
+    // =======================================
+    // SEARCH
+    // =======================================
 
-    if (status === "TERLAMBAT") {
-      badgeClass = "terlambat";
-    }
+    const searchInput =
+      document.getElementById(
+        "searchAbsensi"
+      );
 
-    tbody.innerHTML += `
-      <tr>
 
-        <td>
-          ${escapeHtml(item.npm || "-")}
-        </td>
+    if (searchInput) {
 
-        <td>
-          ${escapeHtml(item.nama || "-")}
-        </td>
+      searchInput.oninput =
+        function() {
 
-        <td>
-          P${escapeHtml(item.pertemuan || "-")}
-        </td>
+          const keyword =
+            this.value
+              .trim()
+              .toLowerCase();
 
-        <td>
-          <span class="badge ${badgeClass}">
-            ${escapeHtml(status)}
-          </span>
-        </td>
 
-      </tr>
-    `;
-  });
-      }
+          const hasil =
+            absensiTerbaruData.filter(
+              function(item) {
+
+                return (
+
+                  String(
+                    item.nama || ""
+                  )
+                  .toLowerCase()
+                  .includes(
+                    keyword
+                  )
+
+                  ||
+
+                  String(
+                    item.npm || ""
+                  )
+                  .toLowerCase()
+                  .includes(
+                    keyword
+                  )
+
+                  ||
+
+                  String(
+                    item.unit || ""
+                  )
+                  .toLowerCase()
+                  .includes(
+                    keyword
+                  )
+
+                  ||
+
+                  String(
+                    item.status || ""
+                  )
+                  .toLowerCase()
+                  .includes(
+                    keyword
+                  )
+
+                  ||
+
+                  String(
+                    item.pertemuan || ""
+                  )
+                  .toLowerCase()
+                  .includes(
+                    keyword
+                  )
+                );
+              }
+            );
+
+
+          renderAbsensiTerbaru(
+            hasil
+          );
+        };
     }
 
 
@@ -302,15 +328,19 @@ terbaru
       attendanceChart.data.labels =
         result.grafik.labels || [];
 
-      attendanceChart.data.datasets[0].data =
+
+      attendanceChart.data
+        .datasets[0]
+        .data =
         result.grafik.data || [];
+
 
       attendanceChart.update();
     }
 
 
     // =======================================
-    // GRAFIK UNIT
+    // GRAFIK SEMUA UNIT
     // =======================================
 
     if (
@@ -323,20 +353,29 @@ terbaru
 
 
       unitChart.data.labels =
-        rankingUnit.map(function(item) {
+        rankingUnit.map(
+          function(item) {
 
-          return "Unit " +
-            item.unit;
+            return (
+              "Unit " +
+              item.unit
+            );
 
-        });
+          }
+        );
 
 
-      unitChart.data.datasets[0].data =
-        rankingUnit.map(function(item) {
+      unitChart.data.datasets[0]
+        .data =
+        rankingUnit.map(
+          function(item) {
 
-          return item.hadir || 0;
+            return (
+              item.hadir || 0
+            );
 
-        });
+          }
+        );
 
 
       unitChart.update();
@@ -344,91 +383,17 @@ terbaru
 
 
     // =======================================
-    // RANKING UNIT + ANGKATAN
+    // RANKING SEMUA UNIT
     // =======================================
 
-    const ranking =
-      document.getElementById(
-        "rankingContainer"
-      );
+    renderRankingUnit(
+      result.rankingUnitKeseluruhan ||
+      []
+    );
 
+  }
 
-    if (ranking) {
-
-      const data =
-        result.rankingUnitAngkatan ||
-        [];
-
-
-      if (!data.length) {
-
-        ranking.innerHTML = `
-          <p class="loading">
-            Belum ada data ranking.
-          </p>
-        `;
-
-      } else {
-
-        let html = "";
-
-        const medal = [
-          "🥇",
-          "🥈",
-          "🥉"
-        ];
-
-
-        data.forEach(
-          function(item, index) {
-
-            html += `
-              <div class="ranking-item">
-
-                <div class="left">
-
-                  <span class="medal">
-                    ${
-                      medal[index] ||
-                      (index + 1)
-                    }
-                  </span>
-
-                  <span>
-                    Unit ${escapeHtml(
-                      item.unit
-                    )}
-                    • Angkatan
-                    ${escapeHtml(
-                      item.angkatan
-                    )}
-                  </span>
-
-                </div>
-
-                <div class="right">
-
-                  <b>
-                    ${escapeHtml(
-                      item.persentase ||
-                      "0%"
-                    )}
-                  </b>
-
-                </div>
-
-              </div>
-            `;
-          }
-        );
-
-
-        ranking.innerHTML =
-          html;
-      }
-    }
-
-  } catch (err) {
+  catch (err) {
 
     console.error(
       "Error Dashboard:",
@@ -439,32 +404,279 @@ terbaru
 
 
 // =========================================
-// ESCAPE HTML
+// RENDER ABSENSI TERBARU
+// SEMUA STATUS
 // =========================================
-function escapeHtml(value) {
+function renderAbsensiTerbaru(
+  data
+) {
 
-  return String(
-    value ?? ""
-  )
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  const tbody =
+    document.getElementById(
+      "absensiTerbaru"
+    );
+
+
+  if (!tbody) {
+    return;
+  }
+
+
+  tbody.innerHTML = "";
+
+
+  if (!data.length) {
+
+    tbody.innerHTML = `
+      <tr>
+
+        <td
+          colspan="4"
+          style="
+            text-align:center;
+            color:#64748b;
+            padding:25px;
+          "
+        >
+          Data tidak ditemukan.
+        </td>
+
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  data.forEach(
+    function(item) {
+
+      const status =
+        String(
+          item.status || "-"
+        )
+        .trim()
+        .toUpperCase();
+
+
+      let badgeClass =
+        "alpha";
+
+
+      if (
+        status === "HADIR"
+      ) {
+
+        badgeClass =
+          "hadir";
+
+      } else if (
+        status === "TERLAMBAT"
+      ) {
+
+        badgeClass =
+          "terlambat";
+      }
+
+
+      tbody.innerHTML += `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(
+              item.npm || "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.nama || "-"
+            )}
+          </td>
+
+          <td>
+            P${escapeHtml(
+              item.pertemuan || "-"
+            )}
+          </td>
+
+          <td>
+
+            <span
+              class="badge ${badgeClass}"
+            >
+              ${escapeHtml(
+                status
+              )}
+            </span>
+
+          </td>
+
+        </tr>
+
+      `;
+    }
+  );
 }
 
 
 // =========================================
-// AUTO REFRESH
+// RANKING SEMUA UNIT
 // =========================================
-window.onload = function() {
+function renderRankingUnit(
+  data
+) {
 
-  initCharts();
+  const ranking =
+    document.getElementById(
+      "rankingContainer"
+    );
 
-  loadDashboard();
 
-  setInterval(
-    loadDashboard,
-    30000
+  if (!ranking) {
+    return;
+  }
+
+
+  if (!data.length) {
+
+    ranking.innerHTML = `
+      <p class="loading">
+        Belum ada data ranking unit.
+      </p>
+    `;
+
+    return;
+  }
+
+
+  const medal = [
+    "🥇",
+    "🥈",
+    "🥉"
+  ];
+
+
+  let html = `
+
+    <div
+      style="
+        margin-bottom:14px;
+        color:#64748b;
+        font-size:13px;
+      "
+    >
+      Ranking seluruh unit berdasarkan
+      persentase kehadiran
+    </div>
+
+  `;
+
+
+  data.forEach(
+    function(item, index) {
+
+      html += `
+
+        <div class="ranking-item">
+
+          <div class="left">
+
+            <span class="medal">
+
+              ${
+                medal[index] ||
+                (
+                  index + 1
+                )
+              }
+
+            </span>
+
+            <span>
+              Unit
+              ${escapeHtml(
+                item.unit
+              )}
+            </span>
+
+          </div>
+
+
+          <div class="right">
+
+            <b>
+              ${escapeHtml(
+                item.persentase ||
+                "0%"
+              )}
+            </b>
+
+          </div>
+
+        </div>
+
+      `;
+    }
   );
-};
+
+
+  ranking.innerHTML =
+    html;
+}
+
+
+// =========================================
+// ESCAPE HTML
+// =========================================
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value ?? ""
+  )
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+}
+
+
+// =========================================
+// START
+// =========================================
+window.onload =
+  function() {
+
+    initCharts();
+
+    loadDashboard();
+
+    setInterval(
+      loadDashboard,
+      30000
+    );
+  };
