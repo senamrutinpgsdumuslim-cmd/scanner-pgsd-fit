@@ -20,18 +20,12 @@ function initCharts() {
   const unitCanvas =
     document.getElementById("unitChart");
 
-
   if (!attendanceCanvas || !unitCanvas) {
-
-    console.error(
-      "Canvas chart tidak ditemukan"
-    );
-
+    console.error("Canvas chart tidak ditemukan");
     return;
   }
 
 
-  // Grafik awal
   const labels =
     Array.from(
       { length: 15 },
@@ -39,113 +33,102 @@ function initCharts() {
     );
 
 
-  attendanceChart =
-    new Chart(
-      attendanceCanvas,
-      {
-        type: "line",
+  attendanceChart = new Chart(
+    attendanceCanvas,
+    {
+      type: "line",
 
-        data: {
+      data: {
+        labels: labels,
 
-          labels: labels,
+        datasets: [{
+          label: "Kehadiran",
 
-          datasets: [{
-            label: "Kehadiran",
+          data:
+            new Array(15).fill(0),
 
-            data:
-              new Array(15).fill(0),
+          borderColor: "#1565C0",
 
-            borderColor:
-              "#1565C0",
+          backgroundColor:
+            "rgba(21,101,192,.15)",
 
-            backgroundColor:
-              "rgba(21,101,192,.15)",
+          fill: true,
 
-            fill: true,
+          tension: 0.35,
 
-            tension: 0.35,
+          pointRadius: 4,
 
-            pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
 
-            pointHoverRadius: 6
-          }]
+      options: {
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        animation: false,
+
+        plugins: {
+          legend: {
+            position: "top"
+          }
         },
 
-        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
 
-          responsive: true,
-
-          maintainAspectRatio: false,
-
-          animation: false,
-
-          plugins: {
-
-            legend: {
-              position: "top"
-            }
-          },
-
-          scales: {
-
-            y: {
-
-              beginAtZero: true,
-
-              ticks: {
-                precision: 0
-              }
+            ticks: {
+              precision: 0
             }
           }
         }
       }
-    );
+    }
+  );
 
 
-  unitChart =
-    new Chart(
-      unitCanvas,
-      {
-        type: "doughnut",
+  unitChart = new Chart(
+    unitCanvas,
+    {
+      type: "doughnut",
 
-        data: {
+      data: {
+        labels: [],
 
-          labels: [],
+        datasets: [{
+          data: [],
 
-          datasets: [{
-            data: [],
+          backgroundColor: [
+            "#1565C0",
+            "#16A34A",
+            "#F97316",
+            "#7C3AED",
+            "#E11D48",
+            "#0891B2",
+            "#65A30D",
+            "#EA580C",
+            "#475569"
+          ]
+        }]
+      },
 
-            backgroundColor: [
-              "#1565C0",
-              "#16A34A",
-              "#F97316",
-              "#7C3AED",
-              "#E11D48",
-              "#0891B2",
-              "#65A30D",
-              "#EA580C",
-              "#475569"
-            ]
-          }]
-        },
+      options: {
+        responsive: true,
 
-        options: {
+        maintainAspectRatio: false,
 
-          responsive: true,
+        animation: false,
 
-          maintainAspectRatio: false,
-
-          animation: false,
-
-          plugins: {
-
-            legend: {
-              position: "bottom"
-            }
+        plugins: {
+          legend: {
+            position: "bottom"
           }
         }
       }
-    );
+    }
+  );
 }
 
 
@@ -162,7 +145,6 @@ async function loadDashboard() {
         "&t=" +
         Date.now()
       );
-
 
     const result =
       await res.json();
@@ -211,7 +193,6 @@ async function loadDashboard() {
       statistik.pesertaAktif ?? 0;
 
 
-    // Kalau elemen ALPHA sudah ada di HTML
     const alphaCount =
       document.getElementById(
         "alphaCount"
@@ -238,7 +219,6 @@ async function loadDashboard() {
 
       tbody.innerHTML = "";
 
-
       const terbaru =
         result.terbaru || [];
 
@@ -262,66 +242,67 @@ async function loadDashboard() {
 
       } else {
 
-        terbaru.forEach(
-          function(item) {
+        terbaru.forEach(function(item) {
 
-            let badgeClass =
-              "alpha";
-
-
-            if (
-              item.status === "HADIR"
-            ) {
-
-              badgeClass =
-                "hadir";
-
-            } else if (
-              item.status === "TERLAMBAT"
-            ) {
-
-              badgeClass =
-                "terlambat";
-            }
+          const status =
+            String(
+              item.status || "-"
+            )
+            .trim()
+            .toUpperCase();
 
 
-            tbody.innerHTML += `
-              <tr>
+          let badgeClass =
+            "alpha";
 
-                <td>
-                  ${escapeHtml(
-                    item.npm || "-"
-                  )}
-                </td>
 
-                <td>
-                  ${escapeHtml(
-                    item.nama || "-"
-                  )}
-                </td>
+          if (status === "HADIR") {
+            badgeClass = "hadir";
 
-                <td>
-                  P${escapeHtml(
-                    item.pertemuan || "-"
-                  )}
-                </td>
+          } else if (
+            status === "TERLAMBAT"
+          ) {
+            badgeClass = "terlambat";
 
-                <td>
-
-                  <span
-                    class="badge ${badgeClass}"
-                  >
-                    ${escapeHtml(
-                      item.status || "-"
-                    )}
-                  </span>
-
-                </td>
-
-              </tr>
-            `;
+          } else if (
+            status === "ALPHA"
+          ) {
+            badgeClass = "alpha";
           }
-        );
+
+
+          tbody.innerHTML += `
+            <tr>
+
+              <td>
+                ${escapeHtml(
+                  item.npm || "-"
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  item.nama || "-"
+                )}
+              </td>
+
+              <td>
+                P${escapeHtml(
+                  item.pertemuan || "-"
+                )}
+              </td>
+
+              <td>
+                <span
+                  class="badge ${badgeClass}"
+                >
+                  ${escapeHtml(status)}
+                </span>
+              </td>
+
+            </tr>
+          `;
+        });
       }
     }
 
@@ -338,12 +319,8 @@ async function loadDashboard() {
       attendanceChart.data.labels =
         result.grafik.labels || [];
 
-
-      attendanceChart.data
-        .datasets[0]
-        .data =
+      attendanceChart.data.datasets[0].data =
         result.grafik.data || [];
-
 
       attendanceChart.update();
     }
@@ -363,20 +340,20 @@ async function loadDashboard() {
 
 
       unitChart.data.labels =
-        rankingUnit.map(
-          function(item) {
-            return "Unit " +
-              item.unit;
-          }
-        );
+        rankingUnit.map(function(item) {
+
+          return "Unit " +
+            item.unit;
+
+        });
 
 
       unitChart.data.datasets[0].data =
-        rankingUnit.map(
-          function(item) {
-            return item.hadir || 0;
-          }
-        );
+        rankingUnit.map(function(item) {
+
+          return item.hadir || 0;
+
+        });
 
 
       unitChart.update();
@@ -410,14 +387,7 @@ async function loadDashboard() {
 
       } else {
 
-        let html = `
-
-          <div class="ranking-title">
-            Ranking Unit + Angkatan
-          </div>
-
-        `;
-
+        let html = "";
 
         const medal = [
           "🥇",
@@ -430,7 +400,6 @@ async function loadDashboard() {
           function(item, index) {
 
             html += `
-
               <div class="ranking-item">
 
                 <div class="left">
@@ -446,7 +415,6 @@ async function loadDashboard() {
                     Unit ${escapeHtml(
                       item.unit
                     )}
-
                     • Angkatan
                     ${escapeHtml(
                       item.angkatan
@@ -467,7 +435,6 @@ async function loadDashboard() {
                 </div>
 
               </div>
-
             `;
           }
         );
@@ -507,15 +474,14 @@ function escapeHtml(value) {
 // =========================================
 // AUTO REFRESH
 // =========================================
-window.onload =
-  function() {
+window.onload = function() {
 
-    initCharts();
+  initCharts();
 
-    loadDashboard();
+  loadDashboard();
 
-    setInterval(
-      loadDashboard,
-      30000
-    );
-  };
+  setInterval(
+    loadDashboard,
+    30000
+  );
+};
