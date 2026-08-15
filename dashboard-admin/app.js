@@ -242,67 +242,50 @@ async function loadDashboard() {
 
       } else {
 
-        terbaru.forEach(function(item) {
+terbaru
+  .filter(function(item) {
+    return (
+      item.status === "HADIR" ||
+      item.status === "TERLAMBAT"
+    );
+  })
+  .forEach(function(item) {
 
-          const status =
-            String(
-              item.status || "-"
-            )
-            .trim()
-            .toUpperCase();
+    const status =
+      String(item.status || "-")
+        .trim()
+        .toUpperCase();
 
+    let badgeClass = "hadir";
 
-          let badgeClass =
-            "alpha";
+    if (status === "TERLAMBAT") {
+      badgeClass = "terlambat";
+    }
 
+    tbody.innerHTML += `
+      <tr>
 
-          if (status === "HADIR") {
-            badgeClass = "hadir";
+        <td>
+          ${escapeHtml(item.npm || "-")}
+        </td>
 
-          } else if (
-            status === "TERLAMBAT"
-          ) {
-            badgeClass = "terlambat";
+        <td>
+          ${escapeHtml(item.nama || "-")}
+        </td>
 
-          } else if (
-            status === "ALPHA"
-          ) {
-            badgeClass = "alpha";
-          }
+        <td>
+          P${escapeHtml(item.pertemuan || "-")}
+        </td>
 
+        <td>
+          <span class="badge ${badgeClass}">
+            ${escapeHtml(status)}
+          </span>
+        </td>
 
-          tbody.innerHTML += `
-            <tr>
-
-              <td>
-                ${escapeHtml(
-                  item.npm || "-"
-                )}
-              </td>
-
-              <td>
-                ${escapeHtml(
-                  item.nama || "-"
-                )}
-              </td>
-
-              <td>
-                P${escapeHtml(
-                  item.pertemuan || "-"
-                )}
-              </td>
-
-              <td>
-                <span
-                  class="badge ${badgeClass}"
-                >
-                  ${escapeHtml(status)}
-                </span>
-              </td>
-
-            </tr>
-          `;
-        });
+      </tr>
+    `;
+  });
       }
     }
 
