@@ -1,190 +1,1408 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard PGSD FIT</title>
+  <meta charset="UTF-8">
 
-<style>
-body{
-  font-family:Arial,sans-serif;
-  background:#f4f6f9;
-  margin:0;
-  padding:20px;
-}
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-.container{
-  max-width:900px;
-  margin:auto;
-}
+  <title>Dashboard Admin | PGSD FIT</title>
 
-h1{
-  text-align:center;
-  color:#0f4c81;
-}
+  <style>
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:15px;
-  margin:25px 0;
-}
+    *{
+      box-sizing:border-box;
+    }
 
-.card{
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  box-shadow:0 4px 10px rgba(0,0,0,.08);
-  text-align:center;
-}
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:
+        linear-gradient(
+          135deg,
+          #eef4ff,
+          #f8fafc
+        );
+      color:#172033;
+    }
 
-.card h2{
-  margin:0;
-  color:#0f4c81;
-  font-size:32px;
-}
+    .container{
+      width:min(1200px,94%);
+      margin:30px auto 50px;
+    }
 
-.section{
-  margin-top:30px;
-}
+    /* ================================
+       HEADER
+    ================================= */
 
-.section h3{
-  background:#0f4c81;
-  color:white;
-  padding:12px;
-  border-radius:8px;
-}
+    .header{
+      background:
+        linear-gradient(
+          135deg,
+          #0f4c81,
+          #174ea6,
+          #087f8c
+        );
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:white;
-}
+      color:white;
 
-th,td{
-  padding:12px;
-  border-bottom:1px solid #eee;
-  text-align:left;
-}
+      border-radius:22px;
 
-th{
-  background:#fafafa;
-}
+      padding:30px;
 
-.rank{
-  font-size:20px;
-}
+      box-shadow:
+        0 15px 35px
+        rgba(15,76,129,.22);
 
-footer{
-  text-align:center;
-  margin-top:25px;
-  color:#777;
-  font-size:14px;
-}
-</style>
+      margin-bottom:25px;
+    }
+
+    .header h1{
+      margin:0;
+      font-size:34px;
+      font-weight:800;
+    }
+
+    .header p{
+      margin:8px 0 0;
+      opacity:.9;
+    }
+
+    .refresh-info{
+      margin-top:15px;
+      font-size:13px;
+      opacity:.8;
+    }
+
+    /* ================================
+       STATISTIK
+    ================================= */
+
+    .grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(190px,1fr)
+        );
+
+      gap:16px;
+
+      margin:25px 0;
+    }
+
+    .card{
+      background:white;
+
+      border-radius:18px;
+
+      padding:22px;
+
+      box-shadow:
+        0 8px 22px
+        rgba(15,23,42,.08);
+
+      border:1px solid #e5eaf2;
+    }
+
+    .stat-label{
+      color:#64748b;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .card h2{
+      margin:8px 0 0;
+
+      color:#174ea6;
+
+      font-size:34px;
+      font-weight:800;
+    }
+
+    .card small{
+      display:block;
+
+      margin-top:6px;
+
+      color:#94a3b8;
+    }
+
+    /* ================================
+       SECTION
+    ================================= */
+
+    .section{
+      margin-top:30px;
+    }
+
+    .section-header{
+      background:
+        linear-gradient(
+          135deg,
+          #0f4c81,
+          #174ea6
+        );
+
+      color:white;
+
+      padding:15px 18px;
+
+      border-radius:14px 14px 0 0;
+    }
+
+    .section-header h2{
+      margin:0;
+      font-size:20px;
+    }
+
+    .section-header p{
+      margin:5px 0 0;
+      font-size:13px;
+      opacity:.85;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+
+      background:white;
+
+      border-radius:
+        0 0 14px 14px;
+
+      box-shadow:
+        0 8px 22px
+        rgba(15,23,42,.07);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    th,
+    td{
+      padding:13px 15px;
+
+      border-bottom:
+        1px solid #eef2f7;
+
+      text-align:left;
+    }
+
+    th{
+      background:#f8fafc;
+
+      color:#475569;
+
+      font-size:13px;
+
+      white-space:nowrap;
+    }
+
+    td{
+      font-size:14px;
+    }
+
+    tr:last-child td{
+      border-bottom:none;
+    }
+
+    tr:hover td{
+      background:#f8fbff;
+    }
+
+    /* ================================
+       BADGE
+    ================================= */
+
+    .badge{
+      display:inline-block;
+
+      padding:5px 10px;
+
+      border-radius:999px;
+
+      font-size:12px;
+
+      font-weight:700;
+    }
+
+    .badge-hadir{
+      background:#dcfce7;
+      color:#15803d;
+    }
+
+    .badge-terlambat{
+      background:#ffedd5;
+      color:#c2410c;
+    }
+
+    .badge-alpha{
+      background:#fee2e2;
+      color:#b91c1c;
+    }
+
+    /* ================================
+       RANK
+    ================================= */
+
+    .rank{
+      width:60px;
+
+      font-size:20px;
+
+      text-align:center;
+    }
+
+    .rank-number{
+      font-weight:800;
+      color:#174ea6;
+    }
+
+    .percent{
+      font-weight:800;
+      color:#0f766e;
+    }
+
+    /* ================================
+       LOADING
+    ================================= */
+
+    .loading{
+      padding:30px;
+
+      text-align:center;
+
+      color:#64748b;
+    }
+
+    .error{
+      background:#fee2e2;
+
+      color:#b91c1c;
+
+      padding:18px;
+
+      border-radius:12px;
+
+      margin-top:20px;
+
+      display:none;
+    }
+
+    /* ================================
+       FOOTER
+    ================================= */
+
+    footer{
+      text-align:center;
+
+      margin-top:35px;
+
+      color:#94a3b8;
+
+      font-size:13px;
+    }
+
+
+    /* ================================
+       RESPONSIVE
+    ================================= */
+
+    @media(max-width:600px){
+
+      .container{
+        width:94%;
+        margin-top:18px;
+      }
+
+      .header{
+        padding:22px;
+      }
+
+      .header h1{
+        font-size:26px;
+      }
+
+      .card h2{
+        font-size:30px;
+      }
+
+      th,
+      td{
+        padding:10px;
+      }
+    }
+
+  </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
-<h1>Dashboard PGSD FIT</h1>
 
-<div class="grid">
+  <!-- =========================================
+       HEADER
+  ========================================== -->
 
-<div class="card">
-<div>Hadir</div>
-<h2 id="hadir">0</h2>
+  <div class="header">
+
+    <h1>
+      Dashboard Admin PGSD FIT
+    </h1>
+
+    <p>
+      Monitoring kehadiran, perizinan,
+      ranking unit dan angkatan
+    </p>
+
+    <div
+      class="refresh-info"
+      id="updateInfo"
+    >
+      Memuat data...
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       STATISTIK
+  ========================================== -->
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="stat-label">
+        Peserta Aktif
+      </div>
+
+      <h2 id="aktif">
+        -
+      </h2>
+
+      <small>
+        Peserta terdaftar aktif
+      </small>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-label">
+        Hadir
+      </div>
+
+      <h2 id="hadir">
+        -
+      </h2>
+
+      <small>
+        HADIR + TERLAMBAT
+      </small>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-label">
+        Terlambat
+      </div>
+
+      <h2 id="terlambat">
+        -
+      </h2>
+
+      <small>
+        Tetap dihitung hadir
+      </small>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-label">
+        Alpha
+      </div>
+
+      <h2 id="alpha">
+        -
+      </h2>
+
+      <small>
+        Tidak tercatat scan
+      </small>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-label">
+        Izin
+      </div>
+
+      <h2 id="izin">
+        -
+      </h2>
+
+      <small>
+        Izin diterima
+      </small>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="stat-label">
+        Pertemuan Selesai
+      </div>
+
+      <h2 id="selesai">
+        -
+      </h2>
+
+      <small id="totalPertemuan">
+        dari -
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       RANKING UNIT + ANGKATAN
+  ========================================== -->
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <h2>
+        🏆 Ranking Unit + Angkatan
+      </h2>
+
+      <p>
+        Peringkat berdasarkan persentase
+        kehadiran peserta aktif
+      </p>
+
+    </div>
+
+
+    <div
+      class="table-wrap"
+      id="rankingUnitAngkatan"
+    >
+
+      <div class="loading">
+        Memuat ranking...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       RANKING UNIT
+  ========================================== -->
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <h2>
+        🏅 Ranking Unit
+      </h2>
+
+      <p>
+        Perbandingan seluruh unit
+      </p>
+
+    </div>
+
+
+    <div
+      class="table-wrap"
+      id="rankingUnit"
+    >
+
+      <div class="loading">
+        Memuat ranking...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       RANKING ANGKATAN
+  ========================================== -->
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <h2>
+        🎓 Ranking Angkatan
+      </h2>
+
+      <p>
+        Perbandingan seluruh angkatan
+      </p>
+
+    </div>
+
+
+    <div
+      class="table-wrap"
+      id="rankingAngkatan"
+    >
+
+      <div class="loading">
+        Memuat ranking...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       REKAP PERTEMUAN
+  ========================================== -->
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <h2>
+        📊 Rekap Pertemuan
+      </h2>
+
+      <p>
+        Statistik kehadiran setiap pertemuan
+      </p>
+
+    </div>
+
+
+    <div
+      class="table-wrap"
+      id="rekapPertemuan"
+    >
+
+      <div class="loading">
+        Memuat data...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       PESERTA TERBARU
+  ========================================== -->
+
+  <div class="section">
+
+    <div class="section-header">
+
+      <h2>
+        🕒 Aktivitas Terbaru
+      </h2>
+
+      <p>
+        Data peserta yang terakhir tercatat
+      </p>
+
+    </div>
+
+
+    <div
+      class="table-wrap"
+      id="terbaru"
+    >
+
+      <div class="loading">
+        Memuat data...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="errorBox"
+    class="error"
+  ></div>
+
+
+  <footer>
+    Dashboard PGSD FIT • Data diperbarui otomatis setiap 30 detik
+  </footer>
+
 </div>
 
-<div class="card">
-<div>Terlambat</div>
-<h2 id="terlambat">0</h2>
-</div>
-
-<div class="card">
-<div>Izin</div>
-<h2 id="izin">0</h2>
-</div>
-
-<div class="card">
-<div>Peserta Aktif</div>
-<h2 id="aktif">0</h2>
-</div>
-
-</div>
-
-<div id="ranking"></div>
-
-<footer>
-Update otomatis setiap 30 detik
-</footer>
-
-</div>
 
 <script>
 
-const API = "https://script.google.com/macros/s/AKfycbzwBgCzvU7H1LSMEiVO8gJ9iy1g1EmXhUchuewpBMQiJgIiWq3IJIgH8Y6H5m0nrU_3rw/exec?api=dashboard";
+  const API =
+    "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec";
 
-async function loadDashboard(){
 
-  const res = await fetch(API);
-  const data = await res.json();
+  // ====================================================
+  // JSONP
+  // ====================================================
 
-  document.getElementById("hadir").textContent =
-    data.statistik.hadir;
+  function loadDashboard(){
 
-  document.getElementById("terlambat").textContent =
-    data.statistik.terlambat;
+    const old =
+      document.getElementById(
+        "dashboardJsonp"
+      );
 
-  document.getElementById("izin").textContent =
-    data.statistik.izin;
+    if(old){
+      old.remove();
+    }
 
-  document.getElementById("aktif").textContent =
-    data.statistik.pesertaAktif;
 
-  let html = "";
+    window.dashboardCallback =
+      function(data){
 
-  Object.keys(data.rankingUnit).forEach(angkatan=>{
+        if(
+          !data ||
+          !data.sukses
+        ){
 
-    html += `
-      <div class="section">
-        <h3>Angkatan ${angkatan}</h3>
-        <table>
+          tampilError(
+            "Data Dashboard tidak tersedia."
+          );
+
+          return;
+        }
+
+
+        renderDashboard(data);
+
+      };
+
+
+    const script =
+      document.createElement(
+        "script"
+      );
+
+
+    script.id =
+      "dashboardJsonp";
+
+
+    script.src =
+      API +
+      "?api=dashboard" +
+      "&callback=dashboardCallback" +
+      "&_=" +
+      Date.now();
+
+
+    script.onerror =
+      function(){
+
+        tampilError(
+          "Gagal menghubungi server Dashboard."
+        );
+
+      };
+
+
+    document.body.appendChild(
+      script
+    );
+
+  }
+
+
+  // ====================================================
+  // RENDER DASHBOARD
+  // ====================================================
+
+  function renderDashboard(data){
+
+    const statistik =
+      data.statistik || {};
+
+
+    document.getElementById(
+      "aktif"
+    ).textContent =
+      statistik.pesertaAktif ?? 0;
+
+
+    document.getElementById(
+      "hadir"
+    ).textContent =
+      statistik.hadir ?? 0;
+
+
+    document.getElementById(
+      "terlambat"
+    ).textContent =
+      statistik.terlambat ?? 0;
+
+
+    document.getElementById(
+      "alpha"
+    ).textContent =
+      statistik.alpha ?? 0;
+
+
+    document.getElementById(
+      "izin"
+    ).textContent =
+      statistik.izin ?? 0;
+
+
+    document.getElementById(
+      "selesai"
+    ).textContent =
+      statistik.totalPertemuanSelesai ?? 0;
+
+
+    document.getElementById(
+      "totalPertemuan"
+    ).textContent =
+      "dari " +
+      (statistik.totalPertemuan ?? 0) +
+      " pertemuan";
+
+
+    document.getElementById(
+      "updateInfo"
+    ).textContent =
+      "Terakhir diperbarui: " +
+      new Date().toLocaleTimeString(
+        "id-ID"
+      );
+
+
+    renderRankingUnitAngkatan(
+      data.rankingUnitAngkatan || []
+    );
+
+
+    renderRankingUnit(
+      data.rankingUnitKeseluruhan || []
+    );
+
+
+    renderRankingAngkatan(
+      data.rankingAngkatan || []
+    );
+
+
+    renderRekapPertemuan(
+      data.grafik || {}
+    );
+
+
+    renderTerbaru(
+      data.terbaru || []
+    );
+
+
+    document.getElementById(
+      "errorBox"
+    ).style.display =
+      "none";
+  }
+
+
+  // ====================================================
+  // RANKING UNIT + ANGKATAN
+  // ====================================================
+
+  function renderRankingUnitAngkatan(
+    data
+  ){
+
+    const el =
+      document.getElementById(
+        "rankingUnitAngkatan"
+      );
+
+
+    if(!data.length){
+
+      el.innerHTML =
+        `<div class="loading">
+          Belum ada data ranking.
+        </div>`;
+
+      return;
+    }
+
+
+    let html = `
+
+      <table>
+
+        <thead>
+
           <tr>
-            <th>Peringkat</th>
+            <th>#</th>
             <th>Unit</th>
-            <th>Persentase</th>
+            <th>Angkatan</th>
             <th>Hadir</th>
+            <th>Peserta Aktif</th>
+            <th>Persentase</th>
           </tr>
+
+        </thead>
+
+        <tbody>
     `;
 
-    const medal=["🥇","🥈","🥉"];
 
-    data.rankingUnit[angkatan].forEach((u,i)=>{
+    data.forEach(
+      function(item,index){
 
-      html += `
-      <tr>
-        <td class="rank">${medal[i]}</td>
-        <td>Unit ${u.unit}</td>
-        <td>${u.persentase}</td>
-        <td>${u.hadir}</td>
-      </tr>
-      `;
+        let medal =
+          "";
 
-    });
+        if(index === 0) medal = "🥇";
+        else if(index === 1) medal = "🥈";
+        else if(index === 2) medal = "🥉";
 
-    html += `</table></div>`;
 
-  });
+        html += `
 
-  document.getElementById("ranking").innerHTML = html;
+          <tr>
 
-}
+            <td class="rank">
+              ${
+                medal ||
+                `<span class="rank-number">
+                  ${index + 1}
+                </span>`
+              }
+            </td>
 
-loadDashboard();
+            <td>
+              Unit ${escapeHtml(item.unit)}
+            </td>
 
-setInterval(loadDashboard,30000);
+            <td>
+              ${escapeHtml(item.angkatan)}
+            </td>
+
+            <td>
+              ${item.hadir ?? 0}
+            </td>
+
+            <td>
+              ${item.peserta ?? 0}
+            </td>
+
+            <td class="percent">
+              ${item.persentase ?? "0%"}
+            </td>
+
+          </tr>
+        `;
+      }
+    );
+
+
+    html += `
+        </tbody>
+
+      </table>
+    `;
+
+
+    el.innerHTML =
+      html;
+  }
+
+
+  // ====================================================
+  // RANKING UNIT
+  // ====================================================
+
+  function renderRankingUnit(
+    data
+  ){
+
+    const el =
+      document.getElementById(
+        "rankingUnit"
+      );
+
+
+    if(!data.length){
+
+      el.innerHTML =
+        `<div class="loading">
+          Belum ada data ranking.
+        </div>`;
+
+      return;
+    }
+
+
+    let html = `
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>#</th>
+            <th>Unit</th>
+            <th>Hadir</th>
+            <th>Peserta Aktif</th>
+            <th>Persentase</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+    `;
+
+
+    data.forEach(
+      function(item,index){
+
+        let medal =
+          "";
+
+        if(index === 0) medal = "🥇";
+        else if(index === 1) medal = "🥈";
+        else if(index === 2) medal = "🥉";
+
+
+        html += `
+
+          <tr>
+
+            <td class="rank">
+              ${
+                medal ||
+                `<span class="rank-number">
+                  ${index + 1}
+                </span>`
+              }
+            </td>
+
+            <td>
+              Unit ${escapeHtml(item.unit)}
+            </td>
+
+            <td>
+              ${item.hadir ?? 0}
+            </td>
+
+            <td>
+              ${item.peserta ?? 0}
+            </td>
+
+            <td class="percent">
+              ${item.persentase ?? "0%"}
+            </td>
+
+          </tr>
+
+        `;
+      }
+    );
+
+
+    html += `
+        </tbody>
+      </table>
+    `;
+
+
+    el.innerHTML =
+      html;
+  }
+
+
+  // ====================================================
+  // RANKING ANGKATAN
+  // ====================================================
+
+  function renderRankingAngkatan(
+    data
+  ){
+
+    const el =
+      document.getElementById(
+        "rankingAngkatan"
+      );
+
+
+    if(!data.length){
+
+      el.innerHTML =
+        `<div class="loading">
+          Belum ada data ranking.
+        </div>`;
+
+      return;
+    }
+
+
+    let html = `
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>#</th>
+            <th>Angkatan</th>
+            <th>Hadir</th>
+            <th>Peserta Aktif</th>
+            <th>Persentase</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+    `;
+
+
+    data.forEach(
+      function(item,index){
+
+        let medal =
+          "";
+
+        if(index === 0) medal = "🥇";
+        else if(index === 1) medal = "🥈";
+        else if(index === 2) medal = "🥉";
+
+
+        html += `
+
+          <tr>
+
+            <td class="rank">
+              ${
+                medal ||
+                `<span class="rank-number">
+                  ${index + 1}
+                </span>`
+              }
+            </td>
+
+            <td>
+              Angkatan
+              ${escapeHtml(item.angkatan)}
+            </td>
+
+            <td>
+              ${item.hadir ?? 0}
+            </td>
+
+            <td>
+              ${item.peserta ?? 0}
+            </td>
+
+            <td class="percent">
+              ${item.persentase ?? "0%"}
+            </td>
+
+          </tr>
+
+        `;
+      }
+    );
+
+
+    html += `
+        </tbody>
+      </table>
+    `;
+
+
+    el.innerHTML =
+      html;
+  }
+
+
+  // ====================================================
+  // REKAP PERTEMUAN
+  // ====================================================
+
+  function renderRekapPertemuan(
+    grafik
+  ){
+
+    const el =
+      document.getElementById(
+        "rekapPertemuan"
+      );
+
+
+    const labels =
+      grafik.labels || [];
+
+    const values =
+      grafik.data || [];
+
+
+    if(!labels.length){
+
+      el.innerHTML =
+        `<div class="loading">
+          Belum ada data pertemuan.
+        </div>`;
+
+      return;
+    }
+
+
+    let html = `
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Pertemuan</th>
+            <th>Total Hadir</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+    `;
+
+
+    labels.forEach(
+      function(label,index){
+
+        html += `
+
+          <tr>
+
+            <td>
+              ${escapeHtml(label)}
+            </td>
+
+            <td>
+              ${values[index] ?? 0}
+            </td>
+
+          </tr>
+
+        `;
+      }
+    );
+
+
+    html += `
+        </tbody>
+      </table>
+    `;
+
+
+    el.innerHTML =
+      html;
+  }
+
+
+  // ====================================================
+  // AKTIVITAS TERBARU
+  // ====================================================
+
+  function renderTerbaru(
+    data
+  ){
+
+    const el =
+      document.getElementById(
+        "terbaru"
+      );
+
+
+    if(!data.length){
+
+      el.innerHTML =
+        `<div class="loading">
+          Belum ada aktivitas.
+        </div>`;
+
+      return;
+    }
+
+
+    let html = `
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Nama</th>
+            <th>NPM</th>
+            <th>Unit</th>
+            <th>Pertemuan</th>
+            <th>Status</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+    `;
+
+
+    data.forEach(
+      function(item){
+
+        let badge =
+          "badge-alpha";
+
+        let label =
+          "ALPHA";
+
+
+        if(item.status === "HADIR"){
+
+          badge =
+            "badge-hadir";
+
+          label =
+            "HADIR";
+        }
+
+
+        if(item.status === "TERLAMBAT"){
+
+          badge =
+            "badge-terlambat";
+
+          label =
+            "TERLAMBAT";
+        }
+
+
+        html += `
+
+          <tr>
+
+            <td>
+              ${escapeHtml(item.nama || "-")}
+            </td>
+
+            <td>
+              ${escapeHtml(item.npm || "-")}
+            </td>
+
+            <td>
+              ${escapeHtml(item.unit || "-")}
+            </td>
+
+            <td>
+              P${escapeHtml(item.pertemuan || "-")}
+            </td>
+
+            <td>
+              <span
+                class="badge ${badge}"
+              >
+                ${label}
+              </span>
+            </td>
+
+          </tr>
+
+        `;
+      }
+    );
+
+
+    html += `
+        </tbody>
+      </table>
+    `;
+
+
+    el.innerHTML =
+      html;
+  }
+
+
+  // ====================================================
+  // ERROR
+  // ====================================================
+
+  function tampilError(
+    pesan
+  ){
+
+    const box =
+      document.getElementById(
+        "errorBox"
+      );
+
+
+    box.textContent =
+      pesan;
+
+
+    box.style.display =
+      "block";
+  }
+
+
+  // ====================================================
+  // SECURITY
+  // ====================================================
+
+  function escapeHtml(
+    value
+  ){
+
+    return String(value ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // ====================================================
+  // LOAD
+  // ====================================================
+
+  loadDashboard();
+
+
+  setInterval(
+    loadDashboard,
+    30000
+  );
 
 </script>
 
