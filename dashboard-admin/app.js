@@ -386,10 +386,9 @@ async function loadDashboard() {
     // RANKING SEMUA UNIT
     // =======================================
 
-    renderRankingUnit(
-      result.rankingUnitKeseluruhan ||
-      []
-    );
+renderRankingUnitPerAngkatan(
+  result.rankingUnit || {}
+);
 
   }
 
@@ -402,124 +401,118 @@ async function loadDashboard() {
   }
 }
 
+function renderRankingUnitPerAngkatan(data) {
 
-// =========================================
-// RENDER ABSENSI TERBARU
-// SEMUA STATUS
-// =========================================
-function renderAbsensiTerbaru(
-  data
-) {
-
-  const tbody =
+  const ranking =
     document.getElementById(
-      "absensiTerbaru"
+      "rankingContainer"
     );
 
 
-  if (!tbody) {
+  if (!ranking) {
     return;
   }
 
 
-  tbody.innerHTML = "";
+  const angkatanKeys =
+    Object.keys(data)
+      .sort(function(a, b) {
+
+        return String(b)
+          .localeCompare(String(a));
+
+      });
 
 
-  if (!data.length) {
+  if (!angkatanKeys.length) {
 
-    tbody.innerHTML = `
-      <tr>
-
-        <td
-          colspan="4"
-          style="
-            text-align:center;
-            color:#64748b;
-            padding:25px;
-          "
-        >
-          Data tidak ditemukan.
-        </td>
-
-      </tr>
+    ranking.innerHTML = `
+      <p class="loading">
+        Belum ada data klasemen.
+      </p>
     `;
 
     return;
   }
 
 
-  data.forEach(
-    function(item) {
-
-      const status =
-        String(
-          item.status || "-"
-        )
-        .trim()
-        .toUpperCase();
+  const medal = [
+    "🥇",
+    "🥈",
+    "🥉"
+  ];
 
 
-      let badgeClass =
-        "alpha";
+  let html = "";
 
 
-      if (
-        status === "HADIR"
-      ) {
+  angkatanKeys.forEach(function(angkatan) {
 
-        badgeClass =
-          "hadir";
+    html += `
 
-      } else if (
-        status === "TERLAMBAT"
-      ) {
+      <div
+        class="ranking-angkatan-title"
+        style="
+          margin-top:22px;
+          margin-bottom:10px;
+          font-size:18px;
+          font-weight:800;
+          color:#174ea6;
+        "
+      >
+        Angkatan ${escapeHtml(angkatan)}
+      </div>
 
-        badgeClass =
-          "terlambat";
+    `;
+
+
+    data[angkatan].forEach(
+      function(item, index) {
+
+        html += `
+
+          <div class="ranking-item">
+
+            <div class="left">
+
+              <span class="medal">
+                ${
+                  medal[index] ||
+                  (index + 1)
+                }
+              </span>
+
+              <span>
+                Unit ${escapeHtml(
+                  item.unit
+                )}
+              </span>
+
+            </div>
+
+
+            <div class="right">
+
+              <b>
+                ${escapeHtml(
+                  item.persentase
+                )}
+              </b>
+
+            </div>
+
+          </div>
+
+        `;
       }
+    );
+
+  });
 
 
-      tbody.innerHTML += `
-
-        <tr>
-
-          <td>
-            ${escapeHtml(
-              item.npm || "-"
-            )}
-          </td>
-
-          <td>
-            ${escapeHtml(
-              item.nama || "-"
-            )}
-          </td>
-
-          <td>
-            P${escapeHtml(
-              item.pertemuan || "-"
-            )}
-          </td>
-
-          <td>
-
-            <span
-              class="badge ${badgeClass}"
-            >
-              ${escapeHtml(
-                status
-              )}
-            </span>
-
-          </td>
-
-        </tr>
-
-      `;
-    }
-  );
+  ranking.innerHTML =
+    html;
 }
-
 
 // =========================================
 // RANKING SEMUA UNIT
