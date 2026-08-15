@@ -121,12 +121,40 @@
 
 </section>
 
-      <section class="table-card">
+<section class="table-card">
 
-        <div class="table-header">
-          <h3>Absensi Terbaru</h3>
-          <button type="button" onclick="loadDashboard()">Refresh</button>
-        </div>
+  <div class="table-header">
+
+    <div>
+      <h3>Absensi Terbaru</h3>
+      <p style="margin:5px 0 0;color:#64748b;font-size:13px;">
+        HADIR, TERLAMBAT, dan ALPHA
+      </p>
+    </div>
+
+    <button
+      type="button"
+      onclick="loadDashboard()"
+    >
+      Refresh
+    </button>
+
+  </div>
+
+
+  <div
+    class="search-box"
+    style="margin:18px 0;"
+  >
+
+    <input
+      type="text"
+      id="searchAbsensi"
+      placeholder="Cari nama, NPM, unit, atau status..."
+      autocomplete="off"
+    >
+
+  </div>
 
         <table>
           <thead>
