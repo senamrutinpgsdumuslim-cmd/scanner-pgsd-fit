@@ -1,12 +1,12 @@
 // =========================================
-// DASHBOARD ADMIN PGSD FIT
+// DASHBOARD ADMIN PGSD FIT - FINAL
 // =========================================
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec?api=dashboard";
 
-let attendanceChart;
-let unitChart;
+let attendanceChart = null;
+let unitChart = null;
 
 let absensiTerbaruData = [];
 
@@ -17,26 +17,20 @@ let absensiTerbaruData = [];
 function initCharts() {
 
   const attendanceCanvas =
-    document.getElementById(
-      "attendanceChart"
-    );
+    document.getElementById("attendanceChart");
 
   const unitCanvas =
-    document.getElementById(
-      "unitChart"
-    );
+    document.getElementById("unitChart");
 
-  if (
-    !attendanceCanvas ||
-    !unitCanvas
-  ) {
-    console.error(
-      "Canvas chart tidak ditemukan"
-    );
-
+  if (!attendanceCanvas || !unitCanvas) {
+    console.error("Canvas chart tidak ditemukan.");
     return;
   }
 
+
+  // =======================================
+  // GRAFIK KEHADIRAN
+  // =======================================
 
   const labels =
     Array.from(
@@ -52,18 +46,14 @@ function initCharts() {
         type: "line",
 
         data: {
-
           labels: labels,
 
           datasets: [{
-            label:
-              "Kehadiran",
+            label: "Kehadiran",
 
-            data:
-              new Array(15).fill(0),
+            data: new Array(15).fill(0),
 
-            borderColor:
-              "#1565C0",
+            borderColor: "#1565C0",
 
             backgroundColor:
               "rgba(21,101,192,.15)",
@@ -88,8 +78,7 @@ function initCharts() {
 
           plugins: {
             legend: {
-              position:
-                "top"
+              position: "top"
             }
           },
 
@@ -106,6 +95,10 @@ function initCharts() {
       }
     );
 
+
+  // =======================================
+  // GRAFIK KEHADIRAN PER UNIT
+  // =======================================
 
   unitChart =
     new Chart(
@@ -143,10 +136,8 @@ function initCharts() {
           animation: false,
 
           plugins: {
-
             legend: {
-              position:
-                "bottom"
+              position: "bottom"
             }
           }
         }
@@ -162,7 +153,7 @@ async function loadDashboard() {
 
   try {
 
-    const res =
+    const response =
       await fetch(
         API_URL +
         "&t=" +
@@ -171,10 +162,10 @@ async function loadDashboard() {
 
 
     const result =
-      await res.json();
+      await response.json();
 
 
-    if (!result.sukses) {
+    if (!result || !result.sukses) {
 
       console.error(
         "Dashboard API gagal:",
@@ -189,40 +180,21 @@ async function loadDashboard() {
     // STATISTIK
     // =======================================
 
-    const statistik =
-      result.statistik || {};
-
-
-    document.getElementById(
-      "hadirCount"
-    ).textContent =
-      statistik.hadir ?? 0;
-
-
-    document.getElementById(
-      "terlambatCount"
-    ).textContent =
-      statistik.terlambat ?? 0;
-
-
-    document.getElementById(
-      "izinCount"
-    ).textContent =
-      statistik.izin ?? 0;
-
-
-    document.getElementById(
-      "pesertaAktifCount"
-    ).textContent =
-      statistik.pesertaAktif ?? 0;
+    renderStatistik(
+      result.statistik || {}
+    );
 
 
     // =======================================
-    // DATA ABSENSI TERBARU
+    // ABSENSI TERBARU
+    // Maksimal data sesuai kiriman backend
+    // HADIR + TERLAMBAT + ALPHA
     // =======================================
 
     absensiTerbaruData =
-      result.terbaru || [];
+      Array.isArray(result.terbaru)
+        ? result.terbaru
+        : [];
 
 
     renderAbsensiTerbaru(
@@ -231,93 +203,14 @@ async function loadDashboard() {
 
 
     // =======================================
-    // SEARCH
+    // SEARCH ABSENSI
     // =======================================
 
-    const searchInput =
-      document.getElementById(
-        "searchAbsensi"
-      );
-
-
-    if (searchInput) {
-
-      searchInput.oninput =
-        function() {
-
-          const keyword =
-            this.value
-              .trim()
-              .toLowerCase();
-
-
-          const hasil =
-            absensiTerbaruData.filter(
-              function(item) {
-
-                return (
-
-                  String(
-                    item.nama || ""
-                  )
-                  .toLowerCase()
-                  .includes(
-                    keyword
-                  )
-
-                  ||
-
-                  String(
-                    item.npm || ""
-                  )
-                  .toLowerCase()
-                  .includes(
-                    keyword
-                  )
-
-                  ||
-
-                  String(
-                    item.unit || ""
-                  )
-                  .toLowerCase()
-                  .includes(
-                    keyword
-                  )
-
-                  ||
-
-                  String(
-                    item.status || ""
-                  )
-                  .toLowerCase()
-                  .includes(
-                    keyword
-                  )
-
-                  ||
-
-                  String(
-                    item.pertemuan || ""
-                  )
-                  .toLowerCase()
-                  .includes(
-                    keyword
-                  )
-                );
-              }
-            );
-
-
-          renderAbsensiTerbaru(
-            hasil
-          );
-        };
-    }
+    setupSearchAbsensi();
 
 
     // =======================================
-    // GRAFIK KEHADIRAN
+    // GRAFIK KEHADIRAN PER PERTEMUAN
     // =======================================
 
     if (
@@ -326,13 +219,21 @@ async function loadDashboard() {
     ) {
 
       attendanceChart.data.labels =
-        result.grafik.labels || [];
+        Array.isArray(
+          result.grafik.labels
+        )
+          ? result.grafik.labels
+          : [];
 
 
       attendanceChart.data
         .datasets[0]
         .data =
-        result.grafik.data || [];
+        Array.isArray(
+          result.grafik.data
+        )
+          ? result.grafik.data
+          : [];
 
 
       attendanceChart.update();
@@ -345,32 +246,35 @@ async function loadDashboard() {
 
     if (
       unitChart &&
-      result.rankingUnitKeseluruhan
+      Array.isArray(
+        result.rankingUnitKeseluruhan
+      )
     ) {
 
-      const rankingUnit =
+      const dataUnit =
         result.rankingUnitKeseluruhan;
 
 
       unitChart.data.labels =
-        rankingUnit.map(
+        dataUnit.map(
           function(item) {
 
             return (
               "Unit " +
-              item.unit
+              String(
+                item.unit || "-"
+              )
             );
 
           }
         );
 
 
-      unitChart.data.datasets[0]
-        .data =
-        rankingUnit.map(
+      unitChart.data.datasets[0].data =
+        dataUnit.map(
           function(item) {
 
-            return (
+            return Number(
               item.hadir || 0
             );
 
@@ -383,25 +287,329 @@ async function loadDashboard() {
 
 
     // =======================================
-    // RANKING SEMUA UNIT
+    // KLASEMEN UNIT PER ANGKATAN
     // =======================================
 
-renderRankingUnitPerAngkatan(
-  result.rankingUnit || {}
-);
+    renderRankingUnitPerAngkatan(
+      result.rankingUnit || {}
+    );
 
-  }
 
-  catch (err) {
+  } catch (error) {
 
     console.error(
       "Error Dashboard:",
-      err
+      error
     );
   }
 }
 
-function renderRankingUnitPerAngkatan(data) {
+
+// =========================================
+// RENDER STATISTIK
+// =========================================
+function renderStatistik(
+  statistik
+) {
+
+  const hadirCount =
+    document.getElementById(
+      "hadirCount"
+    );
+
+  const terlambatCount =
+    document.getElementById(
+      "terlambatCount"
+    );
+
+  const izinCount =
+    document.getElementById(
+      "izinCount"
+    );
+
+  const pesertaAktifCount =
+    document.getElementById(
+      "pesertaAktifCount"
+    );
+
+  const alphaCount =
+    document.getElementById(
+      "alphaCount"
+    );
+
+
+  if (hadirCount) {
+
+    hadirCount.textContent =
+      statistik.hadir ?? 0;
+  }
+
+
+  if (terlambatCount) {
+
+    terlambatCount.textContent =
+      statistik.terlambat ?? 0;
+  }
+
+
+  if (izinCount) {
+
+    izinCount.textContent =
+      statistik.izin ?? 0;
+  }
+
+
+  if (pesertaAktifCount) {
+
+    pesertaAktifCount.textContent =
+      statistik.pesertaAktif ?? 0;
+  }
+
+
+  // Dipakai jika kartu Alpha sudah tersedia
+  if (alphaCount) {
+
+    alphaCount.textContent =
+      statistik.alpha ?? 0;
+  }
+}
+
+
+// =========================================
+// RENDER ABSENSI TERBARU
+// SEMUA STATUS:
+// HADIR
+// TERLAMBAT
+// ALPHA
+// =========================================
+function renderAbsensiTerbaru(
+  data
+) {
+
+  const tbody =
+    document.getElementById(
+      "absensiTerbaru"
+    );
+
+
+  if (!tbody) {
+    return;
+  }
+
+
+  tbody.innerHTML = "";
+
+
+  if (!data.length) {
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="4"
+          style="
+            text-align:center;
+            color:#64748b;
+            padding:24px;
+          "
+        >
+          Data absensi tidak ditemukan.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  data.forEach(
+    function(item) {
+
+      const status =
+        String(
+          item.status || "-"
+        )
+        .trim()
+        .toUpperCase();
+
+
+      let badgeClass =
+        "alpha";
+
+
+      if (status === "HADIR") {
+
+        badgeClass =
+          "hadir";
+
+      } else if (
+        status === "TERLAMBAT"
+      ) {
+
+        badgeClass =
+          "terlambat";
+
+      } else if (
+        status === "ALPHA"
+      ) {
+
+        badgeClass =
+          "alpha";
+      }
+
+
+      tbody.innerHTML += `
+        <tr>
+
+          <td>
+            ${escapeHtml(
+              item.npm || "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.nama || "-"
+            )}
+          </td>
+
+          <td>
+            P${escapeHtml(
+              item.pertemuan || "-"
+            )}
+          </td>
+
+          <td>
+            <span
+              class="badge ${badgeClass}"
+            >
+              ${escapeHtml(
+                status
+              )}
+            </span>
+          </td>
+
+        </tr>
+      `;
+    }
+  );
+}
+
+
+// =========================================
+// SEARCH ABSENSI
+// Cari berdasarkan:
+// Nama
+// NPM
+// Unit
+// Status
+// Pertemuan
+// =========================================
+function setupSearchAbsensi() {
+
+  const input =
+    document.getElementById(
+      "searchAbsensi"
+    );
+
+
+  if (!input) {
+    return;
+  }
+
+
+  // Hindari event listener berulang
+  if (
+    input.dataset.searchReady === "true"
+  ) {
+    return;
+  }
+
+
+  input.dataset.searchReady =
+    "true";
+
+
+  input.addEventListener(
+    "input",
+    function() {
+
+      const keyword =
+        String(
+          this.value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+      if (!keyword) {
+
+        renderAbsensiTerbaru(
+          absensiTerbaruData
+        );
+
+        return;
+      }
+
+
+      const hasil =
+        absensiTerbaruData.filter(
+          function(item) {
+
+            const nama =
+              String(
+                item.nama || ""
+              ).toLowerCase();
+
+
+            const npm =
+              String(
+                item.npm || ""
+              ).toLowerCase();
+
+
+            const unit =
+              String(
+                item.unit || ""
+              ).toLowerCase();
+
+
+            const status =
+              String(
+                item.status || ""
+              ).toLowerCase();
+
+
+            const pertemuan =
+              String(
+                item.pertemuan || ""
+              ).toLowerCase();
+
+
+            return (
+              nama.includes(keyword) ||
+              npm.includes(keyword) ||
+              unit.includes(keyword) ||
+              status.includes(keyword) ||
+              pertemuan.includes(keyword)
+            );
+          }
+        );
+
+
+      renderAbsensiTerbaru(
+        hasil
+      );
+    }
+  );
+}
+
+
+// =========================================
+// KLASEMEN UNIT PER ANGKATAN
+// =========================================
+function renderRankingUnitPerAngkatan(
+  data
+) {
 
   const ranking =
     document.getElementById(
@@ -415,13 +623,19 @@ function renderRankingUnitPerAngkatan(data) {
 
 
   const angkatanKeys =
-    Object.keys(data)
-      .sort(function(a, b) {
+    Object.keys(
+      data || {}
+    )
+    .sort(
+      function(a, b) {
 
         return String(b)
-          .localeCompare(String(a));
+          .localeCompare(
+            String(a)
+          );
 
-      });
+      }
+    );
 
 
   if (!angkatanKeys.length) {
@@ -446,171 +660,86 @@ function renderRankingUnitPerAngkatan(data) {
   let html = "";
 
 
-  angkatanKeys.forEach(function(angkatan) {
+  angkatanKeys.forEach(
+    function(angkatan) {
 
-    html += `
-
-      <div
-        class="ranking-angkatan-title"
-        style="
-          margin-top:22px;
-          margin-bottom:10px;
-          font-size:18px;
-          font-weight:800;
-          color:#174ea6;
-        "
-      >
-        Angkatan ${escapeHtml(angkatan)}
-      </div>
-
-    `;
+      const daftarUnit =
+        Array.isArray(
+          data[angkatan]
+        )
+          ? data[angkatan]
+          : [];
 
 
-    data[angkatan].forEach(
-      function(item, index) {
-
-        html += `
-
-          <div class="ranking-item">
-
-            <div class="left">
-
-              <span class="medal">
-                ${
-                  medal[index] ||
-                  (index + 1)
-                }
-              </span>
-
-              <span>
-                Unit ${escapeHtml(
-                  item.unit
-                )}
-              </span>
-
-            </div>
-
-
-            <div class="right">
-
-              <b>
-                ${escapeHtml(
-                  item.persentase
-                )}
-              </b>
-
-            </div>
-
-          </div>
-
-        `;
-      }
-    );
-
-  });
-
-
-  ranking.innerHTML =
-    html;
-}
-
-// =========================================
-// RANKING SEMUA UNIT
-// =========================================
-function renderRankingUnit(
-  data
-) {
-
-  const ranking =
-    document.getElementById(
-      "rankingContainer"
-    );
-
-
-  if (!ranking) {
-    return;
-  }
-
-
-  if (!data.length) {
-
-    ranking.innerHTML = `
-      <p class="loading">
-        Belum ada data ranking unit.
-      </p>
-    `;
-
-    return;
-  }
-
-
-  const medal = [
-    "🥇",
-    "🥈",
-    "🥉"
-  ];
-
-
-  let html = `
-
-    <div
-      style="
-        margin-bottom:14px;
-        color:#64748b;
-        font-size:13px;
-      "
-    >
-      Ranking seluruh unit berdasarkan
-      persentase kehadiran
-    </div>
-
-  `;
-
-
-  data.forEach(
-    function(item, index) {
-
+      // Judul angkatan
       html += `
-
-        <div class="ranking-item">
-
-          <div class="left">
-
-            <span class="medal">
-
-              ${
-                medal[index] ||
-                (
-                  index + 1
-                )
-              }
-
-            </span>
-
-            <span>
-              Unit
-              ${escapeHtml(
-                item.unit
-              )}
-            </span>
-
-          </div>
-
-
-          <div class="right">
-
-            <b>
-              ${escapeHtml(
-                item.persentase ||
-                "0%"
-              )}
-            </b>
-
-          </div>
-
+        <div
+          class="ranking-angkatan-title"
+          style="
+            margin-top:22px;
+            margin-bottom:10px;
+            font-size:18px;
+            font-weight:800;
+            color:#174ea6;
+          "
+        >
+          Angkatan
+          ${escapeHtml(
+            angkatan
+          )}
         </div>
-
       `;
+
+
+      daftarUnit.forEach(
+        function(item, index) {
+
+          html += `
+            <div
+              class="ranking-item"
+            >
+
+              <div
+                class="left"
+              >
+
+                <span
+                  class="medal"
+                >
+                  ${
+                    medal[index] ||
+                    (index + 1)
+                  }
+                </span>
+
+                <span>
+                  Unit
+                  ${escapeHtml(
+                    item.unit || "-"
+                  )}
+                </span>
+
+              </div>
+
+
+              <div
+                class="right"
+              >
+
+                <b>
+                  ${escapeHtml(
+                    item.persentase ||
+                    "0%"
+                  )}
+                </b>
+
+              </div>
+
+            </div>
+          `;
+        }
+      );
+
     }
   );
 
@@ -630,27 +759,22 @@ function escapeHtml(
   return String(
     value ?? ""
   )
-
     .replaceAll(
       "&",
       "&amp;"
     )
-
     .replaceAll(
       "<",
       "&lt;"
     )
-
     .replaceAll(
       ">",
       "&gt;"
     )
-
     .replaceAll(
       '"',
       "&quot;"
     )
-
     .replaceAll(
       "'",
       "&#039;"
@@ -659,9 +783,10 @@ function escapeHtml(
 
 
 // =========================================
-// START
+// START DASHBOARD
 // =========================================
-window.onload =
+window.addEventListener(
+  "load",
   function() {
 
     initCharts();
@@ -672,4 +797,5 @@ window.onload =
       loadDashboard,
       30000
     );
-  };
+  }
+);
