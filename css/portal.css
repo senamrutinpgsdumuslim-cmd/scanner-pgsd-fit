@@ -1035,363 +1035,254 @@ input{
 
 }
 /* =========================================================
-   DOKUMENTASI PGSD FIT — FINAL
+   DOKUMENTASI PGSD FIT — FINAL FIX
    ========================================================= */
 
-.portal-documentation-section {
-  width: min(1180px, 92%);
-  margin: 0 auto;
-  padding: 70px 0 80px;
+.portal-documentation-section{
+  width:min(1180px,92%);
+  margin:0 auto;
+  padding:70px 0 80px;
 }
 
-.portal-section-heading {
-  margin-bottom: 35px;
+.portal-section-heading{
+  margin-bottom:35px;
 }
 
-.portal-section-label {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: #1769d1;
+.portal-section-label{
+  display:block;
+  margin-bottom:10px;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:#1769d1;
 }
 
-.portal-section-heading h2 {
-  margin: 0;
-  font-size: clamp(32px, 4vw, 48px);
-  line-height: 1.15;
-  font-weight: 800;
-  color: #172d50;
+.portal-section-heading h2{
+  margin:0;
+  font-size:clamp(32px,4vw,48px);
+  line-height:1.15;
+  font-weight:800;
+  color:#172d50;
 }
 
-.portal-section-heading p {
-  max-width: 720px;
-  margin: 12px 0 0;
-  font-size: 16px;
-  line-height: 1.7;
-  color: #64748b;
+.portal-section-heading p{
+  max-width:720px;
+  margin:12px 0 0;
+  font-size:16px;
+  line-height:1.7;
+  color:#64748b;
 }
 
-#portalDokumentasi {
-  width: 100%;
-}
-
-/* CARD PERTEMUAN */
-.portal-doc-meeting {
-  width: 100%;
-  margin-bottom: 35px;
-  background: #fff;
-  border: 1px solid #e5eaf2;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 14px 40px rgba(15,35,70,.08);
-}
-
-/* HEADER */
-.portal-doc-meeting-header {
-  padding: 28px 30px 20px;
-}
-
-.portal-doc-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 15px;
-  border-radius: 999px;
-  background: #e7f1ff;
-  color: #1769d1;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.portal-doc-meeting-title {
-  margin: 14px 0 5px;
-  font-size: 25px;
-  line-height: 1.3;
-  font-weight: 800;
-  color: #172d50;
-}
-
-.portal-doc-date {
-  margin: 0;
-  font-size: 15px;
-  color: #718096;
-}
-
-/* GALERI */
-.portal-doc-gallery {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  padding: 0 30px 30px;
-}
-
-/* FOTO */
-.portal-doc-photo {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #eef3f8;
-  display: block;
-  text-decoration: none;
-  box-shadow: 0 6px 18px rgba(15,35,70,.08);
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-
-.portal-doc-photo:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(15,35,70,.15);
-}
-
-/* FOTO TIDAK DIPOTONG */
-.portal-doc-photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: #eef3f8;
-}
-
-/* ZOOM */
-.portal-doc-photo::after {
-  content: "🔍";
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(15,35,70,.78);
-  color: #fff;
-  font-size: 15px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease;
-}
-
-.portal-doc-photo:hover::after {
-  opacity: 1;
-}
-
-/* FOOTER */
-.portal-doc-footer {
-  padding: 0 30px 26px;
-  font-size: 14px;
-  color: #718096;
-}
-
-/* KOSONG */
-.portal-doc-empty {
-  width: 100%;
-  padding: 60px 30px;
-  text-align: center;
-  background: #fff;
-  border: 1px solid #e5eaf2;
-  border-radius: 24px;
-  box-shadow: 0 14px 40px rgba(15,35,70,.06);
-}
-
-.portal-doc-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-}
-
-.portal-doc-empty h3 {
-  margin: 0 0 8px;
-  font-size: 22px;
-  color: #172d50;
-}
-
-.portal-doc-empty p {
-  margin: 0;
-  color: #718096;
-}
-
-/* MODAL */
-.portal-photo-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
-  background: rgba(8,18,35,.92);
-}
-
-.portal-photo-modal.active {
-  display: flex;
-}
-
-.portal-photo-modal img {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 92vw;
-  max-height: 88vh;
-  object-fit: contain;
-  border-radius: 12px;
-}
-
-.portal-photo-modal-close {
-  position: fixed;
-  top: 22px;
-  right: 28px;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255,255,255,.15);
-  color: #fff;
-  font-size: 25px;
-  cursor: pointer;
-}
-
-/* TABLET */
-@media (max-width: 900px) {
-  .portal-documentation-section {
-    width: 92%;
-    padding: 60px 0 70px;
-  }
-
-  .portal-doc-gallery {
-    grid-template-columns: repeat(2, minmax(0,1fr));
-    gap: 12px;
-    padding: 0 20px 20px;
-  }
-
-  .portal-doc-meeting-header {
-    padding: 24px 20px 18px;
-  }
-
-  .portal-doc-footer {
-    padding: 0 20px 20px;
-  }
-}
-
-/* HP */
-@media (max-width: 600px) {
-  .portal-documentation-section {
-    width: 92%;
-    padding: 50px 0 60px;
-  }
-
-  .portal-section-heading h2 {
-    font-size: 30px;
-  }
-
-  .portal-section-heading p {
-    font-size: 14px;
-  }
-
-  .portal-doc-meeting {
-    border-radius: 18px;
-  }
-
-  .portal-doc-meeting-header {
-    padding: 20px 18px 16px;
-  }
-
-  .portal-doc-meeting-title {
-    font-size: 21px;
-  }
-
-  .portal-doc-gallery {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 0 18px 20px;
-  }
-
-  .portal-doc-photo {
-    aspect-ratio: 4 / 3;
-    border-radius: 12px;
-  }
-   /* =========================================================
-   🔥 FIX FOTO DOKUMENTASI — PAKSA
+/* =========================================================
+   TEMPAT ARSIP
    ========================================================= */
 
 #portalDokumentasi{
-  width:100% !important;
-  max-width:1100px !important;
-  margin:0 auto !important;
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
 }
 
-/* SEMUA FOTO DI DALAM DOKUMENTASI */
-#portalDokumentasi img{
-  display:block !important;
+/* =========================================================
+   CARD PERTEMUAN
+   ========================================================= */
 
-  width:100% !important;
-  max-width:100% !important;
-
-  height:100% !important;
-  max-height:100% !important;
-
-  object-fit:contain !important;
-
-  margin:0 !important;
-  padding:0 !important;
+.portal-doc-meeting{
+  width:100%;
+  margin:0 auto 35px;
+  background:#fff;
+  border:1px solid #e5eaf2;
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 14px 40px rgba(15,35,70,.08);
 }
 
-/* LINK / PEMBUNGKUS FOTO */
-#portalDokumentasi a{
-  display:block !important;
-
-  width:100% !important;
-  max-width:100% !important;
-
-  height:auto !important;
-
-  overflow:hidden !important;
+.portal-doc-meeting-header{
+  padding:28px 30px 20px;
 }
 
-/* CARD PERTEMUAN */
-#portalDokumentasi .portal-doc-meeting{
-  width:100% !important;
-  max-width:1100px !important;
-
-  margin:0 auto 35px !important;
-
-  overflow:hidden !important;
+.portal-doc-badge{
+  display:inline-flex;
+  align-items:center;
+  padding:8px 15px;
+  border-radius:999px;
+  background:#e7f1ff;
+  color:#1769d1;
+  font-size:13px;
+  font-weight:800;
 }
 
-/* GRID FOTO */
-#portalDokumentasi .portal-doc-gallery{
-  width:100% !important;
-
-  display:grid !important;
-
-  grid-template-columns:
-    repeat(3,minmax(0,1fr)) !important;
-
-  gap:16px !important;
-
-  padding:0 30px 30px !important;
+.portal-doc-meeting-title{
+  margin:14px 0 5px;
+  font-size:25px;
+  line-height:1.3;
+  font-weight:800;
+  color:#172d50;
 }
 
-/* KOTAK FOTO */
-#portalDokumentasi .portal-doc-photo{
-  position:relative !important;
+.portal-doc-date{
+  margin:0;
+  font-size:15px;
+  color:#718096;
+}
 
-  width:100% !important;
-  max-width:100% !important;
+/* =========================================================
+   GALERI ARSIP
+   ========================================================= */
 
-  height:auto !important;
-  aspect-ratio:4 / 3 !important;
+.portal-doc-gallery{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  padding:0 30px 30px;
+}
 
-  overflow:hidden !important;
+/* =========================================================
+   FOTO
+   ========================================================= */
 
-  border-radius:16px !important;
+.portal-doc-photo{
+  position:relative;
+  display:block;
+  width:100%;
+  height:260px;
+  min-width:0;
+  overflow:hidden;
+  border-radius:16px;
+  background:#eef3f8;
+  text-decoration:none;
+  box-shadow:0 6px 18px rgba(15,35,70,.08);
+  transition:transform .25s ease,box-shadow .25s ease;
+}
 
-  background:#eef3f8 !important;
+.portal-doc-photo:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(15,35,70,.15);
+}
+
+.portal-doc-photo img{
+  display:block;
+  width:100%;
+  height:100%;
+  min-width:0;
+  max-width:100%;
+  object-fit:contain;
+  object-position:center;
+  background:#eef3f8;
+}
+
+/* =========================================================
+   IKON ZOOM
+   ========================================================= */
+
+.portal-doc-photo::after{
+  content:"🔍";
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:rgba(15,35,70,.78);
+  color:#fff;
+  font-size:15px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+}
+
+.portal-doc-photo:hover::after{
+  opacity:1;
+}
+
+/* =========================================================
+   FOOTER ARSIP
+   ========================================================= */
+
+.portal-doc-footer{
+  padding:0 30px 26px;
+  font-size:14px;
+  color:#718096;
+}
+
+/* =========================================================
+   JIKA ARSIP KOSONG
+   ========================================================= */
+
+.portal-doc-empty{
+  width:100%;
+  padding:60px 30px;
+  text-align:center;
+  background:#fff;
+  border:1px solid #e5eaf2;
+  border-radius:24px;
+  box-shadow:0 14px 40px rgba(15,35,70,.06);
+}
+
+.portal-doc-icon{
+  font-size:48px;
+  margin-bottom:12px;
+}
+
+.portal-doc-empty h3{
+  margin:0 0 8px;
+  font-size:22px;
+  color:#172d50;
+}
+
+.portal-doc-empty p{
+  margin:0;
+  color:#718096;
+}
+
+/* =========================================================
+   MODAL FOTO
+   ========================================================= */
+
+.portal-photo-modal{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  background:rgba(8,18,35,.92);
+}
+
+.portal-photo-modal.active{
+  display:flex;
+}
+
+.portal-photo-modal img{
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:92vw;
+  max-height:88vh;
+  object-fit:contain;
+  border-radius:12px;
+}
+
+.portal-photo-modal-close{
+  position:fixed;
+  top:22px;
+  right:28px;
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:none;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  font-size:25px;
+  cursor:pointer;
 }
 
 /* =========================================================
@@ -1400,11 +1291,27 @@ input{
 
 @media(max-width:900px){
 
-  #portalDokumentasi .portal-doc-gallery{
-    grid-template-columns:
-      repeat(2,minmax(0,1fr)) !important;
+  .portal-documentation-section{
+    width:92%;
+    padding:60px 0 70px;
+  }
 
-    padding:0 20px 20px !important;
+  .portal-doc-gallery{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    padding:0 20px 20px;
+  }
+
+  .portal-doc-meeting-header{
+    padding:24px 20px 18px;
+  }
+
+  .portal-doc-footer{
+    padding:0 20px 20px;
+  }
+
+  .portal-doc-photo{
+    height:240px;
   }
 }
 
@@ -1414,95 +1321,44 @@ input{
 
 @media(max-width:600px){
 
-  #portalDokumentasi{
-    width:92% !important;
+  .portal-documentation-section{
+    width:92%;
+    padding:50px 0 60px;
   }
 
-  #portalDokumentasi .portal-doc-gallery{
-    grid-template-columns:1fr !important;
-
-    padding:0 18px 20px !important;
+  .portal-section-heading h2{
+    font-size:30px;
   }
 
-  #portalDokumentasi .portal-doc-photo{
-    aspect-ratio:4 / 3 !important;
-  }
-}
-
-  .portal-doc-footer {
-    padding: 0 18px 20px;
-  }
-}
-/* =========================================================
-   FINAL FIX — FOTO DOKUMENTASI TIDAK BOLEH MELEBAR
-   ========================================================= */
-
-#portalDokumentasi{
-  width:100% !important;
-  max-width:1100px !important;
-  margin:0 auto !important;
-}
-
-#portalDokumentasi .portal-doc-gallery{
-  display:grid !important;
-  grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
-  gap:16px !important;
-  width:100% !important;
-  padding:0 30px 30px !important;
-}
-
-/* PAKSA SETIAP FOTO HANYA 1 KOLOM */
-#portalDokumentasi .portal-doc-gallery > *{
-  grid-column:auto !important;
-  grid-row:auto !important;
-  width:100% !important;
-  min-width:0 !important;
-  max-width:100% !important;
-}
-
-/* UKURAN KOTAK FOTO SAMA */
-#portalDokumentasi .portal-doc-photo{
-  display:block !important;
-  width:100% !important;
-  height:260px !important;
-  min-width:0 !important;
-  max-width:100% !important;
-  aspect-ratio:auto !important;
-  overflow:hidden !important;
-  border-radius:16px !important;
-}
-
-/* FOTO TIDAK BOLEH MEMPERLEBAR CARD */
-#portalDokumentasi .portal-doc-photo img{
-  display:block !important;
-  width:100% !important;
-  height:100% !important;
-  min-width:0 !important;
-  max-width:100% !important;
-  object-fit:contain !important;
-  object-position:center !important;
-}
-
-/* TABLET */
-@media(max-width:900px){
-  #portalDokumentasi .portal-doc-gallery{
-    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-    padding:0 20px 20px !important;
-  }
-}
-
-/* HP */
-@media(max-width:600px){
-  #portalDokumentasi{
-    width:92% !important;
+  .portal-section-heading p{
+    font-size:14px;
   }
 
-  #portalDokumentasi .portal-doc-gallery{
-    grid-template-columns:1fr !important;
-    padding:0 18px 20px !important;
+  .portal-doc-meeting{
+    border-radius:18px;
   }
 
-  #portalDokumentasi .portal-doc-photo{
-    height:240px !important;
+  .portal-doc-meeting-header{
+    padding:20px 18px 16px;
+  }
+
+  .portal-doc-meeting-title{
+    font-size:21px;
+  }
+
+  .portal-doc-gallery{
+    grid-template-columns:1fr;
+    gap:12px;
+    padding:0 18px 20px;
+  }
+
+  .portal-doc-photo{
+    width:100%;
+    height:240px;
+    border-radius:12px;
+  }
+
+  .portal-doc-footer{
+    padding:0 18px 20px;
   }
 }
