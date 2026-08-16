@@ -1363,17 +1363,31 @@ input{
   }
 }
 /* =========================================================
-   FOTO DOKUMENTASI — TIDAK BISA DIKLIK
+   FOTO DOKUMENTASI — BENAR-BENAR TIDAK BISA DIKLIK
    ========================================================= */
 
-#portalDokumentasi .portal-doc-gallery-item {
-  cursor: default !important;
-  pointer-events: none !important;
+#portalDokumentasi .portal-doc-photo{
+  cursor:default !important;
+  pointer-events:none !important;
+  transform:none !important;
 }
 
-#portalDokumentasi .portal-doc-gallery-item img {
-  cursor: default !important;
-  pointer-events: none !important;
-  user-select: none !important;
-  -webkit-user-drag: none !important;
+/* MATIKAN EFEK HOVER */
+#portalDokumentasi .portal-doc-photo:hover{
+  transform:none !important;
+  box-shadow:0 6px 18px rgba(15,35,70,.08) !important;
+}
+
+/* MATIKAN IKON ZOOM */
+#portalDokumentasi .portal-doc-photo::after{
+  display:none !important;
+  content:none !important;
+}
+
+/* FOTO */
+#portalDokumentasi .portal-doc-photo img{
+  cursor:default !important;
+  pointer-events:none !important;
+  user-select:none !important;
+  -webkit-user-drag:none !important;
 }
