@@ -1477,3 +1477,357 @@ input{
   }
 
 }
+/* =====================================================
+   DOKUMENTASI PERTEMUAN
+   ===================================================== */
+
+.portal-documentation-section {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 90px 28px;
+}
+
+.portal-section-heading {
+  margin-bottom: 38px;
+}
+
+.portal-section-label {
+  display: inline-block;
+  margin-bottom: 14px;
+
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 3px;
+
+  color: #1769d1;
+}
+
+.portal-section-heading h2 {
+  margin: 0;
+
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.1;
+  font-weight: 800;
+
+  color: #172d50;
+}
+
+.portal-section-heading p {
+  max-width: 720px;
+  margin-top: 18px;
+
+  font-size: 17px;
+  line-height: 1.7;
+
+  color: #64748b;
+}
+
+
+/* =====================================================
+   KARTU SETIAP PERTEMUAN
+   ===================================================== */
+
+.portal-doc-meeting {
+  margin-bottom: 34px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf2;
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 14px 40px rgba(15, 35, 70, 0.08);
+}
+
+
+/* HEADER PERTEMUAN */
+
+.portal-doc-meeting-header {
+  padding: 28px 30px 22px;
+}
+
+.portal-doc-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 8px 15px;
+
+  border-radius: 999px;
+
+  background: #e7f1ff;
+  color: #1769d1;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.portal-doc-meeting-title {
+  margin: 14px 0 5px;
+
+  font-size: 25px;
+  font-weight: 800;
+
+  color: #172d50;
+}
+
+.portal-doc-date {
+  margin: 0;
+
+  font-size: 15px;
+  color: #718096;
+}
+
+
+/* =====================================================
+   GRID FOTO
+   ===================================================== */
+
+.portal-doc-gallery {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+
+  padding: 0 30px 30px;
+}
+
+
+/* KOTAK FOTO */
+
+.portal-doc-photo {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  aspect-ratio: 4 / 3;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background: #eef2f7;
+
+  cursor: pointer;
+}
+
+
+/* FOTO TIDAK DIPOTONG */
+
+.portal-doc-photo img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+
+  background: #f4f6f9;
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+
+/* EFEK SAAT MOUSE */
+
+.portal-doc-photo:hover img {
+  transform: scale(1.03);
+}
+
+.portal-doc-photo::after {
+  content: "🔍";
+
+  position: absolute;
+
+  right: 12px;
+  bottom: 12px;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(15, 35, 70, 0.78);
+
+  color: #ffffff;
+
+  font-size: 15px;
+
+  opacity: 0;
+
+  transition: opacity 0.2s ease;
+}
+
+.portal-doc-photo:hover::after {
+  opacity: 1;
+}
+
+
+/* =====================================================
+   INFO JUMLAH FOTO
+   ===================================================== */
+
+.portal-doc-footer {
+  padding: 0 30px 26px;
+
+  font-size: 14px;
+
+  color: #718096;
+}
+
+
+/* =====================================================
+   KOSONG / LOADING
+   ===================================================== */
+
+.portal-doc-empty {
+  padding: 60px 30px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf2;
+  border-radius: 24px;
+
+  box-shadow:
+    0 14px 40px rgba(15, 35, 70, 0.06);
+}
+
+.portal-doc-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.portal-doc-empty h3 {
+  margin: 0 0 8px;
+
+  font-size: 22px;
+
+  color: #172d50;
+}
+
+.portal-doc-empty p {
+  margin: 0;
+
+  color: #718096;
+}
+
+
+/* =====================================================
+   MODAL FOTO
+   ===================================================== */
+
+.portal-photo-modal {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 99999;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  background: rgba(8, 18, 35, 0.92);
+}
+
+.portal-photo-modal.active {
+  display: flex;
+}
+
+.portal-photo-modal img {
+  max-width: 92vw;
+  max-height: 88vh;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.4);
+}
+
+.portal-photo-modal-close {
+  position: fixed;
+
+  top: 22px;
+  right: 28px;
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  color: #ffffff;
+
+  font-size: 25px;
+
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 800px) {
+
+  .portal-documentation-section {
+    padding: 65px 18px;
+  }
+
+  .portal-doc-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+    padding: 0 18px 20px;
+  }
+
+  .portal-doc-meeting-header {
+    padding: 22px 18px 18px;
+  }
+
+  .portal-doc-footer {
+    padding: 0 18px 20px;
+  }
+
+}
+
+
+@media (max-width: 520px) {
+
+  .portal-doc-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-doc-meeting-title {
+    font-size: 21px;
+  }
+
+}
