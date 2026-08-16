@@ -1,325 +1,911 @@
-// =====================================================
-// DOKUMENTASI PGSD FIT 2026
-// =====================================================
+<!DOCTYPE html>
+<html lang="id">
 
-const API_DOKUMENTASI =
-  "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec?api=dokumentasi";
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Dokumentasi PGSD FIT</title>
 
 
-// =====================================================
-// LOAD DOKUMENTASI
-// =====================================================
+  <style>
 
-async function loadDokumentasi() {
+    * {
+      box-sizing: border-box;
+    }
 
-  const container =
-    document.getElementById("listPertemuan");
+    body {
+      margin: 0;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
-  if (!container) {
-    return;
-  }
+      background:
+        linear-gradient(
+          135deg,
+          #f5f9ff,
+          #ffffff
+        );
 
-  container.innerHTML = `
-    <div class="gallery-card empty-card">
-      <div class="gallery-content">
-        <h3>Memuat dokumentasi...</h3>
-        <p>
-          Sedang mengambil arsip dokumentasi PGSD FIT.
-        </p>
+      color: #1f2937;
+    }
+
+
+    /* =========================================
+       HEADER
+       ========================================= */
+
+    .page-header {
+      padding: 28px 20px;
+      text-align: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #0d47a1,
+          #1976d2
+        );
+
+      color: white;
+
+      box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.12);
+    }
+
+
+    .page-header img {
+      width: 90px;
+      height: 90px;
+
+      object-fit: contain;
+
+      background: white;
+
+      border-radius: 50%;
+
+      padding: 6px;
+
+      margin-bottom: 12px;
+    }
+
+
+    .page-header h1 {
+      margin: 5px 0;
+
+      font-size: 28px;
+    }
+
+
+    .page-header p {
+      margin: 5px 0 0;
+
+      opacity: .9;
+
+      font-size: 14px;
+    }
+
+
+    /* =========================================
+       CONTAINER
+       ========================================= */
+
+    .container {
+      width: 100%;
+
+      max-width: 1100px;
+
+      margin: auto;
+
+      padding: 25px 16px 50px;
+    }
+
+
+    /* =========================================
+       GALLERY CARD
+       ========================================= */
+
+    .gallery-card {
+      background: white;
+
+      border-radius: 18px;
+
+      margin-bottom: 25px;
+
+      padding: 20px;
+
+      box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.08);
+
+      border: 1px solid #e5e7eb;
+    }
+
+
+    .documentation-header {
+      margin-bottom: 18px;
+    }
+
+
+    .status-badge {
+      display: inline-block;
+
+      padding: 7px 12px;
+
+      border-radius: 20px;
+
+      background: #e3f2fd;
+
+      color: #1565c0;
+
+      font-size: 13px;
+
+      font-weight: bold;
+    }
+
+
+    .documentation-header h3 {
+      margin: 12px 0 5px;
+
+      font-size: 21px;
+
+      color: #111827;
+    }
+
+
+    .documentation-header p {
+      margin: 0;
+
+      color: #6b7280;
+
+      font-size: 14px;
+    }
+
+
+    /* =========================================
+       FOTO
+       ========================================= */
+
+    .documentation-gallery {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(
+            180px,
+            1fr
+          )
+        );
+
+      gap: 12px;
+    }
+
+
+    .documentation-photo {
+
+      display: block;
+
+      overflow: hidden;
+
+      border-radius: 12px;
+
+      background: #f3f4f6;
+
+      aspect-ratio: 4 / 3;
+    }
+
+
+    .documentation-photo img {
+
+      width: 100%;
+
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+
+      transition:
+        transform .25s ease;
+    }
+
+
+    .documentation-photo:hover img {
+
+      transform:
+        scale(1.05);
+    }
+
+
+    /* =========================================
+       FOTO KOSONG
+       ========================================= */
+
+    .photo-empty {
+
+      padding: 30px;
+
+      text-align: center;
+
+      border-radius: 12px;
+
+      background: #f9fafb;
+
+      color: #6b7280;
+
+      border: 1px dashed #d1d5db;
+    }
+
+
+    /* =========================================
+       FOOTER CARD
+       ========================================= */
+
+    .documentation-footer {
+
+      margin-top: 15px;
+
+      padding-top: 12px;
+
+      border-top:
+        1px solid #e5e7eb;
+
+      color: #6b7280;
+
+      font-size: 13px;
+    }
+
+
+    /* =========================================
+       EMPTY
+       ========================================= */
+
+    .empty-card {
+
+      text-align: center;
+
+      padding: 40px 20px;
+    }
+
+
+    .empty-icon img {
+
+      width: 100px;
+
+      height: 100px;
+
+      object-fit: contain;
+
+      margin-bottom: 15px;
+    }
+
+
+    .empty-card h3 {
+
+      margin: 10px 0;
+
+      font-size: 21px;
+    }
+
+
+    .empty-card p {
+
+      color: #6b7280;
+
+      line-height: 1.6;
+    }
+
+
+    .empty-card button {
+
+      margin-top: 15px;
+
+      border: 0;
+
+      cursor: pointer;
+
+      background: #1976d2;
+
+      color: white;
+
+      padding: 10px 18px;
+
+      border-radius: 10px;
+
+      font-weight: bold;
+    }
+
+
+    .empty-card button:hover {
+
+      background: #0d47a1;
+    }
+
+
+    /* =========================================
+       LOADING
+       ========================================= */
+
+    .loading {
+
+      text-align: center;
+
+      padding: 50px 20px;
+
+      color: #6b7280;
+    }
+
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+
+    @media (max-width: 600px) {
+
+      .page-header h1 {
+        font-size: 23px;
+      }
+
+      .documentation-gallery {
+
+        grid-template-columns:
+          repeat(
+            2,
+            1fr
+          );
+
+        gap: 8px;
+      }
+
+      .gallery-card {
+        padding: 15px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =======================================
+       HEADER
+       ======================================= -->
+
+  <header class="page-header">
+
+    <img
+      src="assets/logo-pgsdfit-2026.png"
+      alt="Logo PGSD FIT"
+    >
+
+    <h1>
+      Dokumentasi PGSD FIT
+    </h1>
+
+    <p>
+      Arsip Dokumentasi Senam Rutin Prodi PGSD
+    </p>
+
+  </header>
+
+
+  <!-- =======================================
+       ISI
+       ======================================= -->
+
+  <main class="container">
+
+    <div id="listPertemuan">
+
+      <div class="gallery-card empty-card">
+
+        <div class="gallery-content">
+
+          <h3>
+            Memuat dokumentasi...
+          </h3>
+
+          <p>
+            Sedang mengambil arsip
+            dokumentasi PGSD FIT.
+          </p>
+
+        </div>
+
       </div>
+
     </div>
-  `;
 
-  try {
-
-    const response = await fetch(
-      API_DOKUMENTASI + "&t=" + Date.now()
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "Server dokumentasi tidak dapat dihubungi."
-      );
-    }
-
-    const result = await response.json();
-
-    if (!result || !result.sukses) {
-      throw new Error(
-        result?.pesan ||
-        "Data dokumentasi gagal dimuat."
-      );
-    }
-
-    const data =
-      Array.isArray(result.data)
-        ? result.data
-        : [];
-
-    renderDokumentasi(
-      container,
-      data
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Dokumentasi error:",
-      error
-    );
-
-    container.innerHTML = `
-      <div class="gallery-card empty-card">
-
-        <div class="gallery-content">
-
-          <h3>Dokumentasi Belum Tersedia</h3>
-
-          <p>
-            Dokumentasi belum dapat dimuat.
-            Silakan coba kembali beberapa saat lagi.
-          </p>
-
-          <button
-            class="status-badge"
-            type="button"
-            onclick="loadDokumentasi()"
-            style="
-              border:0;
-              cursor:pointer;
-            "
-          >
-            Coba Lagi
-          </button>
-
-        </div>
-
-      </div>
-    `;
-  }
-}
+  </main>
 
 
-// =====================================================
-// RENDER DOKUMENTASI
-// =====================================================
+  <!-- =======================================
+       JAVASCRIPT DOKUMENTASI
+       ======================================= -->
 
-function renderDokumentasi(
-  container,
-  data
-) {
+  <script>
 
-  container.innerHTML = "";
+    // =====================================================
+    // API DOKUMENTASI
+    // =====================================================
 
-  if (!data.length) {
-
-    container.innerHTML = `
-      <div class="gallery-card empty-card">
-
-        <div class="empty-icon">
-          <img
-            src="assets/logo-pgsdfit-2026.png"
-            class="empty-logo"
-            alt="PGSD FIT"
-          >
-        </div>
-
-        <div class="gallery-content">
-
-          <h3>Belum Ada Dokumentasi</h3>
-
-          <p>
-            Dokumentasi kegiatan akan muncul
-            otomatis setelah panitia mengunggah
-            foto ke folder pertemuan.
-          </p>
-
-          <span class="status-badge">
-            Menunggu Dokumentasi Pertemuan
-          </span>
-
-        </div>
-
-      </div>
-    `;
-
-    return;
-  }
+    const API_DOKUMENTASI =
+      "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec?api=dokumentasi";
 
 
-  data.forEach(function(item) {
+    // =====================================================
+    // LOAD DOKUMENTASI
+    // =====================================================
 
-    const pertemuan =
-      escapeHtml(
-        item.pertemuan || "-"
-      );
+    async function loadDokumentasi() {
 
-    const tanggal =
-      escapeHtml(
-        item.tanggal || "-"
-      );
-
-    const catatan =
-      escapeHtml(
-        item.catatan ||
-        "Dokumentasi Senam Rutin PGSD FIT"
-      );
-
-    const foto =
-      Array.isArray(item.foto)
-        ? item.foto
-        : [];
+      const container =
+        document.getElementById(
+          "listPertemuan"
+        );
 
 
-    let fotoHtml = "";
+      if (!container) {
+        return;
+      }
 
 
-    // =========================================
-    // GALERI FOTO
-    // =========================================
+      container.innerHTML = `
 
-    if (foto.length) {
+        <div class="gallery-card empty-card">
 
-      fotoHtml = `
-        <div class="documentation-gallery">
-      `;
-
-      foto.forEach(function(image, index) {
-
-        const imageUrl =
-          escapeAttribute(
-            image.url || ""
-          );
-
-        const imageName =
-          escapeHtml(
-            image.nama ||
-            `Foto ${index + 1}`
-          );
-
-        fotoHtml += `
-          <a
-            href="${imageUrl}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="documentation-photo"
-          >
-
-            <img
-              src="${imageUrl}"
-              alt="${imageName}"
-              loading="lazy"
-              onerror="
-                this.parentElement.style.display='none';
-              "
-            >
-
-          </a>
-        `;
-      });
-
-      fotoHtml += `
-        </div>
-      `;
-
-    } else {
-
-      fotoHtml = `
-        <div class="photo-empty">
-          Dokumentasi foto belum diunggah.
-        </div>
-      `;
-    }
-
-
-    // =========================================
-    // CARD
-    // =========================================
-
-    container.innerHTML += `
-
-      <article
-        class="gallery-card documentation-card"
-      >
-
-        <div class="documentation-header">
-
-          <div>
-
-            <span class="status-badge">
-              Pertemuan ${pertemuan}
-            </span>
+          <div class="gallery-content">
 
             <h3>
-              ${catatan}
+              Memuat dokumentasi...
             </h3>
 
             <p>
-              ${tanggal}
+              Sedang mengambil arsip
+              dokumentasi PGSD FIT.
             </p>
 
           </div>
 
         </div>
 
-
-        ${fotoHtml}
-
-
-        <div class="documentation-footer">
-
-          <span>
-            ${foto.length}
-            foto dokumentasi
-          </span>
-
-        </div>
-
-      </article>
-
-    `;
-  });
-}
+      `;
 
 
-// =====================================================
-// ESCAPE HTML
-// =====================================================
+      try {
 
-function escapeHtml(value) {
-
-  return String(value ?? "")
-
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+        const response =
+          await fetch(
+            API_DOKUMENTASI +
+            "&t=" +
+            Date.now()
+          );
 
 
-// =====================================================
-// ESCAPE ATTRIBUTE
-// =====================================================
+        if (!response.ok) {
 
-function escapeAttribute(value) {
+          throw new Error(
+            "Server dokumentasi tidak dapat dihubungi."
+          );
 
-  return String(value ?? "")
-
-    .replaceAll("&", "&amp;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-}
+        }
 
 
-// =====================================================
-// JALANKAN
-// =====================================================
+        const result =
+          await response.json();
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-    loadDokumentasi();
-  }
-);
+
+        if (
+          !result ||
+          !result.sukses
+        ) {
+
+          throw new Error(
+            result?.pesan ||
+            "Data dokumentasi gagal dimuat."
+          );
+
+        }
+
+
+        const data =
+          Array.isArray(
+            result.data
+          )
+            ? result.data
+            : [];
+
+
+        renderDokumentasi(
+          container,
+          data
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Dokumentasi error:",
+          error
+        );
+
+
+        container.innerHTML = `
+
+          <div
+            class="gallery-card empty-card"
+          >
+
+            <div class="gallery-content">
+
+              <h3>
+                Dokumentasi Belum Tersedia
+              </h3>
+
+              <p>
+                Dokumentasi belum dapat
+                dimuat. Silakan coba kembali
+                beberapa saat lagi.
+              </p>
+
+
+              <button
+                type="button"
+                onclick="loadDokumentasi()"
+              >
+                Coba Lagi
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    // =====================================================
+    // RENDER
+    // =====================================================
+
+    function renderDokumentasi(
+      container,
+      data
+    ) {
+
+      container.innerHTML = "";
+
+
+      if (!data.length) {
+
+        container.innerHTML = `
+
+          <div
+            class="gallery-card empty-card"
+          >
+
+            <div class="empty-icon">
+
+              <img
+                src="assets/logo-pgsdfit-2026.png"
+                class="empty-logo"
+                alt="PGSD FIT"
+              >
+
+            </div>
+
+
+            <div class="gallery-content">
+
+              <h3>
+                Belum Ada Dokumentasi
+              </h3>
+
+              <p>
+                Dokumentasi kegiatan akan muncul
+                otomatis setelah panitia mengunggah
+                foto ke folder pertemuan.
+              </p>
+
+
+              <span class="status-badge">
+
+                Menunggu Dokumentasi Pertemuan
+
+              </span>
+
+            </div>
+
+          </div>
+
+        `;
+
+        return;
+      }
+
+
+      data.forEach(
+        function(item) {
+
+
+          const pertemuan =
+            escapeHtml(
+              item.pertemuan || "-"
+            );
+
+
+          const tanggal =
+            escapeHtml(
+              item.tanggal || "-"
+            );
+
+
+          const catatan =
+            escapeHtml(
+              item.catatan ||
+              "Dokumentasi Senam Rutin PGSD FIT"
+            );
+
+
+          const foto =
+            Array.isArray(
+              item.foto
+            )
+              ? item.foto
+              : [];
+
+
+          let fotoHtml = "";
+
+
+          // =========================================
+          // FOTO
+          // =========================================
+
+          if (foto.length) {
+
+            fotoHtml = `
+
+              <div
+                class="documentation-gallery"
+              >
+
+            `;
+
+
+            foto.forEach(
+              function(
+                image,
+                index
+              ) {
+
+
+                const imageUrl =
+                  escapeAttribute(
+                    image.url || ""
+                  );
+
+
+                const imageName =
+                  escapeHtml(
+                    image.nama ||
+                    `Foto ${index + 1}`
+                  );
+
+
+                fotoHtml += `
+
+                  <a
+                    href="${imageUrl}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="documentation-photo"
+                  >
+
+                    <img
+                      src="${imageUrl}"
+                      alt="${imageName}"
+                      loading="lazy"
+                      onerror="
+                        this.parentElement.style.display='none';
+                      "
+                    >
+
+                  </a>
+
+                `;
+
+              }
+            );
+
+
+            fotoHtml += `
+
+              </div>
+
+            `;
+
+          } else {
+
+            fotoHtml = `
+
+              <div class="photo-empty">
+
+                Dokumentasi foto
+                belum diunggah.
+
+              </div>
+
+            `;
+
+          }
+
+
+          // =========================================
+          // CARD
+          // =========================================
+
+          container.innerHTML += `
+
+            <article
+              class="gallery-card documentation-card"
+            >
+
+              <div
+                class="documentation-header"
+              >
+
+                <div>
+
+                  <span
+                    class="status-badge"
+                  >
+                    Pertemuan ${pertemuan}
+                  </span>
+
+
+                  <h3>
+                    ${catatan}
+                  </h3>
+
+
+                  <p>
+                    ${tanggal}
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              ${fotoHtml}
+
+
+              <div
+                class="documentation-footer"
+              >
+
+                <span>
+
+                  ${foto.length}
+                  foto dokumentasi
+
+                </span>
+
+              </div>
+
+            </article>
+
+          `;
+
+        }
+      );
+
+    }
+
+
+    // =====================================================
+    // ESCAPE HTML
+    // =====================================================
+
+    function escapeHtml(value) {
+
+      return String(
+        value ?? ""
+      )
+
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
+    }
+
+
+    // =====================================================
+    // ESCAPE ATTRIBUTE
+    // =====================================================
+
+    function escapeAttribute(value) {
+
+      return String(
+        value ?? ""
+      )
+
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+
+      .replaceAll(
+        ">",
+        "&gt;"
+      );
+
+    }
+
+
+    // =====================================================
+    // JALANKAN SAAT HALAMAN DIBUKA
+    // =====================================================
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function() {
+
+        loadDokumentasi();
+
+      }
+    );
+
+  </script>
+
+
+</body>
+
+</html>
