@@ -708,27 +708,21 @@
                   );
 
 
-                fotoHtml += `
+fotoHtml += `
+  <div class="documentation-photo">
 
-                  <a
-                    href="${imageUrl}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="documentation-photo"
-                  >
+    <img
+      src="${imageUrl}"
+      alt="${imageName}"
+      loading="lazy"
+      draggable="false"
+      onerror="
+        this.parentElement.style.display='none';
+      "
+    >
 
-                    <img
-                      src="${imageUrl}"
-                      alt="${imageName}"
-                      loading="lazy"
-                      onerror="
-                        this.parentElement.style.display='none';
-                      "
-                    >
-
-                  </a>
-
-                `;
+  </div>
+`;
 
               }
             );
