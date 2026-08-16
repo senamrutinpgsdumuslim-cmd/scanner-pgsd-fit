@@ -210,7 +210,285 @@
 
 </header>
 
+<!-- =====================================================
+     SCRIPT DOKUMENTASI PORTAL
+     ===================================================== -->
 
+<script>
+
+const PORTAL_DOKUMENTASI_API =
+  "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec?api=dokumentasi";
+
+
+async function loadPortalDokumentasi() {
+
+  const container =
+    document.getElementById("portalDokumentasi");
+
+  if (!container) return;
+
+  try {
+
+    const response = await fetch(
+      PORTAL_DOKUMENTASI_API +
+      "&t=" +
+      Date.now()
+    );
+
+    const result = await response.json();
+
+    if (!result || !result.sukses) {
+      throw new Error(
+        result?.pesan ||
+        "Dokumentasi gagal dimuat."
+      );
+    }
+
+    const data =
+      Array.isArray(result.data)
+        ? result.data
+        : [];
+
+    renderPortalDokumentasi(
+      container,
+      data
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Dokumentasi portal:",
+      error
+    );
+
+    container.innerHTML = `
+
+      <div class="portal-doc-empty">
+
+        <div class="portal-doc-icon">
+          📷
+        </div>
+
+        <h3>
+          Dokumentasi Belum Dapat Dimuat
+        </h3>
+
+        <p>
+          Silakan coba kembali beberapa saat lagi.
+        </p>
+
+        <button
+          type="button"
+          onclick="loadPortalDokumentasi()"
+          class="portal-doc-button"
+        >
+          Coba Lagi
+        </button>
+
+      </div>
+
+    `;
+  }
+}
+
+
+function renderPortalDokumentasi(
+  container,
+  data
+) {
+
+  container.innerHTML = "";
+
+  if (!data.length) {
+
+    container.innerHTML = `
+
+      <div class="portal-doc-empty">
+
+        <div class="portal-doc-icon">
+          📷
+        </div>
+
+        <h3>
+          Belum Ada Dokumentasi
+        </h3>
+
+        <p>
+          Dokumentasi kegiatan akan muncul
+          setelah panitia mengunggah arsip.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  /* Tampilkan maksimal 3 dokumentasi terbaru */
+
+  data
+    .slice(0, 3)
+    .forEach(function(item) {
+
+      const pertemuan =
+        escapePortalHtml(
+          item.pertemuan || "-"
+        );
+
+      const tanggal =
+        escapePortalHtml(
+          item.tanggal || "-"
+        );
+
+      const catatan =
+        escapePortalHtml(
+          item.catatan ||
+          "Dokumentasi Senam Rutin PGSD FIT"
+        );
+
+      const foto =
+        Array.isArray(item.foto)
+          ? item.foto
+          : [];
+
+
+      let fotoHtml = "";
+
+
+      if (foto.length) {
+
+        const image = foto[0];
+
+        const imageUrl =
+          escapePortalAttribute(
+            image.url || ""
+          );
+
+        const imageName =
+          escapePortalHtml(
+            image.nama ||
+            "Dokumentasi PGSD FIT"
+          );
+
+        fotoHtml = `
+
+          <a
+            href="${imageUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="portal-documentation-photo"
+          >
+
+            <img
+              src="${imageUrl}"
+              alt="${imageName}"
+              loading="lazy"
+            >
+
+          </a>
+
+        `;
+
+      } else {
+
+        fotoHtml = `
+
+          <div class="portal-documentation-no-photo">
+            📷
+            <span>
+              Foto belum tersedia
+            </span>
+          </div>
+
+        `;
+      }
+
+
+      container.innerHTML += `
+
+        <article
+          class="portal-documentation-card"
+        >
+
+          <div class="portal-documentation-image">
+            ${fotoHtml}
+          </div>
+
+          <div class="portal-documentation-content">
+
+            <span class="portal-documentation-badge">
+              Pertemuan ${pertemuan}
+            </span>
+
+            <h3>
+              ${catatan}
+            </h3>
+
+            <p class="portal-documentation-date">
+              ${tanggal}
+            </p>
+
+            <p class="portal-documentation-count">
+              ${foto.length} foto dokumentasi
+            </p>
+
+          </div>
+
+        </article>
+
+      `;
+
+    });
+
+}
+
+
+function escapePortalHtml(value) {
+
+  return String(value ?? "")
+
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+function escapePortalAttribute(value) {
+
+  return String(value ?? "")
+
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+
+}
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadPortalDokumentasi();
+
+  }
+);
+
+</script>
+
+
+<!-- =====================================================
+     PENUTUP PORTAL
+     ===================================================== -->
+
+</body>
+
+</html>
 <!-- =====================================================
      STATISTIK
      ===================================================== -->
@@ -237,10 +515,10 @@
   </div>
 
 </section>
-
 <!-- =====================================================
-     GALERI
+     DOKUMENTASI PGSD FIT
      ===================================================== -->
+
 <section class="portal-documentation-section">
 
   <div class="portal-section-heading">
@@ -254,8 +532,8 @@
     </h2>
 
     <p>
-      Arsip dokumentasi kegiatan Senam Rutin
-      Program Studi PGSD.
+      Arsip resmi dokumentasi kegiatan
+      Senam Rutin Program Studi PGSD.
     </p>
 
   </div>
@@ -273,7 +551,23 @@
         Memuat Dokumentasi...
       </h3>
 
+      <p>
+        Sedang mengambil arsip dokumentasi PGSD FIT.
+      </p>
+
     </div>
+
+  </div>
+
+
+  <div class="portal-doc-action">
+
+    <a
+      href="dokumentasi.html"
+      class="portal-doc-button"
+    >
+      Buka Arsip Dokumentasi →
+    </a>
 
   </div>
 
