@@ -1362,3 +1362,18 @@ input{
     padding:0 18px 20px;
   }
 }
+/* =========================================================
+   FOTO DOKUMENTASI — TIDAK BISA DIKLIK
+   ========================================================= */
+
+#portalDokumentasi .portal-doc-gallery-item {
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+#portalDokumentasi .portal-doc-gallery-item img {
+  cursor: default !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+}
