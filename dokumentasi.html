@@ -13,65 +13,53 @@ const API_DOKUMENTASI =
 async function loadDokumentasi() {
 
   const container =
-    document.getElementById(
-      "listPertemuan"
-    );
+    document.getElementById("listPertemuan");
 
   if (!container) {
     return;
   }
-
 
   container.innerHTML = `
     <div class="gallery-card empty-card">
       <div class="gallery-content">
         <h3>Memuat dokumentasi...</h3>
         <p>
-          Sedang mengambil arsip dokumentasi
-          PGSD FIT.
+          Sedang mengambil arsip dokumentasi PGSD FIT.
         </p>
       </div>
     </div>
   `;
 
-
   try {
 
-    const response =
-      await fetch(
-        API_DOKUMENTASI +
-        "&t=" +
-        Date.now()
+    const response = await fetch(
+      API_DOKUMENTASI + "&t=" + Date.now()
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Server dokumentasi tidak dapat dihubungi."
       );
+    }
 
+    const result = await response.json();
 
-    const result =
-      await response.json();
-
-
-    if (
-      !result ||
-      !result.sukses
-    ) {
-
+    if (!result || !result.sukses) {
       throw new Error(
         result?.pesan ||
         "Data dokumentasi gagal dimuat."
       );
     }
 
-
     const data =
       Array.isArray(result.data)
         ? result.data
         : [];
 
-
     renderDokumentasi(
       container,
       data
     );
-
 
   } catch (error) {
 
@@ -79,7 +67,6 @@ async function loadDokumentasi() {
       "Dokumentasi error:",
       error
     );
-
 
     container.innerHTML = `
       <div class="gallery-card empty-card">
@@ -124,7 +111,6 @@ function renderDokumentasi(
 
   container.innerHTML = "";
 
-
   if (!data.length) {
 
     container.innerHTML = `
@@ -161,151 +147,138 @@ function renderDokumentasi(
   }
 
 
-  data.forEach(
-    function(item) {
+  data.forEach(function(item) {
 
-      const pertemuan =
-        escapeHtml(
-          item.pertemuan || "-"
-        );
+    const pertemuan =
+      escapeHtml(
+        item.pertemuan || "-"
+      );
 
+    const tanggal =
+      escapeHtml(
+        item.tanggal || "-"
+      );
 
-      const tanggal =
-        escapeHtml(
-          item.tanggal || "-"
-        );
+    const catatan =
+      escapeHtml(
+        item.catatan ||
+        "Dokumentasi Senam Rutin PGSD FIT"
+      );
 
-
-      const catatan =
-        escapeHtml(
-          item.catatan ||
-          "Dokumentasi Senam Rutin PGSD FIT"
-        );
-
-
-      const foto =
-        Array.isArray(item.foto)
-          ? item.foto
-          : [];
+    const foto =
+      Array.isArray(item.foto)
+        ? item.foto
+        : [];
 
 
-      let fotoHtml = "";
+    let fotoHtml = "";
 
 
-      // =========================================
-      // GALERI FOTO
-      // =========================================
+    // =========================================
+    // GALERI FOTO
+    // =========================================
 
-      if (foto.length) {
+    if (foto.length) {
 
-        fotoHtml = `
-          <div class="documentation-gallery">
-        `;
+      fotoHtml = `
+        <div class="documentation-gallery">
+      `;
 
+      foto.forEach(function(image, index) {
 
-        foto.forEach(
-          function(image, index) {
+        const imageUrl =
+          escapeAttribute(
+            image.url || ""
+          );
 
-            const imageUrl =
-              escapeAttribute(
-                image.url || ""
-              );
-
-
-            const imageName =
-              escapeHtml(
-                image.nama ||
-                `Foto ${index + 1}`
-              );
-
-
-            fotoHtml += `
-              <a
-                href="${imageUrl}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="documentation-photo"
-              >
-
-                <img
-                  src="${imageUrl}"
-                  alt="${imageName}"
-                  loading="lazy"
-                  onerror="
-                    this.parentElement.style.display='none';
-                  "
-                >
-
-              </a>
-            `;
-          }
-        );
-
+        const imageName =
+          escapeHtml(
+            image.nama ||
+            `Foto ${index + 1}`
+          );
 
         fotoHtml += `
-          </div>
+          <a
+            href="${imageUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="documentation-photo"
+          >
+
+            <img
+              src="${imageUrl}"
+              alt="${imageName}"
+              loading="lazy"
+              onerror="
+                this.parentElement.style.display='none';
+              "
+            >
+
+          </a>
         `;
+      });
 
-      } else {
+      fotoHtml += `
+        </div>
+      `;
 
-        fotoHtml = `
-          <div class="photo-empty">
-            Dokumentasi foto belum diunggah.
-          </div>
-        `;
-      }
+    } else {
 
-
-      // =========================================
-      // CARD
-      // =========================================
-
-      container.innerHTML += `
-
-        <article
-          class="gallery-card documentation-card"
-        >
-
-          <div class="documentation-header">
-
-            <div>
-
-              <span
-                class="status-badge"
-              >
-                Pertemuan ${pertemuan}
-              </span>
-
-              <h3>
-                ${catatan}
-              </h3>
-
-              <p>
-                ${tanggal}
-              </p>
-
-            </div>
-
-          </div>
-
-
-          ${fotoHtml}
-
-
-          <div class="documentation-footer">
-
-            <span>
-              ${foto.length}
-              foto dokumentasi
-            </span>
-
-          </div>
-
-        </article>
-
+      fotoHtml = `
+        <div class="photo-empty">
+          Dokumentasi foto belum diunggah.
+        </div>
       `;
     }
-  );
+
+
+    // =========================================
+    // CARD
+    // =========================================
+
+    container.innerHTML += `
+
+      <article
+        class="gallery-card documentation-card"
+      >
+
+        <div class="documentation-header">
+
+          <div>
+
+            <span class="status-badge">
+              Pertemuan ${pertemuan}
+            </span>
+
+            <h3>
+              ${catatan}
+            </h3>
+
+            <p>
+              ${tanggal}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        ${fotoHtml}
+
+
+        <div class="documentation-footer">
+
+          <span>
+            ${foto.length}
+            foto dokumentasi
+          </span>
+
+        </div>
+
+      </article>
+
+    `;
+  });
 }
 
 
@@ -313,38 +286,15 @@ function renderDokumentasi(
 // ESCAPE HTML
 // =====================================================
 
-function escapeHtml(
-  value
-) {
+function escapeHtml(value) {
 
-  return String(
-    value ?? ""
-  )
+  return String(value ?? "")
 
-  .replaceAll(
-    "&",
-    "&amp;"
-  )
-
-  .replaceAll(
-    "<",
-    "&lt;"
-  )
-
-  .replaceAll(
-    ">",
-    "&gt;"
-  )
-
-  .replaceAll(
-    '"',
-    "&quot;"
-  )
-
-  .replaceAll(
-    "'",
-    "&#039;"
-  );
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 
@@ -352,33 +302,14 @@ function escapeHtml(
 // ESCAPE ATTRIBUTE
 // =====================================================
 
-function escapeAttribute(
-  value
-) {
+function escapeAttribute(value) {
 
-  return String(
-    value ?? ""
-  )
+  return String(value ?? "")
 
-  .replaceAll(
-    "&",
-    "&amp;"
-  )
-
-  .replaceAll(
-    '"',
-    "&quot;"
-  )
-
-  .replaceAll(
-    "<",
-    "&lt;"
-  )
-
-  .replaceAll(
-    ">",
-    "&gt;"
-  );
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 }
 
 
@@ -389,8 +320,6 @@ function escapeAttribute(
 document.addEventListener(
   "DOMContentLoaded",
   function() {
-
     loadDokumentasi();
-
   }
 );
