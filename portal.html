@@ -780,5 +780,383 @@ document.addEventListener(
 );
 </script>
 
+<!-- =====================================================
+     LOAD DOKUMENTASI PORTAL
+     ===================================================== -->
+<script>
+
+const API_DOKUMENTASI =
+  "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec?api=dokumentasi";
+
+
+async function loadPortalDokumentasi() {
+
+  const container =
+    document.getElementById("portalDokumentasi");
+
+  if (!container) {
+    return;
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_DOKUMENTASI +
+        "&t=" +
+        Date.now()
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (
+      !result ||
+      !result.sukses
+    ) {
+
+      throw new Error(
+        result?.pesan ||
+        "Dokumentasi gagal dimuat."
+      );
+
+    }
+
+
+    const data =
+      Array.isArray(result.data)
+        ? result.data
+        : [];
+
+
+    renderPortalDokumentasi(
+      container,
+      data
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Portal dokumentasi error:",
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="portal-doc-empty">
+
+        <div class="portal-doc-icon">
+          📷
+        </div>
+
+        <h3>
+          Dokumentasi Belum Tersedia
+        </h3>
+
+        <p>
+          Dokumentasi kegiatan belum dapat dimuat.
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+function renderPortalDokumentasi(
+  container,
+  data
+) {
+
+  container.innerHTML = "";
+
+
+  if (!data.length) {
+
+    container.innerHTML = `
+
+      <div class="portal-doc-empty">
+
+        <div class="portal-doc-icon">
+          📷
+        </div>
+
+        <h3>
+          Belum Ada Dokumentasi
+        </h3>
+
+        <p>
+          Dokumentasi kegiatan akan muncul
+          setelah panitia mengunggah foto.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  /*
+   * GRID UTAMA
+   */
+
+  const grid =
+    document.createElement("div");
+
+  grid.className =
+    "portal-doc-grid";
+
+
+  data.forEach(function(item) {
+
+    const pertemuan =
+      escapePortalHtml(
+        item.pertemuan || "-"
+      );
+
+
+    const tanggal =
+      escapePortalHtml(
+        item.tanggal || "-"
+      );
+
+
+    const catatan =
+      escapePortalHtml(
+        item.catatan ||
+        "Dokumentasi Senam Rutin PGSD FIT"
+      );
+
+
+    const foto =
+      Array.isArray(item.foto)
+        ? item.foto
+        : [];
+
+
+    /*
+     * CARD
+     */
+
+    const card =
+      document.createElement("article");
+
+    card.className =
+      "portal-doc-card";
+
+
+    /*
+     * FOTO PERTAMA SEBAGAI COVER
+     */
+
+    let fotoHtml = "";
+
+
+    if (foto.length) {
+
+      const image =
+        foto[0];
+
+
+      const imageUrl =
+        escapePortalAttribute(
+          image.url || ""
+        );
+
+
+      const imageName =
+        escapePortalHtml(
+          image.nama ||
+          "Dokumentasi PGSD FIT"
+        );
+
+
+      /*
+       * GAMBAR TIDAK DIKLIK
+       */
+
+      fotoHtml = `
+
+        <div class="portal-doc-photo">
+
+          <img
+            src="${imageUrl}"
+            alt="${imageName}"
+            loading="lazy"
+            onerror="
+              this.style.display='none';
+            "
+          >
+
+        </div>
+
+      `;
+
+    } else {
+
+      fotoHtml = `
+
+        <div class="portal-doc-photo">
+
+          <div
+            style="
+              height:100%;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              font-size:45px;
+            "
+          >
+            📷
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /*
+     * ISI CARD
+     */
+
+    card.innerHTML = `
+
+      ${fotoHtml}
+
+      <div class="portal-doc-content">
+
+        <span class="portal-doc-badge">
+          Pertemuan ${pertemuan}
+        </span>
+
+        <h3>
+          ${catatan}
+        </h3>
+
+        <p>
+          ${tanggal}
+        </p>
+
+        <div class="portal-doc-footer">
+
+          <span>
+            ${foto.length}
+            ${foto.length === 1
+              ? "foto dokumentasi"
+              : "foto dokumentasi"
+            }
+          </span>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    grid.appendChild(card);
+
+  });
+
+
+  container.appendChild(grid);
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+   ===================================================== */
+
+function escapePortalHtml(value) {
+
+  return String(value ?? "")
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE ATTRIBUTE
+   ===================================================== */
+
+function escapePortalAttribute(value) {
+
+  return String(value ?? "")
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    );
+
+}
+
+
+/* =====================================================
+   JALANKAN
+   ===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadPortalDokumentasi();
+
+  }
+);
+
+</script>
 </body>
 </html>
