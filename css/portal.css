@@ -1245,3 +1245,235 @@ input{
 .portal-doc-button:hover {
   background: #0f55ad;
 }
+/* =====================================================
+   DOKUMENTASI PORTAL PGSD FIT
+   ===================================================== */
+
+.portal-documentation-section {
+  padding: 70px 5%;
+  background: #f5f8fc;
+}
+
+.portal-section-heading {
+  max-width: 900px;
+  margin: 0 auto 35px;
+}
+
+.portal-section-label {
+  display: inline-block;
+  color: #1769c2;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.portal-section-heading h2 {
+  margin: 0 0 10px;
+  font-size: 42px;
+  font-weight: 800;
+  color: #172b4d;
+}
+
+.portal-section-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 17px;
+}
+
+
+/* =====================================================
+   CONTAINER DOKUMENTASI
+   ===================================================== */
+
+#portalDokumentasi {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+
+/* =====================================================
+   CARD PERTEMUAN
+   ===================================================== */
+
+.documentation-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 28px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 35px rgba(15, 40, 80, 0.08);
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   HEADER PERTEMUAN
+   ===================================================== */
+
+.documentation-header {
+  margin-bottom: 22px;
+}
+
+.documentation-header h3 {
+  margin: 12px 0 6px;
+  font-size: 25px;
+  font-weight: 800;
+  color: #172b4d;
+}
+
+.documentation-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 15px;
+  border-radius: 999px;
+  background: #e8f2ff;
+  color: #1769c2;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   GALERI FOTO
+   ===================================================== */
+
+.documentation-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+
+/* =====================================================
+   FOTO
+   ===================================================== */
+
+.documentation-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  aspect-ratio: 4 / 3;
+
+  background: #eef3f8;
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.documentation-photo:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(20, 60, 100, 0.15);
+}
+
+
+/* =====================================================
+   GAMBAR TIDAK DIPOTONG
+   ===================================================== */
+
+.documentation-photo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+
+/* =====================================================
+   FOOTER CARD
+   ===================================================== */
+
+.documentation-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+
+  border-top: 1px solid #e5eaf0;
+
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* =====================================================
+   BELUM ADA FOTO
+   ===================================================== */
+
+.photo-empty {
+  padding: 35px 20px;
+  text-align: center;
+
+  background: #f7f9fc;
+  border-radius: 14px;
+
+  color: #64748b;
+}
+
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 900px) {
+
+  .documentation-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .portal-section-heading h2 {
+    font-size: 34px;
+  }
+
+}
+
+
+/* =====================================================
+   HP
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+  .portal-documentation-section {
+    padding: 50px 18px;
+  }
+
+  .documentation-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .documentation-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .documentation-photo {
+    border-radius: 10px;
+  }
+
+  .documentation-header h3 {
+    font-size: 21px;
+  }
+
+  .portal-section-heading h2 {
+    font-size: 30px;
+  }
+
+  .portal-section-heading p {
+    font-size: 15px;
+  }
+
+}
