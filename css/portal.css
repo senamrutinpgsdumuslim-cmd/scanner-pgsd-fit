@@ -1034,3 +1034,214 @@ input{
   }
 
 }
+/* =====================================================
+   DOKUMENTASI PORTAL
+   ===================================================== */
+
+.portal-documentation-section {
+  margin: 40px 0;
+}
+
+
+.portal-section-heading {
+  margin-bottom: 24px;
+}
+
+
+.portal-section-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #1769d1;
+  margin-bottom: 8px;
+}
+
+
+.portal-section-heading h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+
+.portal-section-heading p {
+  margin-top: 8px;
+  color: #64748b;
+}
+
+
+/* GRID */
+
+.portal-doc-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 20px;
+}
+
+
+/* CARD */
+
+.portal-doc-card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 30px rgba(15, 23, 42, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.portal-doc-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 14px 35px rgba(15, 23, 42, 0.13);
+}
+
+
+/* FOTO */
+
+.portal-doc-photo {
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  background: #eaf1fb;
+}
+
+
+.portal-doc-photo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+.portal-doc-no-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 45px;
+}
+
+
+/* CONTENT */
+
+.portal-doc-content {
+  padding: 20px;
+}
+
+
+.portal-doc-badge {
+  display: inline-block;
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  background: #e7f1ff;
+  color: #1769d1;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+.portal-doc-content h3 {
+  margin: 12px 0 6px;
+
+  font-size: 19px;
+  line-height: 1.3;
+}
+
+
+.portal-doc-content p {
+  margin: 0;
+
+  color: #64748b;
+}
+
+
+.portal-doc-count {
+  display: block;
+
+  margin-top: 15px;
+
+  font-size: 13px;
+  color: #64748b;
+}
+
+
+/* EMPTY */
+
+.portal-doc-empty {
+  text-align: center;
+
+  padding: 50px 25px;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 8px 30px rgba(15, 23, 42, 0.06);
+}
+
+
+.portal-doc-icon {
+  font-size: 45px;
+  margin-bottom: 12px;
+}
+
+
+.portal-doc-empty h3 {
+  margin: 0 0 8px;
+}
+
+
+.portal-doc-empty p {
+  color: #64748b;
+}
+
+
+/* BUTTON */
+
+.portal-doc-action {
+  text-align: center;
+  margin-top: 25px;
+}
+
+
+.portal-doc-button {
+  display: inline-block;
+
+  padding: 12px 22px;
+
+  border-radius: 12px;
+
+  background: #1769d1;
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-weight: 700;
+
+  border: none;
+
+  cursor: pointer;
+}
+
+
+.portal-doc-button:hover {
+  background: #0f55ad;
+}
