@@ -1679,44 +1679,101 @@ margin-top: 5px;
 }
 
 }
-<!-- =====================================================
-     PENGUMUMAN
-     ===================================================== -->
-<section id="pengumuman" class="announcement-section">
+/* =====================================================
+   PENGUMUMAN PORTAL
+   ===================================================== */
 
-  <div class="announcement-heading">
+.portal-announcement-section {
+  padding: 80px 20px;
+  background: #f5f8fc;
+}
 
-    <span class="announcement-label">
-      📢 INFORMASI TERBARU
-    </span>
+.portal-announcement-heading {
+  max-width: 1200px;
+  margin: 0 auto 35px;
+  text-align: center;
+}
 
-    <h2>Pengumuman PGSD FIT</h2>
+.portal-announcement-label {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #1565c0;
+}
 
-    <p>
-      Informasi terbaru seputar kegiatan Senam Rutin PGSD FIT.
-    </p>
+.portal-announcement-heading h2 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 800;
+  color: #172b4d;
+}
 
-  </div>
+.portal-announcement-heading p {
+  margin: 14px auto 0;
+  max-width: 700px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #64748b;
+}
 
-  <div
-    id="portalPengumuman"
-    class="announcement-container"
-  >
+.portal-announcement-box {
+  max-width: 1100px;
+  min-height: 180px;
+  margin: 0 auto;
+  padding: 45px 30px;
+  background: #ffffff;
+  border: 1px solid #dbe5f0;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(21, 101, 192, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
-    <div class="announcement-loading">
+.portal-announcement-empty {
+  color: #64748b;
+}
 
-      <div class="announcement-loading-icon">
-        📢
-      </div>
+.portal-announcement-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
 
-      <h3>Memuat pengumuman...</h3>
+.portal-announcement-empty h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #243b5a;
+}
 
-      <p>
-        Mohon tunggu sebentar.
-      </p>
+.portal-announcement-empty p {
+  margin: 0;
+  font-size: 15px;
+  color: #94a3b8;
+}
 
-    </div>
 
-  </div>
+/* MOBILE */
+@media (max-width: 768px) {
 
-</section>
+  .portal-announcement-section {
+    padding: 55px 16px;
+  }
+
+  .portal-announcement-heading h2 {
+    font-size: 30px;
+  }
+
+  .portal-announcement-heading p {
+    font-size: 15px;
+  }
+
+  .portal-announcement-box {
+    padding: 35px 20px;
+    border-radius: 20px;
+  }
+
+}
