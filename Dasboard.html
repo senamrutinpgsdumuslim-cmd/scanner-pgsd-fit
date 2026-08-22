@@ -582,6 +582,7 @@
 
   </div>
 
+
 <!-- =========================================
      STREAK PESERTA
 ========================================== -->
@@ -595,10 +596,97 @@
     </h2>
 
     <p>
-      Ranking streak kehadiran seluruh peserta PGSD FIT
+      Ranking dan statistik streak seluruh peserta PGSD FIT
     </p>
 
   </div>
+
+
+  <!-- STATISTIK STREAK -->
+
+  <div
+    id="streakStats"
+    class="grid"
+    style="margin:0;padding:16px;background:white;"
+  >
+
+    <div class="card">
+      <div class="stat-label">🔥 Streak 0</div>
+      <h2 id="streak0">0</h2>
+      <small>Belum memiliki streak</small>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">🔥 Streak 1–4</div>
+      <h2 id="streak1">0</h2>
+      <small>Level 1</small>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">🔥 Streak 5–9</div>
+      <h2 id="streak5">0</h2>
+      <small>Level 2</small>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">🔥 Streak 10–14</div>
+      <h2 id="streak10">0</h2>
+      <small>Level 3</small>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">🔥 MAX 15+</div>
+      <h2 id="streak15">0</h2>
+      <small>Level 4 / MAX</small>
+    </div>
+
+  </div>
+
+
+  <!-- TOP 10 -->
+
+  <div
+    id="streakTop10"
+    class="table-wrap"
+    style="margin-top:16px;"
+  >
+
+    <div class="loading">
+      Memuat Top 10...
+    </div>
+
+  </div>
+
+
+  <!-- PENCARIAN -->
+
+  <div
+    style="
+      background:white;
+      padding:16px;
+      border-top:1px solid #eef2f7;
+    "
+  >
+
+    <input
+      id="searchStreak"
+      type="text"
+      placeholder="🔎 Cari nama, NPM, unit, atau angkatan..."
+      oninput="filterStreak()"
+      style="
+        width:100%;
+        padding:13px 15px;
+        border:1px solid #dbe3ee;
+        border-radius:12px;
+        outline:none;
+        font-size:14px;
+      "
+    >
+
+  </div>
+
+
+  <!-- TABEL SEMUA PESERTA -->
 
   <div
     class="table-wrap"
@@ -1505,13 +1593,342 @@ function loadAllStreak(){
 }
 
 
+# Fungsi Streak Dashboard
+
+```javascript
 // ====================================================
-// RENDER SEMUA STREAK
+// DATA STREAK GLOBAL
 // ====================================================
 
-function renderAllStreak(
-  data
-){
+let semuaDataStreak = [];
+
+
+// ====================================================
+// LOAD SEMUA STREAK
+// ====================================================
+
+function loadAllStreak(){
+
+  const old =
+    document.getElementById(
+      "streakJsonp"
+    );
+
+  if(old){
+    old.remove();
+  }
+
+
+  window.streakCallback =
+    function(data){
+
+      if(
+        !data ||
+        !data.sukses
+      ){
+
+        document.getElementById(
+          "streakPeserta"
+        ).innerHTML =
+          `<div class="loading">
+            Data streak tidak tersedia.
+          </div>`;
+
+        return;
+      }
+
+
+      semuaDataStreak =
+        Array.isArray(data.data)
+          ? data.data
+          : [];
+
+
+      // Pastikan ranking berdasarkan streak
+      semuaDataStreak.sort(
+        function(a,b){
+
+          return (
+            Number(b.streak || 0) -
+            Number(a.streak || 0)
+          );
+
+        }
+      );
+
+
+      renderStreakStats(
+        semuaDataStreak
+      );
+
+
+      renderTop10Streak(
+        semuaDataStreak
+      );
+
+
+      renderAllStreak(
+        semuaDataStreak
+      );
+
+    };
+
+
+  const script =
+    document.createElement(
+      "script"
+    );
+
+
+  script.id =
+    "streakJsonp";
+
+
+  script.src =
+    API +
+    "?api=allStreak" +
+    "&callback=streakCallback" +
+    "&_=" +
+    Date.now();
+
+
+  script.onerror =
+    function(){
+
+      document.getElementById(
+        "streakPeserta"
+      ).innerHTML =
+        `<div class="loading">
+          Gagal mengambil data streak.
+        </div>`;
+
+      script.remove();
+
+    };
+
+
+  document.body.appendChild(
+    script
+  );
+
+}
+
+
+// ====================================================
+// STATISTIK STREAK
+// ====================================================
+
+function renderStreakStats(data){
+
+  let s0 = 0;
+  let s1 = 0;
+  let s5 = 0;
+  let s10 = 0;
+  let s15 = 0;
+
+
+  data.forEach(
+    function(item){
+
+      const streak =
+        Number(item.streak || 0);
+
+
+      if(streak === 0){
+
+        s0++;
+
+      }
+      else if(streak < 5){
+
+        s1++;
+
+      }
+      else if(streak < 10){
+
+        s5++;
+
+      }
+      else if(streak < 15){
+
+        s10++;
+
+      }
+      else{
+
+        s15++;
+
+      }
+
+    }
+  );
+
+
+  document.getElementById(
+    "streak0"
+  ).textContent = s0;
+
+
+  document.getElementById(
+    "streak1"
+  ).textContent = s1;
+
+
+  document.getElementById(
+    "streak5"
+  ).textContent = s5;
+
+
+  document.getElementById(
+    "streak10"
+  ).textContent = s10;
+
+
+  document.getElementById(
+    "streak15"
+  ).textContent = s15;
+
+}
+
+
+// ====================================================
+// TOP 10 STREAK
+// ====================================================
+
+function renderTop10Streak(data){
+
+  const el =
+    document.getElementById(
+      "streakTop10"
+    );
+
+
+  if(!data.length){
+
+    el.innerHTML =
+      `<div class="loading">
+        Belum ada data streak.
+      </div>`;
+
+    return;
+  }
+
+
+  const top =
+    data.slice(0,10);
+
+
+  let html = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>#</th>
+          <th>Nama</th>
+          <th>Unit</th>
+          <th>Angkatan</th>
+          <th>🔥 Streak</th>
+          <th>Level</th>
+          <th>Tahap</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+  `;
+
+
+  top.forEach(
+    function(item,index){
+
+      let medal = "";
+
+
+      if(index === 0){
+        medal = "🥇";
+      }
+      else if(index === 1){
+        medal = "🥈";
+      }
+      else if(index === 2){
+        medal = "🥉";
+      }
+
+
+      html += `
+
+        <tr>
+
+          <td class="rank">
+
+            ${
+              medal ||
+              `<span class="rank-number">
+                ${index + 1}
+              </span>`
+            }
+
+          </td>
+
+          <td>
+            ${escapeHtml(item.nama || "-")}
+          </td>
+
+          <td>
+            ${escapeHtml(item.unit || "-")}
+          </td>
+
+          <td>
+            ${escapeHtml(item.angkatan || "-")}
+          </td>
+
+          <td>
+
+            <span class="badge badge-hadir">
+              🔥 ${Number(item.streak || 0)}
+            </span>
+
+          </td>
+
+          <td>
+            Level ${item.level ?? 1}
+          </td>
+
+          <td>
+            ${escapeHtml(item.tahap || "AWAL")}
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
+
+  html += `
+
+      </tbody>
+
+    </table>
+
+  `;
+
+
+  el.innerHTML =
+    html;
+
+}
+
+
+// ====================================================
+// TABEL SEMUA STREAK
+// ====================================================
+
+function renderAllStreak(data){
 
   const el =
     document.getElementById(
@@ -1558,7 +1975,30 @@ function renderAllStreak(
   data.forEach(
     function(item,index){
 
+      const streak =
+        Number(item.streak || 0);
+
+
+      let badge =
+        "badge-alpha";
+
+
+      if(streak >= 15){
+
+        badge =
+          "badge-hadir";
+
+      }
+      else if(streak >= 5){
+
+        badge =
+          "badge-terlambat";
+
+      }
+
+
       let medal = "";
+
 
       if(index === 0){
         medal = "🥇";
@@ -1571,30 +2011,6 @@ function renderAllStreak(
       }
 
 
-      let streak =
-        Number(
-          item.streak || 0
-        );
-
-
-      let streakBadge =
-        "badge-alpha";
-
-
-      if(streak >= 15){
-
-        streakBadge =
-          "badge-hadir";
-
-      }
-      else if(streak >= 5){
-
-        streakBadge =
-          "badge-terlambat";
-
-      }
-
-
       html += `
 
         <tr>
@@ -1604,7 +2020,7 @@ function renderAllStreak(
             ${
               medal ||
               `<span class="rank-number">
-                ${item.rank ?? index + 1}
+                ${index + 1}
               </span>`
             }
 
@@ -1612,49 +2028,34 @@ function renderAllStreak(
 
 
           <td>
-            ${escapeHtml(
-              item.nama || "-"
-            )}
+            ${escapeHtml(item.nama || "-")}
           </td>
 
 
           <td>
-            ${escapeHtml(
-              item.npm || "-"
-            )}
+            ${escapeHtml(item.npm || "-")}
           </td>
 
 
           <td>
-            ${escapeHtml(
-              item.angkatan || "-"
-            )}
+            ${escapeHtml(item.angkatan || "-")}
           </td>
 
 
           <td>
-            ${escapeHtml(
-              item.unit || "-"
-            )}
+            ${escapeHtml(item.unit || "-")}
           </td>
 
 
           <td>
-            ${escapeHtml(
-              item.statusPeserta || "-"
-            )}
+            ${escapeHtml(item.statusPeserta || "-")}
           </td>
 
 
           <td>
 
-            <span
-              class="badge ${streakBadge}"
-            >
-
-              🔥
-              ${streak}
-
+            <span class="badge ${badge}">
+              🔥 ${streak}
             </span>
 
           </td>
@@ -1666,9 +2067,7 @@ function renderAllStreak(
 
 
           <td>
-            ${escapeHtml(
-              item.tahap || "AWAL"
-            )}
+            ${escapeHtml(item.tahap || "AWAL")}
           </td>
 
         </tr>
@@ -1692,8 +2091,80 @@ function renderAllStreak(
     html;
 
 }
-# Perbaikan Bagian Akhir Dashboard
 
+
+// ====================================================
+// SEARCH STREAK
+// ====================================================
+
+function filterStreak(){
+
+  const keyword =
+    document.getElementById(
+      "searchStreak"
+    ).value
+    .trim()
+    .toLowerCase();
+
+
+  if(!keyword){
+
+    renderAllStreak(
+      semuaDataStreak
+    );
+
+    return;
+  }
+
+
+  const hasil =
+    semuaDataStreak.filter(
+      function(item){
+
+        return (
+
+          String(
+            item.nama || ""
+          )
+          .toLowerCase()
+          .includes(keyword)
+
+          ||
+
+          String(
+            item.npm || ""
+          )
+          .toLowerCase()
+          .includes(keyword)
+
+          ||
+
+          String(
+            item.unit || ""
+          )
+          .toLowerCase()
+          .includes(keyword)
+
+          ||
+
+          String(
+            item.angkatan || ""
+          )
+          .toLowerCase()
+          .includes(keyword)
+
+        );
+
+      }
+    );
+
+
+  renderAllStreak(
+    hasil
+  );
+
+}
+  
 // ====================================================
 // LOAD DASHBOARD + STREAK
 // ====================================================
