@@ -285,46 +285,6 @@ async function loadDashboard() {
       unitChart.update();
     }
 
-// =========================================
-// LEVEL & TAHAP STREAK
-// =========================================
-function getLevelTahapStreak(streak) {
-
-  const nilai = Number(streak || 0);
-
-  if (nilai <= 0) {
-    return {
-      level: "Level 0",
-      tahap: "BELUM MULAI"
-    };
-  }
-
-  if (nilai <= 4) {
-    return {
-      level: "Level 1",
-      tahap: "AWAL"
-    };
-  }
-
-  if (nilai <= 9) {
-    return {
-      level: "Level 2",
-      tahap: "MENENGAH"
-    };
-  }
-
-  if (nilai <= 14) {
-    return {
-      level: "Level 3",
-      tahap: "LANJUT"
-    };
-  }
-
-  return {
-    level: "MAX",
-    tahap: "MAX"
-  };
-}
     // =======================================
     // KLASEMEN UNIT PER ANGKATAN
     // =======================================
@@ -821,6 +781,46 @@ function escapeHtml(
 }
 
 // =========================================
+// ATURAN LEVEL & TAHAP STREAK
+// =========================================
+function getLevelTahapStreak(streak) {
+
+  const nilai = Number(streak || 0);
+
+  if (nilai <= 0) {
+    return {
+      level: "Level 0",
+      tahap: "BELUM MULAI"
+    };
+  }
+
+  if (nilai <= 4) {
+    return {
+      level: "Level 1",
+      tahap: "AWAL"
+    };
+  }
+
+  if (nilai <= 9) {
+    return {
+      level: "Level 2",
+      tahap: "MENENGAH"
+    };
+  }
+
+  if (nilai <= 14) {
+    return {
+      level: "Level 3",
+      tahap: "LANJUT"
+    };
+  }
+
+  return {
+    level: "MAX",
+    tahap: "MAX"
+  };
+}
+// =========================================
 // STREAK PESERTA
 // =========================================
 
@@ -949,12 +949,14 @@ function renderAllStreak(
         );
 
 
-      let level =
-        item.level || 1;
+const levelTahap =
+  getLevelTahapStreak(streak);
 
+const level =
+  levelTahap.level;
 
-      let tahap =
-        item.tahap || "AWAL";
+const tahap =
+  levelTahap.tahap;
 
 
       let medal = "";
