@@ -1282,8 +1282,15 @@ window.addEventListener(
 
     loadDashboard();
 
+    loadAllStreak();
+
     setInterval(
       loadDashboard,
+      30000
+    );
+
+    setInterval(
+      loadAllStreak,
       30000
     );
   }
