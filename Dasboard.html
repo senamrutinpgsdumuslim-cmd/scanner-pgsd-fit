@@ -1692,19 +1692,32 @@ function renderAllStreak(
     html;
 
 }
-  // ====================================================
-  // LOAD
-  // ====================================================
+# Perbaikan Bagian Akhir Dashboard
 
-  loadDashboard();
+// ====================================================
+// LOAD DASHBOARD + STREAK
+// ====================================================
+
+loadDashboard();
+
+loadAllStreak();
 
 
-  setInterval(
-    loadDashboard,
-    30000
-  );
+// Refresh Dashboard setiap 30 detik
+setInterval(
+  loadDashboard,
+  30000
+);
+
+
+// Refresh Streak setiap 30 detik
+setInterval(
+  loadAllStreak,
+  30000
+);
 
 </script>
 
 </body>
+
 </html>
