@@ -781,36 +781,36 @@ function escapeHtml(
 }
 
 // =========================================
-// ATURAN LEVEL & TAHAP STREAK
+// LEVEL & TAHAP STREAK
 // =========================================
 function getLevelTahapStreak(streak) {
 
-  const nilai = Number(streak || 0);
+  const nilai = Number(streak) || 0;
 
   if (nilai <= 0) {
     return {
-      level: "Level 0",
+      level: "0",
       tahap: "BELUM MULAI"
     };
   }
 
   if (nilai <= 4) {
     return {
-      level: "Level 1",
+      level: "1",
       tahap: "AWAL"
     };
   }
 
   if (nilai <= 9) {
     return {
-      level: "Level 2",
+      level: "2",
       tahap: "MENENGAH"
     };
   }
 
   if (nilai <= 14) {
     return {
-      level: "Level 3",
+      level: "3",
       tahap: "LANJUT"
     };
   }
