@@ -1421,7 +1421,277 @@
       .replaceAll('"',"&quot;")
       .replaceAll("'","&#039;");
   }
+// ====================================================
+// STREAK SEMUA PESERTA
+// ====================================================
 
+function loadAllStreak(){
+
+  const old =
+    document.getElementById(
+      "streakJsonp"
+    );
+
+  if(old){
+    old.remove();
+  }
+
+
+  window.streakCallback =
+    function(data){
+
+      if(
+        !data ||
+        !data.sukses
+      ){
+
+        document.getElementById(
+          "streakPeserta"
+        ).innerHTML =
+
+          `<div class="loading">
+            Data streak tidak tersedia.
+          </div>`;
+
+        return;
+      }
+
+
+      renderAllStreak(
+        data.data || []
+      );
+
+    };
+
+
+  const script =
+    document.createElement(
+      "script"
+    );
+
+
+  script.id =
+    "streakJsonp";
+
+
+  script.src =
+    API +
+    "?api=allStreak" +
+    "&callback=streakCallback" +
+    "&_=" +
+    Date.now();
+
+
+  script.onerror =
+    function(){
+
+      document.getElementById(
+        "streakPeserta"
+      ).innerHTML =
+
+        `<div class="loading">
+          Gagal mengambil data streak.
+        </div>`;
+
+      script.remove();
+
+    };
+
+
+  document.body.appendChild(
+    script
+  );
+
+}
+
+
+// ====================================================
+// RENDER SEMUA STREAK
+// ====================================================
+
+function renderAllStreak(
+  data
+){
+
+  const el =
+    document.getElementById(
+      "streakPeserta"
+    );
+
+
+  if(!data.length){
+
+    el.innerHTML =
+      `<div class="loading">
+        Belum ada data peserta.
+      </div>`;
+
+    return;
+  }
+
+
+  let html = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>#</th>
+          <th>Nama</th>
+          <th>NPM</th>
+          <th>Angkatan</th>
+          <th>Unit</th>
+          <th>Status</th>
+          <th>🔥 Streak</th>
+          <th>Level</th>
+          <th>Tahap</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+  `;
+
+
+  data.forEach(
+    function(item,index){
+
+      let medal = "";
+
+      if(index === 0){
+        medal = "🥇";
+      }
+      else if(index === 1){
+        medal = "🥈";
+      }
+      else if(index === 2){
+        medal = "🥉";
+      }
+
+
+      let streak =
+        Number(
+          item.streak || 0
+        );
+
+
+      let streakBadge =
+        "badge-alpha";
+
+
+      if(streak >= 15){
+
+        streakBadge =
+          "badge-hadir";
+
+      }
+      else if(streak >= 5){
+
+        streakBadge =
+          "badge-terlambat";
+
+      }
+
+
+      html += `
+
+        <tr>
+
+          <td class="rank">
+
+            ${
+              medal ||
+              `<span class="rank-number">
+                ${item.rank ?? index + 1}
+              </span>`
+            }
+
+          </td>
+
+
+          <td>
+            ${escapeHtml(
+              item.nama || "-"
+            )}
+          </td>
+
+
+          <td>
+            ${escapeHtml(
+              item.npm || "-"
+            )}
+          </td>
+
+
+          <td>
+            ${escapeHtml(
+              item.angkatan || "-"
+            )}
+          </td>
+
+
+          <td>
+            ${escapeHtml(
+              item.unit || "-"
+            )}
+          </td>
+
+
+          <td>
+            ${escapeHtml(
+              item.statusPeserta || "-"
+            )}
+          </td>
+
+
+          <td>
+
+            <span
+              class="badge ${streakBadge}"
+            >
+
+              🔥
+              ${streak}
+
+            </span>
+
+          </td>
+
+
+          <td>
+            Level ${item.level ?? 1}
+          </td>
+
+
+          <td>
+            ${escapeHtml(
+              item.tahap || "AWAL"
+            )}
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
+
+  html += `
+
+      </tbody>
+
+    </table>
+
+  `;
+
+
+  el.innerHTML =
+    html;
+
+}
   // ====================================================
   // LOAD
   // ====================================================
