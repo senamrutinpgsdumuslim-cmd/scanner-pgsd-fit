@@ -120,7 +120,126 @@
   </div>
 
 </section>
+<!-- =========================================
+     STREAK PESERTA
+========================================= -->
 
+<section class="table-card">
+
+  <div class="table-header">
+
+    <div>
+      <h3>🔥 Streak Peserta</h3>
+      <p style="margin:5px 0 0;color:#64748b;font-size:13px;">
+        Ranking streak kehadiran peserta PGSD FIT
+      </p>
+    </div>
+
+    <button
+      type="button"
+      onclick="loadAllStreak()"
+    >
+      Refresh
+    </button>
+
+  </div>
+
+
+  <!-- STATISTIK STREAK -->
+
+  <div
+    style="
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      gap:12px;
+      margin-bottom:20px;
+    "
+  >
+
+    <div class="card blue">
+      <h3>🔥 Streak 0</h3>
+      <div class="number" id="streak0">0</div>
+      <span>Belum punya streak</span>
+    </div>
+
+    <div class="card green">
+      <h3>🔥 Streak 1–4</h3>
+      <div class="number" id="streak1">0</div>
+      <span>Level 1</span>
+    </div>
+
+    <div class="card orange">
+      <h3>🔥 Streak 5–9</h3>
+      <div class="number" id="streak5">0</div>
+      <span>Level 2</span>
+    </div>
+
+    <div class="card purple">
+      <h3>🔥 Streak 10–14</h3>
+      <div class="number" id="streak10">0</div>
+      <span>Level 3</span>
+    </div>
+
+    <div class="card blue">
+      <h3>🔥 MAX 15+</h3>
+      <div class="number" id="streak15">0</div>
+      <span>Level MAX</span>
+    </div>
+
+  </div>
+
+
+  <!-- SEARCH -->
+
+  <div class="search-box" style="margin:18px 0;">
+
+    <input
+      type="text"
+      id="searchStreak"
+      placeholder="Cari nama, NPM, unit, atau angkatan..."
+      autocomplete="off"
+      oninput="filterStreak()"
+    >
+
+  </div>
+
+
+  <!-- TABEL STREAK -->
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>#</th>
+        <th>Nama</th>
+        <th>NPM</th>
+        <th>Angkatan</th>
+        <th>Unit</th>
+        <th>Streak</th>
+        <th>Level</th>
+        <th>Tahap</th>
+      </tr>
+
+    </thead>
+
+    <tbody id="streakPeserta">
+
+      <tr>
+        <td
+          colspan="8"
+          style="text-align:center;color:#64748b;"
+        >
+          Memuat data streak...
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</section>
+      
 <section class="table-card">
 
   <div class="table-header">
