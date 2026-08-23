@@ -1776,141 +1776,396 @@ margin-top: 5px;
   }
 
 }
-/* =========================================
-   HAMBURGER MENU
-   ========================================= */
+/* =========================================================
+   HAMBURGER MENU — MOBILE
+   ========================================================= */
 
-.hamburger-btn {
-  display: none;
-  border: none;
-  background: rgba(255,255,255,0.15);
-  color: white;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  font-size: 25px;
-  cursor: pointer;
+.hamburger-btn{
+  display:none;
+  position:relative;
+  flex-shrink:0;
+
+  width:44px;
+  height:44px;
+
+  border:none;
+  outline:none;
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,.15);
+  color:#fff;
+
+  font-size:25px;
+  line-height:1;
+
+  cursor:pointer;
+
+  align-items:center;
+  justify-content:center;
+
+  z-index:10001;
+
+  transition:.25s ease;
+}
+
+.hamburger-btn:hover{
+  background:rgba(255,255,255,.25);
 }
 
 
-/* =========================================
+/* =========================================================
+   SIDE MENU OVERLAY
+   ========================================================= */
+
+.side-menu-overlay{
+  position:fixed;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  background:rgba(0,0,0,.48);
+
+  z-index:9998;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:
+    opacity .3s ease,
+    visibility .3s ease;
+}
+
+.side-menu-overlay.active{
+  opacity:1;
+  visibility:visible;
+}
+
+
+/* =========================================================
    SIDE MENU
-   ========================================= */
+   ========================================================= */
 
-.side-menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  z-index: 9998;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.3s ease;
+.side-menu{
+  position:fixed;
+
+  top:0;
+  right:0;
+
+  width:310px;
+  max-width:88vw;
+  height:100dvh;
+
+  background:#fff;
+
+  z-index:9999;
+
+  box-shadow:
+    -12px 0 35px rgba(0,0,0,.22);
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  transform:translateX(105%);
+
+  visibility:hidden;
+
+  transition:
+    transform .3s ease,
+    visibility .3s ease;
+
+  -webkit-overflow-scrolling:touch;
 }
 
-.side-menu-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-
-.side-menu {
-  position: fixed;
-  top: 0;
-  right: -340px;
-  width: 320px;
-  max-width: 85%;
-  height: 100vh;
-  background: white;
-  z-index: 9999;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.2);
-  transition: right 0.3s ease;
-  overflow-y: auto;
-}
-
-.side-menu.active {
-  right: 0;
-}
-
-
-.side-menu-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 22px;
-  background: linear-gradient(135deg, #1746a2, #087f8c);
-  color: white;
-}
-
-.side-menu-header strong {
-  display: block;
-  font-size: 18px;
-}
-
-.side-menu-header small {
-  opacity: 0.8;
+.side-menu.active{
+  transform:translateX(0);
+  visibility:visible;
 }
 
 
-.side-menu-header button {
-  border: none;
-  background: rgba(255,255,255,0.15);
-  color: white;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  font-size: 27px;
-  cursor: pointer;
+/* =========================================================
+   HEADER SIDE MENU
+   ========================================================= */
+
+.side-menu-header{
+  position:sticky;
+  top:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  min-height:82px;
+
+  padding:18px 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1746a2,
+      #087f8c
+    );
+
+  color:#fff;
+
+  z-index:2;
+}
+
+.side-menu-header strong{
+  display:block;
+
+  font-size:18px;
+  font-weight:800;
+}
+
+.side-menu-header small{
+  display:block;
+
+  margin-top:2px;
+
+  font-size:11px;
+
+  opacity:.8;
 }
 
 
-.side-menu-list {
-  padding: 15px;
+/* =========================================================
+   TOMBOL CLOSE
+   ========================================================= */
+
+.side-menu-header button{
+  flex-shrink:0;
+
+  width:40px;
+  height:40px;
+
+  border:none;
+  outline:none;
+
+  border-radius:10px;
+
+  background:rgba(255,255,255,.16);
+
+  color:#fff;
+
+  font-size:25px;
+  line-height:1;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.2s ease;
+}
+
+.side-menu-header button:hover{
+  background:rgba(255,255,255,.28);
 }
 
 
-.side-menu-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 15px;
-  margin-bottom: 5px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: #1d3f8f;
-  font-weight: 600;
-  transition: 0.2s ease;
+/* =========================================================
+   LIST MENU
+   ========================================================= */
+
+.side-menu-list{
+  width:100%;
+
+  padding:16px;
 }
 
-.side-menu-item:hover {
-  background: #eef4ff;
-  transform: translateX(-3px);
+.side-menu-item{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+
+  gap:13px;
+
+  min-height:52px;
+
+  padding:13px 14px;
+
+  margin-bottom:6px;
+
+  border-radius:13px;
+
+  text-decoration:none;
+
+  color:#1d3f8f;
+
+  font-size:14px;
+  font-weight:600;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.side-menu-item:hover{
+  background:#eef4ff;
+
+  transform:translateX(-2px);
+}
+
+.side-menu-item span{
+  flex:1;
+  min-width:0;
 }
 
 
-.side-menu-item span {
-  flex: 1;
+/* =========================================================
+   PEMBATAS
+   ========================================================= */
+
+.side-menu-divider{
+  width:100%;
+  height:1px;
+
+  background:#e5e7eb;
+
+  margin:12px 0;
 }
 
 
-.side-menu-divider {
-  height: 1px;
-  background: #e5e7eb;
-  margin: 12px 5px;
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+.admin-menu{
+  color:#b45309 !important;
+
+  background:#fff8e7;
 }
 
 
-.admin-menu {
-  color: #b45309;
-  background: #fff8e7;
-}
-@media (max-width: 900px) {
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
-  .hamburger-btn {
-    display: block;
+@media(max-width:900px){
+
+  .navbar{
+    position:relative;
+
+    flex-direction:row;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    width:100%;
+
+    padding:
+      14px 16px;
   }
 
-  .menu {
-    display: none;
+  /* BRAND DI KIRI */
+  .brand{
+    width:auto;
+
+    flex:1;
+
+    justify-content:flex-start;
+
+    flex-wrap:nowrap;
+
+    min-width:0;
+  }
+
+  .brand-text{
+    width:auto;
+
+    min-width:0;
+
+    text-align:left;
+  }
+
+  .brand-text h3{
+    font-size:17px;
+
+    white-space:nowrap;
+  }
+
+  .brand-text p{
+    font-size:9px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    max-width:190px;
+  }
+
+  .logo-small{
+    width:40px;
+    height:40px;
+
+    border-radius:10px;
+  }
+
+  /* SEMBUNYIKAN MENU DESKTOP */
+  .navbar .menu{
+    display:none !important;
+  }
+
+  /* TOMBOL ☰ DI KANAN */
+  .hamburger-btn{
+    display:flex;
+
+    margin-left:12px;
+  }
+
+}
+
+
+/* =========================================================
+   HP KECIL
+   ========================================================= */
+
+@media(max-width:430px){
+
+  .navbar{
+    padding:
+      12px 14px;
+  }
+
+  .brand{
+    gap:6px;
+  }
+
+  .logo-small{
+    width:36px;
+    height:36px;
+
+    padding:4px;
+  }
+
+  .brand-text h3{
+    font-size:15px;
+  }
+
+  .brand-text p{
+    max-width:150px;
+    font-size:8px;
+  }
+
+  .hamburger-btn{
+    width:42px;
+    height:42px;
+
+    margin-left:8px;
+
+    font-size:23px;
+  }
+
+  .side-menu{
+    width:300px;
+    max-width:86vw;
   }
 
 }
