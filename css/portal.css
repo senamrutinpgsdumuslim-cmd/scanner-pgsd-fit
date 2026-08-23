@@ -1777,3 +1777,141 @@ margin-top: 5px;
   }
 
 }
+/* =========================================
+   HAMBURGER MENU
+   ========================================= */
+
+.hamburger-btn {
+  display: none;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+
+/* =========================================
+   SIDE MENU
+   ========================================= */
+
+.side-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+}
+
+.side-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -340px;
+  width: 320px;
+  max-width: 85%;
+  height: 100vh;
+  background: white;
+  z-index: 9999;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  overflow-y: auto;
+}
+
+.side-menu.active {
+  right: 0;
+}
+
+
+.side-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px;
+  background: linear-gradient(135deg, #1746a2, #087f8c);
+  color: white;
+}
+
+.side-menu-header strong {
+  display: block;
+  font-size: 18px;
+}
+
+.side-menu-header small {
+  opacity: 0.8;
+}
+
+
+.side-menu-header button {
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  font-size: 27px;
+  cursor: pointer;
+}
+
+
+.side-menu-list {
+  padding: 15px;
+}
+
+
+.side-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 15px;
+  margin-bottom: 5px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #1d3f8f;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.side-menu-item:hover {
+  background: #eef4ff;
+  transform: translateX(-3px);
+}
+
+
+.side-menu-item span {
+  flex: 1;
+}
+
+
+.side-menu-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 12px 5px;
+}
+
+
+.admin-menu {
+  color: #b45309;
+  background: #fff8e7;
+}
+@media (max-width: 900px) {
+
+  .hamburger-btn {
+    display: block;
+  }
+
+  .menu {
+    display: none;
+  }
+
+}
