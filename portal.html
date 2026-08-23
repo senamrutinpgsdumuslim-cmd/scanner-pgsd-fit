@@ -1253,6 +1253,78 @@ document.addEventListener(
   </div>
 
 </aside>
-  
+  <script>
+
+const hamburgerBtn =
+  document.getElementById("hamburgerBtn");
+
+const closeSideMenu =
+  document.getElementById("closeSideMenu");
+
+const sideMenu =
+  document.getElementById("sideMenu");
+
+const sideMenuOverlay =
+  document.getElementById("sideMenuOverlay");
+
+
+function openSideMenu() {
+
+  sideMenu.classList.add("active");
+  sideMenuOverlay.classList.add("active");
+
+}
+
+
+function closeMenu() {
+
+  sideMenu.classList.remove("active");
+  sideMenuOverlay.classList.remove("active");
+
+}
+
+
+if (hamburgerBtn) {
+
+  hamburgerBtn.addEventListener(
+    "click",
+    openSideMenu
+  );
+
+}
+
+
+if (closeSideMenu) {
+
+  closeSideMenu.addEventListener(
+    "click",
+    closeMenu
+  );
+
+}
+
+
+if (sideMenuOverlay) {
+
+  sideMenuOverlay.addEventListener(
+    "click",
+    closeMenu
+  );
+
+}
+
+
+document.querySelectorAll(
+  ".side-menu-item"
+).forEach(function(item) {
+
+  item.addEventListener(
+    "click",
+    closeMenu
+  );
+
+});
+
+</script>
 </body>
 </html>
