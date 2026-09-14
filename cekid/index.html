@@ -21,6 +21,7 @@
     body {
       margin: 0;
       min-height: 100vh;
+
       font-family:
         Arial,
         Helvetica,
@@ -69,13 +70,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
       gap: 18px;
+
       margin-bottom: 15px;
     }
 
     .logo {
       width: 62px;
       height: 62px;
+
       object-fit: contain;
     }
 
@@ -92,6 +96,7 @@
       margin: 7px 0 0;
 
       font-size: 14px;
+
       color: #6b7280;
     }
 
@@ -147,6 +152,8 @@
       font-weight: 700;
 
       cursor: pointer;
+
+      transition: 0.2s;
     }
 
     button:hover {
@@ -155,8 +162,13 @@
 
     button:disabled {
       opacity: 0.65;
+
       cursor: wait;
     }
+
+    /* =========================
+       HASIL DATA
+       ========================= */
 
     .hasil {
       margin-top: 20px;
@@ -202,6 +214,10 @@
       color: #111827;
     }
 
+    /* =========================
+       ID BOX
+       ========================= */
+
     .id-box {
       margin-bottom: 15px;
 
@@ -231,6 +247,26 @@
 
       color: #1d4ed8;
     }
+
+    /* =========================
+       TOMBOL KARTU
+       ========================= */
+
+    #btnKartu {
+      display: none;
+
+      background: #16a34a;
+
+      margin-top: 15px;
+    }
+
+    #btnKartu:hover {
+      background: #15803d;
+    }
+
+    /* =========================
+       PESAN
+       ========================= */
 
     .pesan {
       margin-top: 15px;
@@ -265,6 +301,10 @@
 
       border: 1px solid #bfdbfe;
     }
+
+    /* =========================
+       FOOTER
+       ========================= */
 
     .footer {
       text-align: center;
@@ -339,6 +379,7 @@
       inputmode="numeric"
     >
 
+
     <button
       id="btnCek"
       type="button"
@@ -367,6 +408,8 @@
       class="hasil"
     >
 
+      <!-- ID -->
+
       <div class="id-box">
 
         <small>
@@ -379,6 +422,8 @@
 
       </div>
 
+
+      <!-- NAMA -->
 
       <div class="hasil-item">
 
@@ -393,6 +438,8 @@
       </div>
 
 
+      <!-- NPM -->
+
       <div class="hasil-item">
 
         <span>
@@ -405,6 +452,8 @@
 
       </div>
 
+
+      <!-- ANGKATAN -->
 
       <div class="hasil-item">
 
@@ -419,6 +468,8 @@
       </div>
 
 
+      <!-- UNIT -->
+
       <div class="hasil-item">
 
         <span>
@@ -431,8 +482,25 @@
 
       </div>
 
+
+      <!-- =========================
+           TOMBOL CEK KARTU
+           ========================= -->
+
+      <button
+        id="btnKartu"
+        type="button"
+        onclick="bukaKartu()"
+      >
+        🪪 CEK KARTU PESERTA
+      </button>
+
     </div>
 
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
 
     <div class="footer">
 
@@ -450,6 +518,10 @@
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec";
 
+
+/* =====================================================
+   CEK ID BERDASARKAN NPM
+   ===================================================== */
 
 function cekID() {
 
@@ -475,9 +547,20 @@ function cekID() {
       .getElementById("pesan");
 
 
+  const btnKartu =
+    document
+      .getElementById("btnKartu");
+
+
+  /* =========================
+     VALIDASI NPM
+     ========================= */
+
   if (!npm) {
 
     hasil.style.display = "none";
+
+    btnKartu.style.display = "none";
 
     pesan.textContent =
       "Silakan masukkan NPM terlebih dahulu.";
@@ -490,13 +573,21 @@ function cekID() {
   }
 
 
+  /* =========================
+     LOADING
+     ========================= */
+
   btn.disabled = true;
 
   btn.textContent =
     "Memeriksa...";
 
 
-  hasil.style.display = "none";
+  hasil.style.display =
+    "none";
+
+  btnKartu.style.display =
+    "none";
 
 
   pesan.textContent =
@@ -505,6 +596,10 @@ function cekID() {
   pesan.className =
     "pesan loading";
 
+
+  /* =====================================================
+     CALLBACK JSONP
+     ===================================================== */
 
   window.cekIDCallback =
     function(data) {
@@ -515,12 +610,19 @@ function cekID() {
         "🔎 CEK ID";
 
 
+      /* =========================
+         DATA GAGAL
+         ========================= */
+
       if (
         !data ||
         !data.sukses
       ) {
 
         hasil.style.display =
+          "none";
+
+        btnKartu.style.display =
           "none";
 
         pesan.textContent =
@@ -537,6 +639,10 @@ function cekID() {
 
       }
 
+
+      /* =========================
+         DATA BERHASIL
+         ========================= */
 
       const mahasiswa =
         data.data;
@@ -572,7 +678,19 @@ function cekID() {
           mahasiswa.unit || "-";
 
 
+      /* =========================
+         TAMPILKAN HASIL
+         ========================= */
+
       hasil.style.display =
+        "block";
+
+
+      /* =========================
+         TAMPILKAN TOMBOL KARTU
+         ========================= */
+
+      btnKartu.style.display =
         "block";
 
 
@@ -588,8 +706,16 @@ function cekID() {
     };
 
 
+  /* =========================
+     HAPUS JSONP LAMA
+     ========================= */
+
   hapusJSONP();
 
+
+  /* =========================
+     BUAT REQUEST JSONP
+     ========================= */
 
   const script =
     document.createElement("script");
@@ -609,6 +735,10 @@ function cekID() {
     Date.now();
 
 
+  /* =========================
+     ERROR SERVER
+     ========================= */
+
   script.onerror =
     function() {
 
@@ -616,6 +746,13 @@ function cekID() {
 
       btn.textContent =
         "🔎 CEK ID";
+
+
+      hasil.style.display =
+        "none";
+
+      btnKartu.style.display =
+        "none";
 
 
       pesan.textContent =
@@ -637,18 +774,68 @@ function cekID() {
 }
 
 
+/* =====================================================
+   BUKA KARTU PESERTA
+   ===================================================== */
+
+function bukaKartu() {
+
+  const id =
+    document
+      .getElementById("hasilID")
+      .textContent
+      .trim();
+
+
+  if (
+    !id ||
+    id === "-"
+  ) {
+
+    alert(
+      "ID peserta belum ditemukan."
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Membuka halaman ID Card
+   * berdasarkan ID peserta.
+   */
+
+  window.location.href =
+    "../?page=idcard&id=" +
+    encodeURIComponent(id);
+
+}
+
+
+/* =====================================================
+   HAPUS SCRIPT JSONP
+   ===================================================== */
+
 function hapusJSONP() {
 
   const script =
     document
       .getElementById("cekIDJsonp");
 
+
   if (script) {
+
     script.remove();
+
   }
 
 }
 
+
+/* =====================================================
+   ENTER = CEK ID
+   ===================================================== */
 
 document
   .getElementById("inputNPM")
@@ -656,8 +843,12 @@ document
     "keydown",
     function(event) {
 
-      if (event.key === "Enter") {
+      if (
+        event.key === "Enter"
+      ) {
+
         cekID();
+
       }
 
     }
