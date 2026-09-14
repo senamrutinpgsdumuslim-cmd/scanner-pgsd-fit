@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Cek ID Peserta | Senam Rutin Prodi PGSD</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f4f7fb,
+          #e8eef7
+        );
+
+      color: #1f2937;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .card {
+      background: #ffffff;
+
+      border-radius: 22px;
+
+      padding: 28px 24px;
+
+      box-shadow:
+        0 12px 35px rgba(0,0,0,0.10);
+
+      border: 1px solid #e5e7eb;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 15px;
+    }
+
+    .logo {
+      width: 62px;
+      height: 62px;
+      object-fit: contain;
+    }
+
+    .brand h1 {
+      margin: 0;
+
+      font-size: 23px;
+      font-weight: 800;
+
+      color: #111827;
+    }
+
+    .brand p {
+      margin: 7px 0 0;
+
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .label {
+      display: block;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+
+      padding: 14px 15px;
+
+      border: 1px solid #d1d5db;
+
+      border-radius: 12px;
+
+      font-size: 16px;
+
+      outline: none;
+
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+
+      box-shadow:
+        0 0 0 3px rgba(37,99,235,0.12);
+    }
+
+    button {
+      width: 100%;
+
+      border: none;
+
+      border-radius: 12px;
+
+      padding: 14px;
+
+      margin-top: 12px;
+
+      background: #2563eb;
+
+      color: white;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    button:disabled {
+      opacity: 0.65;
+      cursor: wait;
+    }
+
+    .hasil {
+      margin-top: 20px;
+
+      border-radius: 15px;
+
+      background: #f8fafc;
+
+      border: 1px solid #e2e8f0;
+
+      padding: 18px;
+
+      display: none;
+    }
+
+    .hasil-item {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 9px 0;
+
+      border-bottom: 1px solid #e5e7eb;
+
+      font-size: 14px;
+    }
+
+    .hasil-item:last-child {
+      border-bottom: none;
+    }
+
+    .hasil-item span:first-child {
+      color: #6b7280;
+    }
+
+    .hasil-item span:last-child {
+      font-weight: 700;
+
+      text-align: right;
+
+      color: #111827;
+    }
+
+    .id-box {
+      margin-bottom: 15px;
+
+      padding: 13px;
+
+      border-radius: 12px;
+
+      background: #eff6ff;
+
+      border: 1px solid #bfdbfe;
+
+      text-align: center;
+    }
+
+    .id-box small {
+      display: block;
+
+      color: #64748b;
+
+      font-size: 12px;
+
+      margin-bottom: 4px;
+    }
+
+    .id-box strong {
+      font-size: 22px;
+
+      color: #1d4ed8;
+    }
+
+    .pesan {
+      margin-top: 15px;
+
+      padding: 12px;
+
+      border-radius: 10px;
+
+      text-align: center;
+
+      font-size: 14px;
+
+      display: none;
+    }
+
+    .pesan.error {
+      display: block;
+
+      background: #fef2f2;
+
+      color: #b91c1c;
+
+      border: 1px solid #fecaca;
+    }
+
+    .pesan.loading {
+      display: block;
+
+      background: #eff6ff;
+
+      color: #1d4ed8;
+
+      border: 1px solid #bfdbfe;
+    }
+
+    .footer {
+      text-align: center;
+
+      margin-top: 20px;
+
+      font-size: 12px;
+
+      color: #9ca3af;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <!-- =========================
+         BRAND
+         ========================= -->
+
+    <div class="brand">
+
+      <div class="logos">
+
+        <img
+          src="../assets/logo-pgsd.png"
+          class="logo"
+          alt="Logo Prodi PGSD"
+        >
+
+        <img
+          src="../assets/logo-pgsdfit-2026.png"
+          class="logo"
+          alt="Logo PGSD FIT"
+        >
+
+      </div>
+
+      <h1>
+        Cek ID Peserta
+      </h1>
+
+      <p>
+        Senam Rutin Prodi PGSD
+      </p>
+
+    </div>
+
+
+    <!-- =========================
+         INPUT NPM
+         ========================= -->
+
+    <label
+      class="label"
+      for="inputNPM"
+    >
+      Masukkan NPM
+    </label>
+
+    <input
+      type="text"
+      id="inputNPM"
+      placeholder="Masukkan NPM Anda"
+      autocomplete="off"
+      inputmode="numeric"
+    >
+
+    <button
+      id="btnCek"
+      type="button"
+      onclick="cekID()"
+    >
+      🔎 CEK ID
+    </button>
+
+
+    <!-- =========================
+         PESAN
+         ========================= -->
+
+    <div
+      id="pesan"
+      class="pesan"
+    ></div>
+
+
+    <!-- =========================
+         HASIL
+         ========================= -->
+
+    <div
+      id="hasil"
+      class="hasil"
+    >
+
+      <div class="id-box">
+
+        <small>
+          ID PESERTA
+        </small>
+
+        <strong id="hasilID">
+          -
+        </strong>
+
+      </div>
+
+
+      <div class="hasil-item">
+
+        <span>
+          Nama
+        </span>
+
+        <span id="hasilNama">
+          -
+        </span>
+
+      </div>
+
+
+      <div class="hasil-item">
+
+        <span>
+          NPM
+        </span>
+
+        <span id="hasilNPM">
+          -
+        </span>
+
+      </div>
+
+
+      <div class="hasil-item">
+
+        <span>
+          Angkatan
+        </span>
+
+        <span id="hasilAngkatan">
+          -
+        </span>
+
+      </div>
+
+
+      <div class="hasil-item">
+
+        <span>
+          Unit
+        </span>
+
+        <span id="hasilUnit">
+          -
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer">
+
+      PGSD FIT • Senam Rutin Prodi PGSD
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec";
+
+
+function cekID() {
+
+  const npm =
+    document
+      .getElementById("inputNPM")
+      .value
+      .trim();
+
+
+  const btn =
+    document
+      .getElementById("btnCek");
+
+
+  const hasil =
+    document
+      .getElementById("hasil");
+
+
+  const pesan =
+    document
+      .getElementById("pesan");
+
+
+  if (!npm) {
+
+    hasil.style.display = "none";
+
+    pesan.textContent =
+      "Silakan masukkan NPM terlebih dahulu.";
+
+    pesan.className =
+      "pesan error";
+
+    return;
+
+  }
+
+
+  btn.disabled = true;
+
+  btn.textContent =
+    "Memeriksa...";
+
+
+  hasil.style.display = "none";
+
+
+  pesan.textContent =
+    "Sedang memeriksa data...";
+
+  pesan.className =
+    "pesan loading";
+
+
+  window.cekIDCallback =
+    function(data) {
+
+      btn.disabled = false;
+
+      btn.textContent =
+        "🔎 CEK ID";
+
+
+      if (
+        !data ||
+        !data.sukses
+      ) {
+
+        hasil.style.display =
+          "none";
+
+        pesan.textContent =
+          data && data.pesan
+            ? data.pesan
+            : "NPM tidak ditemukan.";
+
+        pesan.className =
+          "pesan error";
+
+        hapusJSONP();
+
+        return;
+
+      }
+
+
+      const mahasiswa =
+        data.data;
+
+
+      document
+        .getElementById("hasilID")
+        .textContent =
+          mahasiswa.id || "-";
+
+
+      document
+        .getElementById("hasilNama")
+        .textContent =
+          mahasiswa.nama || "-";
+
+
+      document
+        .getElementById("hasilNPM")
+        .textContent =
+          mahasiswa.npm || "-";
+
+
+      document
+        .getElementById("hasilAngkatan")
+        .textContent =
+          mahasiswa.angkatan || "-";
+
+
+      document
+        .getElementById("hasilUnit")
+        .textContent =
+          mahasiswa.unit || "-";
+
+
+      hasil.style.display =
+        "block";
+
+
+      pesan.textContent =
+        "Data peserta ditemukan.";
+
+      pesan.className =
+        "pesan loading";
+
+
+      hapusJSONP();
+
+    };
+
+
+  hapusJSONP();
+
+
+  const script =
+    document.createElement("script");
+
+
+  script.id =
+    "cekIDJsonp";
+
+
+  script.src =
+    APPS_SCRIPT_URL +
+    "?api=cekIDByNPM" +
+    "&npm=" +
+    encodeURIComponent(npm) +
+    "&callback=cekIDCallback" +
+    "&_=" +
+    Date.now();
+
+
+  script.onerror =
+    function() {
+
+      btn.disabled = false;
+
+      btn.textContent =
+        "🔎 CEK ID";
+
+
+      pesan.textContent =
+        "Gagal menghubungi server. Silakan coba lagi.";
+
+      pesan.className =
+        "pesan error";
+
+
+      script.remove();
+
+    };
+
+
+  document
+    .body
+    .appendChild(script);
+
+}
+
+
+function hapusJSONP() {
+
+  const script =
+    document
+      .getElementById("cekIDJsonp");
+
+  if (script) {
+    script.remove();
+  }
+
+}
+
+
+document
+  .getElementById("inputNPM")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Enter") {
+        cekID();
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+
+</html>
