@@ -774,10 +774,6 @@ function cekID() {
 }
 
 
-/* =====================================================
-   BUKA KARTU PESERTA
-   ===================================================== */
-
 function bukaKartu() {
 
   const id =
@@ -785,7 +781,6 @@ function bukaKartu() {
       .getElementById("hasilID")
       .textContent
       .trim();
-
 
   if (
     !id ||
@@ -800,18 +795,15 @@ function bukaKartu() {
 
   }
 
-
-  /*
-   * Membuka halaman ID Card
-   * berdasarkan ID peserta.
-   */
+  const URL_KARTU =
+    "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec";
 
   window.location.href =
-    "../?page=idcard&id=" +
+    URL_KARTU +
+    "?page=idcard&id=" +
     encodeURIComponent(id);
 
 }
-
 
 /* =====================================================
    HAPUS SCRIPT JSONP
