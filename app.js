@@ -243,8 +243,11 @@ async function suksesScan(decodedText) {
   const hasil =
     document.getElementById("hasil");
 
+  let timeout = null;
+
   try {
 
+    // Hentikan sementara scanner
     if (html5QrCode) {
       await html5QrCode.pause(true);
     }
@@ -255,13 +258,13 @@ async function suksesScan(decodedText) {
     const controller =
       new AbortController();
 
-    const timeout =
-      setTimeout(
-        function () {
-          controller.abort();
-        },
-        30000
-      );
+    // Timeout 20 detik
+    timeout = setTimeout(
+      function () {
+        controller.abort();
+      },
+      20000
+    );
 
     const response =
       await fetch(
@@ -276,7 +279,7 @@ async function suksesScan(decodedText) {
 
           body:
             "id=" +
-            encodeURIComponent(decodedText) +
+            encodeURIComponent(decodedText.trim()) +
 
             "&mode=" +
             encodeURIComponent(MODE),
@@ -287,12 +290,20 @@ async function suksesScan(decodedText) {
       );
 
     clearTimeout(timeout);
+    timeout = null;
 
+    // Ambil response sebagai text dulu
     const text =
       await response.text();
 
+    console.log(
+      "Response server:",
+      text
+    );
+
     let data;
 
+    // Coba ubah response menjadi JSON
     try {
 
       data =
@@ -301,22 +312,27 @@ async function suksesScan(decodedText) {
     } catch (e) {
 
       console.error(
-        "Respons server:",
+        "Response bukan JSON:",
         text
       );
 
       throw new Error(
-        "Respons server bukan JSON."
+        "Server mengirim respons yang tidak valid."
       );
     }
 
+    // Cek HTTP error
     if (!response.ok) {
 
       throw new Error(
         data.pesan ||
-        "Server error."
+        "Server mengalami masalah."
       );
     }
+
+    // ==============================
+    // HASIL ABSENSI
+    // ==============================
 
     if (data.sukses) {
 
@@ -326,22 +342,39 @@ async function suksesScan(decodedText) {
 
       tampilError(
         data.pesan ||
-        "Gagal menyimpan absensi."
+        "Absensi gagal disimpan."
       );
     }
 
   } catch (err) {
 
-    console.error(err);
-
-    tampilError(
-      err.name === "AbortError"
-        ? "Koneksi timeout (30 detik)."
-        : (
-            err.message ||
-            "Gagal menghubungi server."
-          )
+    console.error(
+      "ERROR SCANNER:",
+      err
     );
+
+    if (err.name === "AbortError") {
+
+      tampilError(
+        "⏳ Server belum merespons. Silakan coba scan lagi."
+      );
+
+    } else {
+
+      tampilError(
+        err.message ||
+        "Gagal menghubungi server."
+      );
+    }
+
+  } finally {
+
+    // Pastikan timeout selalu dibersihkan
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    processing = false;
   }
 }
 
