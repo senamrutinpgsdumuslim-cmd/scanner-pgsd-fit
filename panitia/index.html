@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Raker Panitia Senam Rutin Prodi PGSD</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, #26345f, #101426 60%, #080b14);
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      opacity: .75;
+    }
+
+    .card {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
+
+    .roulette {
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .label {
+      font-size: 14px;
+      opacity: .65;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+
+    #nama {
+      font-size: 42px;
+      font-weight: 800;
+      min-height: 55px;
+      transition: .15s;
+    }
+
+    #angkatan {
+      margin-top: 10px;
+      opacity: .7;
+    }
+
+    .button-area {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 13px 22px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    #btnMulai {
+      background: #ffd43b;
+      color: #171717;
+    }
+
+    #btnLock {
+      background: #35d07f;
+      color: #07150d;
+    }
+
+    button:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .tim-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .tim {
+      background: rgba(255,255,255,.05);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .tim h2 {
+      margin-bottom: 15px;
+    }
+
+    .tim-a {
+      border: 1px solid rgba(255,212,59,.35);
+    }
+
+    .tim-b {
+      border: 1px solid rgba(83,168,255,.35);
+    }
+
+    ol {
+      padding-left: 25px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    .hasil-terpilih {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 15px;
+      min-height: 25px;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 15px;
+      opacity: .75;
+    }
+
+    @media (max-width: 650px) {
+      .tim-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      #nama {
+        font-size: 30px;
+      }
+
+      .header h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>👥 PANITIA SENAM RUTIN PRODI PGSD</h1>
+    <p>🎲 Raker & Pembagian Tim</p>
+  </div>
+
+  <div class="card">
+
+    <div class="roulette">
+
+      <div class="label">
+        PERTEMUAN 3 • PEMBAGIAN TIM
+      </div>
+
+      <div id="nama">
+        SIAP?
+      </div>
+
+      <div id="angkatan">
+        13 orang akan dibagi menjadi 7 + 6
+      </div>
+
+    </div>
+
+    <div class="button-area">
+
+      <button id="btnMulai">
+        🎲 MULAI UNDIAN
+      </button>
+
+      <button id="btnLock" disabled>
+        🔒 KUNCI HASIL
+      </button>
+
+    </div>
+
+    <div id="hasilTerpilih" class="hasil-terpilih"></div>
+
+    <div id="status" class="status">
+      Menunggu data panitia...
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="tim-wrapper">
+
+      <div class="tim tim-a">
+        <h2>🅰️ TIM A — 7 ORANG</h2>
+        <ol id="timA"></ol>
+      </div>
+
+      <div class="tim tim-b">
+        <h2>🅱️ TIM B — 6 ORANG</h2>
+        <ol id="timB"></ol>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const URL_APPS_SCRIPT =
+  "ISI_URL_WEB_APP_APPS_SCRIPT_DI_SINI";
+
+
+let semuaOrang = [];
+
+let kandidat = [];
+
+let timA = [];
+
+let timB = [];
+
+let sedangUndi = false;
+
+let sudahSelesai = false;
+
+
+// ==========================================
+// AMBIL DATA DARI APPS SCRIPT
+// ==========================================
+
+async function loadData() {
+
+  try {
+
+    const response =
+      await fetch(
+        URL_APPS_SCRIPT +
+        "?page=api"
+      );
+
+    const data =
+      await response.json();
+
+    if (!data.sukses) {
+      throw new Error(
+        "Data gagal dimuat."
+      );
+    }
+
+    prosesDataPanitia(
+      data.panitia
+    );
+
+    document.getElementById(
+      "status"
+    ).textContent =
+      "13 orang Raker siap diundi.";
+
+  } catch (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "status"
+    ).textContent =
+      "❌ Gagal mengambil data panitia.";
+  }
+}
+
+
+// ==========================================
+// AMBIL 13 ORANG RAKER
+// ==========================================
+
+function prosesDataPanitia(data) {
+
+  if (!data || data.length < 2) {
+    return;
+  }
+
+  const header =
+    data[0];
+
+  const idxID =
+    header.indexOf("ID");
+
+  const idxNama =
+    header.indexOf("NAMA");
+
+  const idxAngkatan =
+    header.indexOf("ANGKATAN");
+
+  const idxJenis =
+    header.indexOf("JENIS");
+
+  const idxAktif =
+    header.indexOf("AKTIF");
+
+  semuaOrang = [];
+
+  for (
+    let i = 1;
+    i < data.length;
+    i++
+  ) {
+
+    const row =
+      data[i];
+
+    const jenis =
+      String(
+        row[idxJenis] || ""
+      )
+      .trim()
+      .toUpperCase();
+
+    const aktif =
+      String(
+        row[idxAktif] || ""
+      )
+      .trim()
+      .toUpperCase();
+
+    if (
+      jenis === "RAKER" &&
+      aktif === "YA"
+    ) {
+
+      semuaOrang.push({
+
+        id: row[idxID],
+
+        nama: row[idxNama],
+
+        angkatan:
+          row[idxAngkatan]
+
+      });
+
+    }
+
+  }
+
+  kandidat =
+    [...semuaOrang];
+
+}
+
+
+// ==========================================
+// MULAI UNDIAN
+// ==========================================
+
+document
+  .getElementById("btnMulai")
+  .addEventListener(
+    "click",
+    mulaiUndian
+  );
+
+
+function mulaiUndian() {
+
+  if (sedangUndi) {
+    return;
+  }
+
+  if (sudahSelesai) {
+    return;
+  }
+
+  if (kandidat.length === 0) {
+    return;
+  }
+
+  if (timA.length >= 7) {
+
+    // Sisa langsung masuk Tim B
+    timB =
+      [...kandidat];
+
+    kandidat = [];
+
+    tampilkanHasil();
+
+    return;
+  }
+
+  sedangUndi = true;
+
+  const namaEl =
+    document.getElementById(
+      "nama"
+    );
+
+  const angkatanEl =
+    document.getElementById(
+      "angkatan"
+    );
+
+  const hasilEl =
+    document.getElementById(
+      "hasilTerpilih"
+    );
+
+  hasilEl.textContent =
+    "";
+
+  let putaran = 0;
+
+  const durasi = 2200;
+
+  const interval =
+    setInterval(
+      () => {
+
+        const index =
+          Math.floor(
+            Math.random() *
+            kandidat.length
+          );
+
+        const orang =
+          kandidat[index];
+
+        namaEl.textContent =
+          orang.nama;
+
+        angkatanEl.textContent =
+          "Angkatan " +
+          orang.angkatan;
+
+        putaran++;
+
+      },
+      80
+    );
+
+
+  setTimeout(
+    () => {
+
+      clearInterval(
+        interval
+      );
+
+      const index =
+        Math.floor(
+          Math.random() *
+          kandidat.length
+        );
+
+      const terpilih =
+        kandidat.splice(
+          index,
+          1
+        )[0];
+
+
+      timA.push(
+        terpilih
+      );
+
+
+      namaEl.textContent =
+        "🎉 " +
+        terpilih.nama;
+
+      angkatanEl.textContent =
+        "Angkatan " +
+        terpilih.angkatan;
+
+      hasilEl.textContent =
+        "Terpilih masuk TIM A";
+
+
+      renderTim();
+
+
+      sedangUndi = false;
+
+
+      if (timA.length >= 7) {
+
+        timB =
+          [...kandidat];
+
+        kandidat = [];
+
+        renderTim();
+
+        document.getElementById(
+          "btnMulai"
+        ).disabled = true;
+
+        document.getElementById(
+          "btnLock"
+        ).disabled = false;
+
+        document.getElementById(
+          "status"
+        ).textContent =
+          "🎉 Pembagian 7 + 6 selesai. Silakan kunci hasil.";
+
+      }
+
+    },
+    durasi
+  );
+
+}
+
+
+// ==========================================
+// TAMPILKAN TIM
+// ==========================================
+
+function renderTim() {
+
+  const elA =
+    document.getElementById(
+      "timA"
+    );
+
+  const elB =
+    document.getElementById(
+      "timB"
+    );
+
+
+  elA.innerHTML = "";
+
+  elB.innerHTML = "";
+
+
+  timA.forEach(
+    orang => {
+
+      const li =
+        document.createElement(
+          "li"
+        );
+
+      li.textContent =
+        orang.nama +
+        " — " +
+        orang.angkatan;
+
+      elA.appendChild(
+        li
+      );
+
+    }
+  );
+
+
+  timB.forEach(
+    orang => {
+
+      const li =
+        document.createElement(
+          "li"
+        );
+
+      li.textContent =
+        orang.nama +
+        " — " +
+        orang.angkatan;
+
+      elB.appendChild(
+        li
+      );
+
+    }
+  );
+
+}
+
+
+// ==========================================
+// HASIL AKHIR
+// ==========================================
+
+function tampilkanHasil() {
+
+  renderTim();
+
+  document.getElementById(
+    "btnMulai"
+  ).disabled = true;
+
+  document.getElementById(
+    "btnLock"
+  ).disabled = false;
+
+}
+
+
+// ==========================================
+// KUNCI
+// ==========================================
+
+document
+  .getElementById("btnLock")
+  .addEventListener(
+    "click",
+    () => {
+
+      if (
+        timA.length !== 7 ||
+        timB.length !== 6
+      ) {
+
+        alert(
+          "Pembagian belum lengkap."
+        );
+
+        return;
+      }
+
+
+      sudahSelesai = true;
+
+
+      document.getElementById(
+        "btnLock"
+      ).disabled = true;
+
+
+      document.getElementById(
+        "status"
+      ).textContent =
+        "🔒 HASIL PEMBAGIAN TIM DIKUNCI.";
+
+    }
+  );
+
+
+// ==========================================
+// JALANKAN
+// ==========================================
+
+loadData();
+
+</script>
+
+</body>
+</html>
