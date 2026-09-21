@@ -1,688 +1,2034 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Raker Panitia Senam Rutin Prodi PGSD</title>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-    body {
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top, #26345f, #101426 60%, #080b14);
-      color: white;
-      padding: 20px;
-    }
+<title>
+Raker Panitia Senam Rutin Prodi PGSD
+</title>
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-    }
+<style>
 
-    .header {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .header h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
+body {
 
-    .header p {
-      opacity: .75;
-    }
+  margin: 0;
 
-    .card {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 20px;
-      padding: 25px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 15px 40px rgba(0,0,0,.25);
-    }
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
-    .roulette {
-      min-height: 230px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
+  background:
+    linear-gradient(
+      135deg,
+      #07111f,
+      #102a43,
+      #0b1728
+    );
 
-    .label {
-      font-size: 14px;
-      opacity: .65;
-      margin-bottom: 15px;
-      letter-spacing: 2px;
-    }
+  color: white;
 
-    #nama {
-      font-size: 42px;
-      font-weight: 800;
-      min-height: 55px;
-      transition: .15s;
-    }
+  min-height: 100vh;
 
-    #angkatan {
-      margin-top: 10px;
-      opacity: .7;
-    }
+}
 
-    .button-area {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
+.container {
 
-    button {
-      border: none;
-      border-radius: 12px;
-      padding: 13px 22px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: .2s;
-    }
+  width: 95%;
 
-    button:hover {
-      transform: translateY(-2px);
-    }
+  max-width: 1200px;
 
-    #btnMulai {
-      background: #ffd43b;
-      color: #171717;
-    }
+  margin:
+    0 auto;
 
-    #btnLock {
-      background: #35d07f;
-      color: #07150d;
-    }
+  padding:
+    25px 0 50px;
 
-    button:disabled {
-      opacity: .4;
-      cursor: not-allowed;
-      transform: none;
-    }
+}
 
-    .tim-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
+header {
 
-    .tim {
-      background: rgba(255,255,255,.05);
-      border-radius: 16px;
-      padding: 18px;
-    }
+  text-align: center;
 
-    .tim h2 {
-      margin-bottom: 15px;
-    }
+  margin-bottom: 25px;
 
-    .tim-a {
-      border: 1px solid rgba(255,212,59,.35);
-    }
+}
 
-    .tim-b {
-      border: 1px solid rgba(83,168,255,.35);
-    }
+header h1 {
 
-    ol {
-      padding-left: 25px;
-    }
+  margin: 0;
 
-    li {
-      margin: 8px 0;
-    }
+  font-size: 32px;
 
-    .hasil-terpilih {
-      text-align: center;
-      font-size: 18px;
-      margin-top: 15px;
-      min-height: 25px;
-    }
+}
 
-    .status {
-      text-align: center;
-      margin-top: 15px;
-      opacity: .75;
-    }
+header p {
 
-    @media (max-width: 650px) {
-      .tim-wrapper {
-        grid-template-columns: 1fr;
-      }
+  margin-top: 8px;
 
-      #nama {
-        font-size: 30px;
-      }
+  opacity: .8;
 
-      .header h1 {
-        font-size: 22px;
-      }
-    }
-  </style>
+}
+
+.card {
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid
+    rgba(255,255,255,.15);
+
+  border-radius: 20px;
+
+  padding: 22px;
+
+  margin-bottom: 20px;
+
+  backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 10px 35px
+    rgba(0,0,0,.25);
+
+}
+
+h2 {
+
+  margin-top: 0;
+
+}
+
+button {
+
+  border: none;
+
+  border-radius: 12px;
+
+  padding:
+    13px 20px;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  margin:
+    5px;
+
+}
+
+.btn-primary {
+
+  background:
+    #00d084;
+
+  color: #001b12;
+
+}
+
+.btn-warning {
+
+  background:
+    #ffb703;
+
+  color: #251900;
+
+}
+
+.btn-danger {
+
+  background:
+    #ff4d6d;
+
+  color: white;
+
+}
+
+button:disabled {
+
+  opacity: .4;
+
+  cursor:
+    not-allowed;
+
+}
+
+.status {
+
+  text-align: center;
+
+  padding:
+    12px;
+
+  border-radius:
+    12px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  margin-bottom:
+    20px;
+
+}
+
+.grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:
+    20px;
+
+}
+
+.team {
+
+  min-height:
+    300px;
+
+}
+
+.person {
+
+  padding:
+    13px;
+
+  margin:
+    8px 0;
+
+  border-radius:
+    12px;
+
+  background:
+    rgba(255,255,255,.07);
+
+  border:
+    1px solid
+    rgba(255,255,255,.1);
+
+}
+
+.person strong {
+
+  display:
+    block;
+
+}
+
+.badge {
+
+  display:
+    inline-block;
+
+  margin-top:
+    5px;
+
+  padding:
+    4px 8px;
+
+  border-radius:
+    8px;
+
+  background:
+    rgba(0,208,132,.18);
+
+  font-size:
+    12px;
+
+}
+
+.roulette {
+
+  text-align:
+    center;
+
+  min-height:
+    130px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  font-size:
+    30px;
+
+  font-weight:
+    bold;
+
+  border-radius:
+    18px;
+
+  background:
+    rgba(0,0,0,.2);
+
+  margin:
+    15px 0;
+
+  padding:
+    20px;
+
+}
+
+.result {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:
+    12px;
+
+}
+
+.resultBox {
+
+  padding:
+    15px;
+
+  border-radius:
+    14px;
+
+  background:
+    rgba(255,255,255,.07);
+
+}
+
+.resultBox h3 {
+
+  margin-top: 0;
+
+}
+
+.motivation {
+
+  margin-top:
+    10px;
+
+  padding:
+    12px;
+
+  border-radius:
+    10px;
+
+  background:
+    rgba(255,183,3,.13);
+
+  font-size:
+    14px;
+
+  line-height:
+    1.5;
+
+}
+
+.fixed {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:
+    10px;
+
+}
+
+.fixedPerson {
+
+  padding:
+    14px;
+
+  border-radius:
+    12px;
+
+  background:
+    rgba(255,255,255,.06);
+
+}
+
+.hidden {
+
+  display:
+    none !important;
+
+}
+
+.final {
+
+  text-align:
+    center;
+
+  padding:
+    30px;
+
+  border-radius:
+    20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,208,132,.18),
+      rgba(255,183,3,.12)
+    );
+
+}
+
+.final h2 {
+
+  font-size:
+    30px;
+
+}
+
+table {
+
+  width:
+    100%;
+
+  border-collapse:
+    collapse;
+
+  margin-top:
+    15px;
+
+}
+
+th,
+td {
+
+  padding:
+    10px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.1);
+
+  text-align:
+    left;
+
+}
+
+th {
+
+  background:
+    rgba(255,255,255,.08);
+
+}
+
+@media(max-width:700px) {
+
+  .grid,
+  .result {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .fixed {
+
+    grid-template-columns:
+      1fr 1fr;
+
+  }
+
+  header h1 {
+
+    font-size:
+      24px;
+
+  }
+
+  .roulette {
+
+    font-size:
+      22px;
+
+  }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
-  <div class="header">
-    <h1>👥 PANITIA SENAM RUTIN PRODI PGSD</h1>
-    <p>🎲 Raker & Pembagian Tim</p>
-  </div>
+<header>
 
-  <div class="card">
+<h1>
+🏃‍♂️ SENAM RUTIN PRODI PGSD
+</h1>
 
-    <div class="roulette">
+<p>
+🎯 RAKER PANITIA
+</p>
 
-      <div class="label">
-        PERTEMUAN 3 • PEMBAGIAN TIM
-      </div>
-
-      <div id="nama">
-        SIAP?
-      </div>
-
-      <div id="angkatan">
-        13 orang akan dibagi menjadi 7 + 6
-      </div>
-
-    </div>
-
-    <div class="button-area">
-
-      <button id="btnMulai">
-        🎲 MULAI UNDIAN
-      </button>
-
-      <button id="btnLock" disabled>
-        🔒 KUNCI HASIL
-      </button>
-
-    </div>
-
-    <div id="hasilTerpilih" class="hasil-terpilih"></div>
-
-    <div id="status" class="status">
-      Menunggu data panitia...
-    </div>
-
-  </div>
+</header>
 
 
-  <div class="card">
+<div
+  id="status"
+  class="status"
+>
+Memuat sistem...
+</div>
 
-    <div class="tim-wrapper">
 
-      <div class="tim tim-a">
-        <h2>🅰️ TIM A — 7 ORANG</h2>
-        <ol id="timA"></ol>
-      </div>
+<!-- =====================================================
+     PERTEMUAN
+===================================================== -->
 
-      <div class="tim tim-b">
-        <h2>🅱️ TIM B — 6 ORANG</h2>
-        <ol id="timB"></ol>
-      </div>
+<div class="card">
 
-    </div>
+<h2>
+📅 Pertemuan Aktif
+</h2>
 
-  </div>
+<div id="infoPertemuan">
+Memuat...
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     PANITIA TETAP
+===================================================== -->
+
+<div class="card">
+
+<h2>
+👑 PANITIA TETAP
+</h2>
+
+<div
+  id="panitiaTetap"
+  class="fixed"
+>
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     TEAM
+===================================================== -->
+
+<div class="card">
+
+<h2>
+🎲 PEMBAGIAN TIM RAKER
+</h2>
+
+<div
+  id="teamRoulette"
+  class="roulette"
+>
+SIAP?
+</div>
+
+<div style="text-align:center">
+
+<button
+  id="btnAcakTim"
+  class="btn-primary"
+  onclick="acakTim()"
+>
+🎲 ACAK TIM
+</button>
+
+<button
+  id="btnKunciTim"
+  class="btn-warning"
+  onclick="kunciTim()"
+  disabled
+>
+🔒 KUNCI TIM
+</button>
+
+</div>
+
+<div class="grid">
+
+<div class="card team">
+
+<h2>
+🅰️ TEAM A
+</h2>
+
+<div id="teamA">
+-
+</div>
+
+</div>
+
+
+<div class="card team">
+
+<h2>
+🅱️ TEAM B
+</h2>
+
+<div id="teamB">
+-
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     PERAN
+===================================================== -->
+
+<div
+  id="bagianTugas"
+  class="card hidden"
+>
+
+<h2>
+🎯 PEMBAGIAN TUGAS
+</h2>
+
+<div id="infoPeran">
+</div>
+
+<div
+  id="jobRoulette"
+  class="roulette"
+>
+SIAP MENENTUKAN PETUGAS?
+</div>
+
+<div style="text-align:center">
+
+<button
+  id="btnAcakTugas"
+  class="btn-primary"
+  onclick="acakTugas()"
+>
+🎰 MULAI PENGUNDIAN TUGAS
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     HASIL
+===================================================== -->
+
+<div
+  id="hasilSection"
+  class="card hidden"
+>
+
+<h2>
+🏆 HASIL PEMBAGIAN TUGAS
+</h2>
+
+<div
+  id="hasilTugas"
+  class="result"
+>
+</div>
+
+<br>
+
+<div style="text-align:center">
+
+<button
+  id="btnSimpan"
+  class="btn-warning"
+  onclick="simpanHasil()"
+  disabled
+>
+🔒 KUNCI & SIMPAN HASIL
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     FINAL
+===================================================== -->
+
+<div
+  id="finalSection"
+  class="card hidden"
+>
+
+<div class="final">
+
+<h2>
+🎉 HASIL RAKER RESMI!
+</h2>
+
+<p>
+Hasil telah disimpan dan dikunci.
+</p>
+
+<p>
+🫡 Selamat kepada seluruh pejuang
+Senam Rutin Prodi PGSD!
+</p>
+
+<p>
+<strong>
+Tidak ada yang salah dalam pembagian tugas...
+yang salah cuma kalau besok lupa datang. 😂🔥
+</strong>
+</p>
+
+</div>
+
+</div>
+
 
 </div>
 
 
 <script>
+
+// ==========================================================
+// KONFIGURASI
+// ==========================================================
+
 const URL_APPS_SCRIPT =
-  "https://script.google.com/macros/s/AKfycbwKRqPMwr-zvEeEcErIS0adxETCsYxO7FgnNV6PDib8KLL-qlek5TrT9wFt4RhcTTcm/exec";
-
-let semuaOrang = [];
-
-let kandidat = [];
-
-let timA = [];
-
-let timB = [];
-
-let sedangUndi = false;
-
-let sudahSelesai = false;
+"https://script.google.com/macros/s/AKfycbwKRqPMwr-zvEeEcErIS0adxETCsYxO7FgnNV6PDib8KLL-qlek5TrT9wFt4RhcTTcm/exec";
 
 
-// ==========================================
-// AMBIL DATA DARI APPS SCRIPT
-// ==========================================
+// ==========================================================
+// STATE
+// ==========================================================
+
+let DATA = null;
+
+let PERTEMUAN = null;
+
+let TIM = null;
+
+let HASIL_TUGAS = null;
+
+let SEDANG_MENGUNCI = false;
+
+
+// ==========================================================
+// LOAD
+// ==========================================================
+
+window.addEventListener(
+  "load",
+  loadData
+);
+
+
+// ==========================================================
+// LOAD DATA
+// ==========================================================
 
 async function loadData() {
 
+  setStatus(
+    "⏳ Menghubungkan ke sistem..."
+  );
+
   try {
 
-    const response =
+    const res =
       await fetch(
         URL_APPS_SCRIPT +
-        "?page=api"
+        "?action=api"
       );
 
     const data =
-      await response.json();
+      await res.json();
 
     if (!data.sukses) {
+
       throw new Error(
-        "Data gagal dimuat."
+        data.pesan ||
+        "Gagal mengambil data."
       );
+
     }
 
-    prosesDataPanitia(
-      data.panitia
+    DATA =
+      data;
+
+    PERTEMUAN =
+      data.pertemuan;
+
+    TIM =
+      data.tim;
+
+    tampilkanPertemuan();
+
+    tampilkanTetap();
+
+    tampilkanTim();
+
+    if (TIM.sudahDikunci) {
+
+      document
+        .getElementById(
+          "btnAcakTim"
+        )
+        .disabled = true;
+
+      document
+        .getElementById(
+          "btnKunciTim"
+        )
+        .disabled = true;
+
+      tampilkanBagianTugas();
+
+      setStatus(
+        "🔒 Tim sudah dikunci permanen."
+      );
+
+    } else {
+
+      setStatus(
+        "🎲 13 orang Raker siap diundi."
+      );
+
+    }
+
+  } catch (err) {
+
+    setStatus(
+      "❌ " +
+      err.message
     );
 
-    document.getElementById(
-      "status"
-    ).textContent =
-      "13 orang Raker siap diundi.";
-
-  } catch (error) {
-
-    console.error(error);
-
-    document.getElementById(
-      "status"
-    ).textContent =
-      "❌ Gagal mengambil data panitia.";
   }
+
 }
 
 
-// ==========================================
-// AMBIL 13 ORANG RAKER
-// ==========================================
+// ==========================================================
+// STATUS
+// ==========================================================
 
-function prosesDataPanitia(data) {
+function setStatus(text) {
 
-  if (!data || data.length < 2) {
+  document
+    .getElementById(
+      "status"
+    )
+    .textContent = text;
+
+}
+
+
+// ==========================================================
+// PERTEMUAN
+// ==========================================================
+
+function tampilkanPertemuan() {
+
+  document
+    .getElementById(
+      "infoPertemuan"
+    )
+    .innerHTML = `
+
+      <strong>
+        P${PERTEMUAN.pertemuan}
+      </strong>
+
+      <br>
+
+      Tanggal:
+      ${PERTEMUAN.tanggal || "-"}
+
+      <br>
+
+      Status:
+      ${PERTEMUAN.status}
+
+      <br>
+
+      Tim Instruktur:
+      <strong>
+        TEAM ${PERTEMUAN.timInstruktur}
+      </strong>
+
+    `;
+
+}
+
+
+// ==========================================================
+// PANITIA TETAP
+// ==========================================================
+
+function tampilkanTetap() {
+
+  const box =
+    document.getElementById(
+      "panitiaTetap"
+    );
+
+  box.innerHTML = "";
+
+  DATA.tetap.forEach(
+    function(person) {
+
+      box.innerHTML += `
+
+        <div class="fixedPerson">
+
+          <strong>
+            ${escapeHtml(person.nama)}
+          </strong>
+
+          <br>
+
+          <span class="badge">
+            ${escapeHtml(person.tugas)}
+          </span>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+}
+
+
+// ==========================================================
+// TAMPILKAN TIM
+// ==========================================================
+
+function tampilkanTim() {
+
+  tampilkanDaftar(
+    "teamA",
+    TIM.timA
+  );
+
+  tampilkanDaftar(
+    "teamB",
+    TIM.timB
+  );
+
+}
+
+
+// ==========================================================
+// DAFTAR
+// ==========================================================
+
+function tampilkanDaftar(
+  elementId,
+  daftar
+) {
+
+  const box =
+    document.getElementById(
+      elementId
+    );
+
+  box.innerHTML = "";
+
+  daftar.forEach(
+    function(person, index) {
+
+      box.innerHTML += `
+
+        <div class="person">
+
+          <strong>
+            ${index + 1}.
+            ${escapeHtml(person.nama)}
+          </strong>
+
+          <span class="badge">
+            ${escapeHtml(person.angkatan)}
+          </span>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+}
+
+
+// ==========================================================
+// ACAK TIM
+// ==========================================================
+
+function acakTim() {
+
+  if (TIM.sudahDikunci) {
+
+    alert(
+      "Tim sudah dikunci."
+    );
+
     return;
+
   }
 
-  const header =
-    data[0];
+  const pool =
+    [
+      ...TIM.timA,
+      ...TIM.timB
+    ];
 
-  const idxID =
-    header.indexOf("ID");
+  if (pool.length !== 13) {
 
-  const idxNama =
-    header.indexOf("NAMA");
+    alert(
+      "Pool belum benar."
+    );
 
-  const idxAngkatan =
-    header.indexOf("ANGKATAN");
+    return;
 
-  const idxJenis =
-    header.indexOf("JENIS");
+  }
 
-  const idxAktif =
-    header.indexOf("AKTIF");
+  // acak lokal
 
-  semuaOrang = [];
+  const acak =
+    pool.sort(
+      () =>
+        Math.random() -
+        .5
+    );
 
-  for (
-    let i = 1;
-    i < data.length;
-    i++
+  TIM.timA =
+    acak.slice(0,7);
+
+  TIM.timB =
+    acak.slice(7,13);
+
+  const roulette =
+    document.getElementById(
+      "teamRoulette"
+    );
+
+  let count = 0;
+
+  const timer =
+    setInterval(
+      function() {
+
+        const orang =
+          acak[
+            Math.floor(
+              Math.random() *
+              acak.length
+            )
+          ];
+
+        roulette.textContent =
+          orang.nama;
+
+        count++;
+
+        if (count >= 20) {
+
+          clearInterval(timer);
+
+          tampilkanTim();
+
+          document
+            .getElementById(
+              "btnKunciTim"
+            )
+            .disabled = false;
+
+          setStatus(
+            "🎲 Tim sudah diacak. Silakan kunci."
+          );
+
+        }
+
+      },
+      100
+    );
+
+}
+
+
+// ==========================================================
+// KUNCI TIM
+// ==========================================================
+
+async function kunciTim() {
+
+  if (TIM.sudahDikunci) return;
+
+  const yakin =
+    confirm(
+      "Yakin Team A dan Team B sudah benar dan ingin dikunci permanen?"
+    );
+
+  if (!yakin) return;
+
+  setStatus(
+    "⏳ Mengunci tim..."
+  );
+
+  try {
+
+    const body =
+      new URLSearchParams();
+
+    body.append(
+      "action",
+      "kunciTim"
+    );
+
+    body.append(
+      "data",
+      JSON.stringify({
+
+        timA:
+          TIM.timA,
+
+        timB:
+          TIM.timB
+
+      })
+    );
+
+    const res =
+      await fetch(
+        URL_APPS_SCRIPT,
+        {
+          method:
+            "POST",
+
+          headers: {
+            "Content-Type":
+              "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+
+          body:
+            body.toString()
+        }
+      );
+
+    const data =
+      await res.json();
+
+    if (!data.sukses) {
+
+      throw new Error(
+        data.pesan
+      );
+
+    }
+
+    TIM =
+      data;
+
+    document
+      .getElementById(
+        "btnAcakTim"
+      )
+      .disabled = true;
+
+    document
+      .getElementById(
+        "btnKunciTim"
+      )
+      .disabled = true;
+
+    tampilkanTim();
+
+    tampilkanBagianTugas();
+
+    setStatus(
+      "🔒 TIM BERHASIL DIKUNCI PERMANEN."
+    );
+
+  } catch (err) {
+
+    setStatus(
+      "❌ " +
+      err.message
+    );
+
+  }
+
+}
+
+
+// ==========================================================
+// TAMPILKAN BAGIAN TUGAS
+// ==========================================================
+
+function tampilkanBagianTugas() {
+
+  document
+    .getElementById(
+      "bagianTugas"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+  const instruktur =
+    PERTEMUAN.timInstruktur;
+
+  const non =
+    instruktur === "A"
+      ? "B"
+      : "A";
+
+  document
+    .getElementById(
+      "infoPeran"
+    )
+    .innerHTML = `
+
+      <p>
+        🔥 <strong>
+        TEAM ${instruktur}
+        </strong>
+        =
+        INSTRUKTUR
+      </p>
+
+      <p>
+        🛡️ <strong>
+        TEAM ${non}
+        </strong>
+        =
+        NON-INSTRUKTUR
+      </p>
+
+    `;
+
+}
+
+
+// ==========================================================
+// ACAK TUGAS
+// ==========================================================
+
+function acakTugas() {
+
+  if (HASIL_TUGAS) {
+
+    alert(
+      "Tugas sudah diundi."
+    );
+
+    return;
+
+  }
+
+  const instruktur =
+    PERTEMUAN.timInstruktur;
+
+  const non =
+    instruktur === "A"
+      ? "B"
+      : "A";
+
+  const daftarNon =
+    non === "A"
+      ? TIM.timA
+      : TIM.timB;
+
+  if (daftarNon.length !== 6) {
+
+    alert(
+      "Tim non-instruktur harus 6 orang."
+    );
+
+    return;
+
+  }
+
+
+  const roulette =
+    document.getElementById(
+      "jobRoulette"
+    );
+
+  let count = 0;
+
+  const timer =
+    setInterval(
+      function() {
+
+        const person =
+          daftarNon[
+            Math.floor(
+              Math.random() *
+              daftarNon.length
+            )
+          ];
+
+        roulette.textContent =
+          person.nama;
+
+        count++;
+
+        if (count >= 30) {
+
+          clearInterval(timer);
+
+          jalankanPembagianTugas(
+            daftarNon
+          );
+
+        }
+
+      },
+      100
+    );
+
+}
+
+
+// ==========================================================
+// PEMBAGIAN TUGAS
+// ==========================================================
+
+function jalankanPembagianTugas(
+  daftarNon
+) {
+
+  // Algoritma utama
+  //
+  // keamanan:
+  // 2024 = 2
+  // 2025 = 2
+  // 2026 = 2
+  //
+  // lalu:
+  // 3 = kotak
+  // 1 = terlambat
+  // 1 = konsumsi
+  // semua dari keamanan
+
+  const byGeneration = {
+
+    "2024":
+      daftarNon.filter(
+        p =>
+          String(p.angkatan)
+            .trim() === "2024"
+      ),
+
+    "2025":
+      daftarNon.filter(
+        p =>
+          String(p.angkatan)
+            .trim() === "2025"
+      ),
+
+    "2026":
+      daftarNon.filter(
+        p =>
+          String(p.angkatan)
+            .trim() === "2026"
+      )
+
+  };
+
+
+  let keamanan = [];
+
+
+  // 2 per angkatan
+
+  [
+    "2024",
+    "2025",
+    "2026"
+  ].forEach(
+    function(gen) {
+
+      const kandidat =
+        shuffle(
+          byGeneration[gen]
+        );
+
+      keamanan.push(
+        ...kandidat.slice(
+          0,
+          2
+        )
+      );
+
+    }
+  );
+
+
+  // Kalau ada angkatan kurang,
+  // isi dari orang yang belum masuk.
+
+  const sudah =
+    {};
+
+  keamanan.forEach(
+    p => sudah[p.id] = true
+  );
+
+  let sisa =
+    daftarNon.filter(
+      p => !sudah[p.id]
+    );
+
+  sisa =
+    shuffle(sisa);
+
+
+  while (
+    keamanan.length < 6 &&
+    sisa.length
   ) {
 
-    const row =
-      data[i];
+    keamanan.push(
+      sisa.shift()
+    );
 
-    const jenis =
-      String(
-        row[idxJenis] || ""
-      )
-      .trim()
-      .toUpperCase();
+  }
 
-    const aktif =
-      String(
-        row[idxAktif] || ""
-      )
-      .trim()
-      .toUpperCase();
 
-    if (
-      jenis === "RAKER" &&
-      aktif === "YA"
-    ) {
+  keamanan =
+    shuffle(keamanan);
 
-      semuaOrang.push({
 
-        id: row[idxID],
+  // --------------------------------------------------------
+  // KOTAK 3
+  // --------------------------------------------------------
 
-        nama: row[idxNama],
+  const kandidatKotak =
+    shuffle(
+      keamanan.slice()
+    ).slice(0,3);
+
+
+  // --------------------------------------------------------
+  // SISA UNTUK TERLAMBAT + KONSUMSI
+  // --------------------------------------------------------
+
+  const idKotak =
+    {};
+
+  kandidatKotak.forEach(
+    p =>
+      idKotak[p.id] = true
+  );
+
+
+  const sisaRangkap =
+    keamanan.filter(
+      p => !idKotak[p.id]
+    );
+
+
+  const sisaAcak =
+    shuffle(
+      sisaRangkap
+    );
+
+
+  const terlambat =
+    sisaAcak[0];
+
+
+  const konsumsi =
+    sisaAcak[1];
+
+
+  // --------------------------------------------------------
+  // KOTAK ANGKATAN
+  // --------------------------------------------------------
+
+  const kotakGenerasi =
+    shuffle([
+      "2024",
+      "2025",
+      "2026"
+    ]);
+
+
+  // --------------------------------------------------------
+  // BENTUK HASIL
+  // --------------------------------------------------------
+
+  HASIL_TUGAS =
+    keamanan.map(
+      function(person) {
+
+        let rangkap =
+          "-";
+
+        let setelah =
+          "Fokus menjaga keamanan.";
+
+        const kotakIndex =
+          kandidatKotak.findIndex(
+            p =>
+              p.id === person.id
+          );
+
+
+        if (kotakIndex >= 0) {
+
+          rangkap =
+            "KOTAK ID " +
+            kotakGenerasi[
+              kotakIndex
+            ];
+
+          setelah =
+            "Setelah urusan kotak selesai, kembali membantu keamanan.";
+
+        }
+
+
+        if (
+          terlambat &&
+          terlambat.id === person.id
+        ) {
+
+          rangkap =
+            "TERLAMBAT";
+
+          setelah =
+            "Setelah menangani peserta terlambat, kembali membantu keamanan.";
+
+        }
+
+
+        if (
+          konsumsi &&
+          konsumsi.id === person.id
+        ) {
+
+          rangkap =
+            "KONSUMSI";
+
+          setelah =
+            "Setelah konsumsi selesai, kembali membantu keamanan.";
+
+        }
+
+
+        return {
+
+          id:
+            person.id,
+
+          nama:
+            person.nama,
+
+          angkatan:
+            person.angkatan,
+
+          tim:
+            PERTEMUAN.timInstruktur === "A"
+              ? "B"
+              : "A",
+
+          peran:
+            "NON-INSTRUKTUR",
+
+          jobdeskUtama:
+            "KEAMANAN " +
+            person.angkatan,
+
+          jobdeskRangkap:
+            rangkap,
+
+          setelahSelesai:
+            setelah
+
+        };
+
+      }
+    );
+
+
+  // --------------------------------------------------------
+  // TAMBAHKAN INSTRUKTUR
+  // --------------------------------------------------------
+
+  const daftarInstruktur =
+    PERTEMUAN.timInstruktur === "A"
+      ? TIM.timA
+      : TIM.timB;
+
+
+  daftarInstruktur.forEach(
+    function(person) {
+
+      HASIL_TUGAS.push({
+
+        id:
+          person.id,
+
+        nama:
+          person.nama,
 
         angkatan:
-          row[idxAngkatan]
+          person.angkatan,
+
+        tim:
+          PERTEMUAN.timInstruktur,
+
+        peran:
+          "INSTRUKTUR",
+
+        jobdeskUtama:
+          "INSTRUKTUR",
+
+        jobdeskRangkap:
+          "-",
+
+        setelahSelesai:
+          "Tetap mendampingi kegiatan senam."
 
       });
 
     }
+  );
 
-  }
 
-  kandidat =
-    [...semuaOrang];
+  tampilkanHasil();
 
 }
 
 
-// ==========================================
-// MULAI UNDIAN
-// ==========================================
+// ==========================================================
+// SHUFFLE FRONTEND
+// ==========================================================
 
-document
-  .getElementById("btnMulai")
-  .addEventListener(
-    "click",
-    mulaiUndian
-  );
+function shuffle(arr) {
 
-
-function mulaiUndian() {
-
-  if (sedangUndi) {
-    return;
-  }
-
-  if (sudahSelesai) {
-    return;
-  }
-
-  if (kandidat.length === 0) {
-    return;
-  }
-
-  if (timA.length >= 7) {
-
-    // Sisa langsung masuk Tim B
-    timB =
-      [...kandidat];
-
-    kandidat = [];
-
-    tampilkanHasil();
-
-    return;
-  }
-
-  sedangUndi = true;
-
-  const namaEl =
-    document.getElementById(
-      "nama"
+  return arr
+    .slice()
+    .sort(
+      () =>
+        Math.random() -
+        0.5
     );
-
-  const angkatanEl =
-    document.getElementById(
-      "angkatan"
-    );
-
-  const hasilEl =
-    document.getElementById(
-      "hasilTerpilih"
-    );
-
-  hasilEl.textContent =
-    "";
-
-  let putaran = 0;
-
-  const durasi = 2200;
-
-  const interval =
-    setInterval(
-      () => {
-
-        const index =
-          Math.floor(
-            Math.random() *
-            kandidat.length
-          );
-
-        const orang =
-          kandidat[index];
-
-        namaEl.textContent =
-          orang.nama;
-
-        angkatanEl.textContent =
-          "Angkatan " +
-          orang.angkatan;
-
-        putaran++;
-
-      },
-      80
-    );
-
-
-  setTimeout(
-    () => {
-
-      clearInterval(
-        interval
-      );
-
-      const index =
-        Math.floor(
-          Math.random() *
-          kandidat.length
-        );
-
-      const terpilih =
-        kandidat.splice(
-          index,
-          1
-        )[0];
-
-
-      timA.push(
-        terpilih
-      );
-
-
-      namaEl.textContent =
-        "🎉 " +
-        terpilih.nama;
-
-      angkatanEl.textContent =
-        "Angkatan " +
-        terpilih.angkatan;
-
-      hasilEl.textContent =
-        "Terpilih masuk TIM A";
-
-
-      renderTim();
-
-
-      sedangUndi = false;
-
-
-      if (timA.length >= 7) {
-
-        timB =
-          [...kandidat];
-
-        kandidat = [];
-
-        renderTim();
-
-        document.getElementById(
-          "btnMulai"
-        ).disabled = true;
-
-        document.getElementById(
-          "btnLock"
-        ).disabled = false;
-
-        document.getElementById(
-          "status"
-        ).textContent =
-          "🎉 Pembagian 7 + 6 selesai. Silakan kunci hasil.";
-
-      }
-
-    },
-    durasi
-  );
 
 }
 
 
-// ==========================================
-// TAMPILKAN TIM
-// ==========================================
-
-function renderTim() {
-
-  const elA =
-    document.getElementById(
-      "timA"
-    );
-
-  const elB =
-    document.getElementById(
-      "timB"
-    );
-
-
-  elA.innerHTML = "";
-
-  elB.innerHTML = "";
-
-
-  timA.forEach(
-    orang => {
-
-      const li =
-        document.createElement(
-          "li"
-        );
-
-      li.textContent =
-        orang.nama +
-        " — " +
-        orang.angkatan;
-
-      elA.appendChild(
-        li
-      );
-
-    }
-  );
-
-
-  timB.forEach(
-    orang => {
-
-      const li =
-        document.createElement(
-          "li"
-        );
-
-      li.textContent =
-        orang.nama +
-        " — " +
-        orang.angkatan;
-
-      elB.appendChild(
-        li
-      );
-
-    }
-  );
-
-}
-
-
-// ==========================================
-// HASIL AKHIR
-// ==========================================
+// ==========================================================
+// TAMPILKAN HASIL
+// ==========================================================
 
 function tampilkanHasil() {
 
-  renderTim();
+  const section =
+    document.getElementById(
+      "hasilSection"
+    );
 
-  document.getElementById(
-    "btnMulai"
-  ).disabled = true;
-
-  document.getElementById(
-    "btnLock"
-  ).disabled = false;
-
-}
+  section
+    .classList.remove(
+      "hidden"
+    );
 
 
-// ==========================================
-// KUNCI
-// ==========================================
+  const box =
+    document.getElementById(
+      "hasilTugas"
+    );
 
-document
-  .getElementById("btnLock")
-  .addEventListener(
-    "click",
-    () => {
+  box.innerHTML = "";
 
-      if (
-        timA.length !== 7 ||
-        timB.length !== 6
-      ) {
 
-        alert(
-          "Pembagian belum lengkap."
+  HASIL_TUGAS.forEach(
+    function(person) {
+
+      let motivasi =
+        motivasiLokal(
+          person.jobdeskRangkap,
+          person.jobdeskUtama,
+          person.nama
         );
 
-        return;
-      }
 
+      box.innerHTML += `
 
-      sudahSelesai = true;
+        <div class="resultBox">
 
+          <h3>
+            ${escapeHtml(person.nama)}
+          </h3>
 
-      document.getElementById(
-        "btnLock"
-      ).disabled = true;
+          <p>
+            👥 Team:
+            <strong>
+              ${escapeHtml(person.tim)}
+            </strong>
+          </p>
 
+          <p>
+            🎯 Peran:
+            <strong>
+              ${escapeHtml(person.peran)}
+            </strong>
+          </p>
 
-      document.getElementById(
-        "status"
-      ).textContent =
-        "🔒 HASIL PEMBAGIAN TIM DIKUNCI.";
+          <p>
+            🛡️ Tugas Utama:
+            <strong>
+              ${escapeHtml(person.jobdeskUtama)}
+            </strong>
+          </p>
+
+          <p>
+            🔄 Rangkap:
+            <strong>
+              ${escapeHtml(person.jobdeskRangkap)}
+            </strong>
+          </p>
+
+          <p>
+            ➡️ Setelah selesai:
+            ${escapeHtml(person.setelahSelesai)}
+          </p>
+
+          <div class="motivation">
+
+            ${escapeHtml(motivasi)}
+
+          </div>
+
+        </div>
+
+      `;
 
     }
   );
 
 
-// ==========================================
-// JALANKAN
-// ==========================================
+  document
+    .getElementById(
+      "btnSimpan"
+    )
+    .disabled = false;
 
-loadData();
+
+  setStatus(
+    "🎉 Semua tugas berhasil diundi. Periksa hasil sebelum dikunci."
+  );
+
+}
+
+
+// ==========================================================
+// MOTIVASI FRONTEND
+// ==========================================================
+
+function motivasiLokal(
+  rangkap,
+  utama,
+  nama
+) {
+
+  const r =
+    String(rangkap || "")
+      .toUpperCase();
+
+  const u =
+    String(utama || "")
+      .toUpperCase();
+
+
+  if (
+    r.indexOf("KOTAK ID") >= 0
+  ) {
+
+    return (
+      "📦 SELAMAT " +
+      nama +
+      "! Kamu penjaga kotak ID Card. " +
+      "Yang boleh hilang cuma rasa malas, bukan ID Card! 😂"
+    );
+
+  }
+
+
+  if (r === "TERLAMBAT") {
+
+    return (
+      "⏰ SELAMAT " +
+      nama +
+      "! Polisi keterlambatan resmi bertugas. " +
+      "Tegas boleh, galak jangan! 😂"
+    );
+
+  }
+
+
+  if (r === "KONSUMSI") {
+
+    return (
+      "🍱 SELAMAT " +
+      nama +
+      "! Kamu dipercaya menjaga perut panitia. " +
+      "Jangan sampai konsumsi lebih cepat hilang daripada peserta! 😂"
+    );
+
+  }
+
+
+  if (
+    u.indexOf("KEAMANAN") >= 0
+  ) {
+
+    return (
+      "🛡️ " +
+      nama +
+      ", kamu adalah benteng pertahanan hari ini. " +
+      "Mata tajam, badan siap, jangan kalah sama ngantuk! 😂"
+    );
+
+  }
+
+
+  return (
+    "🔥 GAS " +
+    nama +
+    "! Tugas menanti, jangan pura-pura tidak melihat! 😂"
+  );
+
+}
+
+
+// ==========================================================
+// SIMPAN HASIL
+// ==========================================================
+
+async function simpanHasil() {
+
+  if (
+    !HASIL_TUGAS ||
+    !HASIL_TUGAS.length
+  ) {
+
+    alert(
+      "Belum ada hasil."
+    );
+
+    return;
+
+  }
+
+
+  if (SEDANG_MENGUNCI) return;
+
+
+  const yakin =
+    confirm(
+      "Yakin semua hasil sudah benar?\n\nSetelah dikunci, hasil tidak bisa diacak ulang."
+    );
+
+
+  if (!yakin) return;
+
+
+  SEDANG_MENGUNCI = true;
+
+
+  const btn =
+    document.getElementById(
+      "btnSimpan"
+    );
+
+  btn.disabled = true;
+
+  btn.textContent =
+    "⏳ MENYIMPAN...";
+
+
+  setStatus(
+    "⏳ Menyimpan hasil..."
+  );
+
+
+  try {
+
+    const body =
+      new URLSearchParams();
+
+    body.append(
+      "action",
+      "simpanHasil"
+    );
+
+    body.append(
+      "data",
+      JSON.stringify({
+
+        pertemuan:
+          PERTEMUAN.pertemuan,
+
+        tanggal:
+          PERTEMUAN.tanggal,
+
+        hasil:
+          HASIL_TUGAS
+
+      })
+    );
+
+
+    const res =
+      await fetch(
+        URL_APPS_SCRIPT,
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/x-www-form-urlencoded;charset=UTF-8"
+
+          },
+
+          body:
+            body.toString()
+
+        }
+      );
+
+
+    const data =
+      await res.json();
+
+
+    if (!data.sukses) {
+
+      throw new Error(
+        data.pesan ||
+        "Gagal menyimpan."
+      );
+
+    }
+
+
+    document
+      .getElementById(
+        "finalSection"
+      )
+      .classList.remove(
+        "hidden"
+      );
+
+
+    setStatus(
+      "🔒 HASIL BERHASIL DIKUNCI."
+    );
+
+
+    btn.textContent =
+      "🔒 HASIL SUDAH TERKUNCI";
+
+
+  } catch (err) {
+
+    SEDANG_MENGUNCI = false;
+
+    btn.disabled = false;
+
+    btn.textContent =
+      "🔒 KUNCI & SIMPAN HASIL";
+
+
+    setStatus(
+      "❌ " +
+      err.message
+    );
+
+  }
+
+}
+
+
+// ==========================================================
+// ESCAPE HTML
+// ==========================================================
+
+function escapeHtml(text) {
+
+  return String(
+    text || ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
 
 </script>
 
 </body>
+
 </html>
