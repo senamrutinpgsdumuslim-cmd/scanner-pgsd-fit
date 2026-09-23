@@ -147,160 +147,206 @@ function initCharts() {
 
 
 // =========================================
-// LOAD DASHBOARD
+// LOAD DASHBOARD - JSONP
+// Menghindari CORS GitHub Pages → Apps Script
 // =========================================
-async function loadDashboard() {
 
-  try {
+function loadDashboard() {
 
-    const response =
-      await fetch(
-        API_URL +
-        "&t=" +
-        Date.now()
-      );
+  const callbackName =
+    "dashboardCallback_" +
+    Date.now();
+
+  window[callbackName] =
+    function(result) {
+
+      try {
+
+        if (!result || !result.sukses) {
+
+          console.error(
+            "Dashboard API gagal:",
+            result
+          );
+
+          return;
+        }
+
+        // =======================================
+        // STATISTIK
+        // =======================================
+
+        renderStatistik(
+          result.statistik || {}
+        );
 
 
-    const result =
-      await response.json();
+        // =======================================
+        // ABSENSI TERBARU
+        // =======================================
+
+        absensiTerbaruData =
+          Array.isArray(result.terbaru)
+            ? result.terbaru
+            : [];
 
 
-    if (!result || !result.sukses) {
+        renderAbsensiTerbaru(
+          absensiTerbaruData
+        );
+
+
+        // =======================================
+        // SEARCH ABSENSI
+        // =======================================
+
+        setupSearchAbsensi();
+
+
+        // =======================================
+        // GRAFIK KEHADIRAN
+        // =======================================
+
+        if (
+          attendanceChart &&
+          result.grafik
+        ) {
+
+          attendanceChart.data.labels =
+            Array.isArray(
+              result.grafik.labels
+            )
+              ? result.grafik.labels
+              : [];
+
+
+          attendanceChart.data.datasets[0].data =
+            Array.isArray(
+              result.grafik.data
+            )
+              ? result.grafik.data
+              : [];
+
+
+          attendanceChart.update();
+        }
+
+
+        // =======================================
+        // GRAFIK SEMUA UNIT
+        // =======================================
+
+        if (
+          unitChart &&
+          Array.isArray(
+            result.rankingUnitKeseluruhan
+          )
+        ) {
+
+          const dataUnit =
+            result.rankingUnitKeseluruhan;
+
+
+          unitChart.data.labels =
+            dataUnit.map(
+              function(item) {
+
+                return (
+                  "Unit " +
+                  String(
+                    item.unit || "-"
+                  )
+                );
+
+              }
+            );
+
+
+          unitChart.data.datasets[0].data =
+            dataUnit.map(
+              function(item) {
+
+                return Number(
+                  item.hadir || 0
+                );
+
+              }
+            );
+
+
+          unitChart.update();
+        }
+
+
+        // =======================================
+        // KLASEMEN UNIT PER ANGKATAN
+        // =======================================
+
+        renderRankingUnitPerAngkatan(
+          result.rankingUnit || {}
+        );
+
+
+        console.log(
+          "Dashboard berhasil dimuat."
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Error render Dashboard:",
+          error
+        );
+
+      } finally {
+
+        delete window[callbackName];
+
+        const script =
+          document.getElementById(
+            callbackName
+          );
+
+        if (script) {
+          script.remove();
+        }
+
+      }
+    };
+
+
+  const script =
+    document.createElement("script");
+
+  script.id =
+    callbackName;
+
+  script.src =
+    API_URL +
+    "&callback=" +
+    encodeURIComponent(
+      callbackName
+    ) +
+    "&t=" +
+    Date.now();
+
+
+  script.onerror =
+    function() {
 
       console.error(
-        "Dashboard API gagal:",
-        result
+        "Gagal menghubungi Dashboard Apps Script."
       );
 
-      return;
-    }
+      delete window[callbackName];
+
+      script.remove();
+    };
 
 
-    // =======================================
-    // STATISTIK
-    // =======================================
-
-    renderStatistik(
-      result.statistik || {}
-    );
-
-
-    // =======================================
-    // ABSENSI TERBARU
-    // Maksimal data sesuai kiriman backend
-    // HADIR + TERLAMBAT + ALPHA
-    // =======================================
-
-    absensiTerbaruData =
-      Array.isArray(result.terbaru)
-        ? result.terbaru
-        : [];
-
-
-    renderAbsensiTerbaru(
-      absensiTerbaruData
-    );
-
-
-    // =======================================
-    // SEARCH ABSENSI
-    // =======================================
-
-    setupSearchAbsensi();
-
-
-    // =======================================
-    // GRAFIK KEHADIRAN PER PERTEMUAN
-    // =======================================
-
-    if (
-      attendanceChart &&
-      result.grafik
-    ) {
-
-      attendanceChart.data.labels =
-        Array.isArray(
-          result.grafik.labels
-        )
-          ? result.grafik.labels
-          : [];
-
-
-      attendanceChart.data
-        .datasets[0]
-        .data =
-        Array.isArray(
-          result.grafik.data
-        )
-          ? result.grafik.data
-          : [];
-
-
-      attendanceChart.update();
-    }
-
-
-    // =======================================
-    // GRAFIK SEMUA UNIT
-    // =======================================
-
-    if (
-      unitChart &&
-      Array.isArray(
-        result.rankingUnitKeseluruhan
-      )
-    ) {
-
-      const dataUnit =
-        result.rankingUnitKeseluruhan;
-
-
-      unitChart.data.labels =
-        dataUnit.map(
-          function(item) {
-
-            return (
-              "Unit " +
-              String(
-                item.unit || "-"
-              )
-            );
-
-          }
-        );
-
-
-      unitChart.data.datasets[0].data =
-        dataUnit.map(
-          function(item) {
-
-            return Number(
-              item.hadir || 0
-            );
-
-          }
-        );
-
-
-      unitChart.update();
-    }
-
-    // =======================================
-    // KLASEMEN UNIT PER ANGKATAN
-    // =======================================
-
-    renderRankingUnitPerAngkatan(
-      result.rankingUnit || {}
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "Error Dashboard:",
-      error
-    );
-  }
+  document.body.appendChild(
+    script
+  );
 }
 
 
@@ -781,497 +827,6 @@ function escapeHtml(
 }
 
 // =========================================
-// LEVEL & TAHAP STREAK
-// =========================================
-function getLevelTahapStreak(streak) {
-
-  const nilai = Number(streak) || 0;
-
-  if (nilai <= 0) {
-    return {
-      level: "0",
-      tahap: "BELUM MULAI"
-    };
-  }
-
-  if (nilai <= 4) {
-    return {
-      level: "1",
-      tahap: "AWAL"
-    };
-  }
-
-  if (nilai <= 9) {
-    return {
-      level: "2",
-      tahap: "MENENGAH"
-    };
-  }
-
-  if (nilai <= 14) {
-    return {
-      level: "3",
-      tahap: "LANJUT"
-    };
-  }
-
-  return {
-    level: "MAX",
-    tahap: "MAX"
-  };
-}
-// =========================================
-// STREAK PESERTA
-// =========================================
-
-const STREAK_API =
-  "https://script.google.com/macros/s/AKfycbzQvc2HJKWgkX_sHiUodSwbc31wW86wUkkv26Fyfw0h95KqbixA3mKuFMejRbpR2v0s/exec?api=allStreak";
-
-
-let streakData = [];
-
-
-// =========================================
-// LOAD STREAK
-// =========================================
-
-async function loadAllStreak() {
-
-  try {
-
-    const response =
-      await fetch(
-        STREAK_API +
-        "&t=" +
-        Date.now()
-      );
-
-
-    const result =
-      await response.json();
-
-
-    if (
-      !result ||
-      !result.sukses
-    ) {
-
-      console.error(
-        "API Streak gagal:",
-        result
-      );
-
-      tampilStreakKosong();
-
-      return;
-    }
-
-
-    streakData =
-      Array.isArray(result.data)
-        ? result.data
-        : [];
-
-
-    renderAllStreak(
-      streakData
-    );
-
-
-    renderStreakStats(
-      streakData
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "Error Streak:",
-      error
-    );
-
-    tampilStreakKosong();
-
-  }
-
-}
-
-
-// =========================================
-// RENDER STREAK
-// =========================================
-
-function renderAllStreak(
-  data
-) {
-
-  const tbody =
-    document.getElementById(
-      "streakPeserta"
-    );
-
-
-  if (!tbody) {
-    return;
-  }
-
-
-  tbody.innerHTML = "";
-
-
-  if (!data.length) {
-
-    tbody.innerHTML = `
-      <tr>
-        <td
-          colspan="8"
-          style="
-            text-align:center;
-            color:#64748b;
-            padding:24px;
-          "
-        >
-          Belum ada data streak.
-        </td>
-      </tr>
-    `;
-
-    return;
-  }
-
-
-  data.forEach(
-    function(item,index) {
-
-      const streak =
-        Number(
-          item.streak || 0
-        );
-
-
-const levelTahap =
-  getLevelTahapStreak(streak);
-
-const level =
-  levelTahap.level;
-
-const tahap =
-  levelTahap.tahap;
-
-
-      let medal = "";
-
-
-      if (index === 0) {
-
-        medal = "🥇";
-
-      } else if (index === 1) {
-
-        medal = "🥈";
-
-      } else if (index === 2) {
-
-        medal = "🥉";
-
-      }
-
-
-      tbody.innerHTML += `
-
-        <tr>
-
-          <td>
-            ${
-              medal ||
-              (item.rank || index + 1)
-            }
-          </td>
-
-          <td>
-            ${escapeHtml(
-              item.nama || "-"
-            )}
-          </td>
-
-          <td>
-            ${escapeHtml(
-              item.npm || "-"
-            )}
-          </td>
-
-          <td>
-            ${escapeHtml(
-              item.angkatan || "-"
-            )}
-          </td>
-
-          <td>
-            ${escapeHtml(
-              item.unit || "-"
-            )}
-          </td>
-
-          <td>
-
-            <strong>
-              🔥 ${streak}
-            </strong>
-
-          </td>
-
-          <td>
-            Level ${escapeHtml(
-              level
-            )}
-          </td>
-
-          <td>
-            ${escapeHtml(
-              tahap
-            )}
-          </td>
-
-        </tr>
-
-      `;
-
-    }
-  );
-
-}
-
-
-// =========================================
-// STATISTIK STREAK
-// =========================================
-
-function renderStreakStats(
-  data
-) {
-
-  let streak0 = 0;
-  let streak1 = 0;
-  let streak5 = 0;
-  let streak10 = 0;
-  let streak15 = 0;
-
-
-  data.forEach(
-    function(item) {
-
-      const streak =
-        Number(
-          item.streak || 0
-        );
-
-
-      if (streak === 0) {
-
-        streak0++;
-
-      } else if (
-        streak >= 1 &&
-        streak <= 4
-      ) {
-
-        streak1++;
-
-      } else if (
-        streak >= 5 &&
-        streak <= 9
-      ) {
-
-        streak5++;
-
-      } else if (
-        streak >= 10 &&
-        streak <= 14
-      ) {
-
-        streak10++;
-
-      } else if (
-        streak >= 15
-      ) {
-
-        streak15++;
-
-      }
-
-    }
-  );
-
-
-  setStreakNumber(
-    "streak0",
-    streak0
-  );
-
-  setStreakNumber(
-    "streak1",
-    streak1
-  );
-
-  setStreakNumber(
-    "streak5",
-    streak5
-  );
-
-  setStreakNumber(
-    "streak10",
-    streak10
-  );
-
-  setStreakNumber(
-    "streak15",
-    streak15
-  );
-
-}
-
-
-// =========================================
-// SET ANGKA STREAK
-// =========================================
-
-function setStreakNumber(
-  id,
-  value
-) {
-
-  const el =
-    document.getElementById(
-      id
-    );
-
-
-  if (el) {
-
-    el.textContent =
-      value;
-
-  }
-
-}
-
-
-// =========================================
-// SEARCH STREAK
-// =========================================
-
-function filterStreak() {
-
-  const input =
-    document.getElementById(
-      "searchStreak"
-    );
-
-
-  if (!input) {
-    return;
-  }
-
-
-  const keyword =
-    String(
-      input.value || ""
-    )
-    .trim()
-    .toLowerCase();
-
-
-  if (!keyword) {
-
-    renderAllStreak(
-      streakData
-    );
-
-    return;
-  }
-
-
-  const hasil =
-    streakData.filter(
-      function(item) {
-
-        const nama =
-          String(
-            item.nama || ""
-          ).toLowerCase();
-
-
-        const npm =
-          String(
-            item.npm || ""
-          ).toLowerCase();
-
-
-        const unit =
-          String(
-            item.unit || ""
-          ).toLowerCase();
-
-
-        const angkatan =
-          String(
-            item.angkatan || ""
-          ).toLowerCase();
-
-
-        return (
-          nama.includes(keyword) ||
-          npm.includes(keyword) ||
-          unit.includes(keyword) ||
-          angkatan.includes(keyword)
-        );
-
-      }
-    );
-
-
-  renderAllStreak(
-    hasil
-  );
-
-}
-
-
-// =========================================
-// JIKA STREAK GAGAL
-// =========================================
-
-function tampilStreakKosong() {
-
-  const tbody =
-    document.getElementById(
-      "streakPeserta"
-    );
-
-
-  if (!tbody) {
-    return;
-  }
-
-
-  tbody.innerHTML = `
-    <tr>
-      <td
-        colspan="8"
-        style="
-          text-align:center;
-          color:#64748b;
-          padding:24px;
-        "
-      >
-        Data streak tidak tersedia.
-      </td>
-    </tr>
-  `;
-
-}
-
-// =========================================
 // START DASHBOARD
 // =========================================
 window.addEventListener(
@@ -1282,16 +837,10 @@ window.addEventListener(
 
     loadDashboard();
 
-    loadAllStreak();
-
     setInterval(
       loadDashboard,
       30000
     );
 
-    setInterval(
-      loadAllStreak,
-      30000
-    );
   }
 );
