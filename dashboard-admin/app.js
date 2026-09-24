@@ -147,21 +147,42 @@ function initCharts() {
 
 // =========================================
 // LOAD DASHBOARD - JSONP
-// Menghindari CORS GitHub Pages → Apps Script
 // =========================================
-
 function loadDashboard() {
 
   const callbackName =
-    "dashboardCallback_" +
-    Date.now();
+    "dashboardCallback_" + Date.now();
+
+  const script =
+    document.createElement("script");
+
+  const timeout =
+    setTimeout(function() {
+
+      console.error(
+        "Gagal menghubungi Dashboard Apps Script."
+      );
+
+      if (window[callbackName]) {
+        delete window[callbackName];
+      }
+
+      script.remove();
+
+    }, 15000);
+
 
   window[callbackName] =
     function(result) {
 
+      clearTimeout(timeout);
+
       try {
 
-        if (!result || !result.sukses) {
+        if (
+          !result ||
+          !result.sukses
+        ) {
 
           console.error(
             "Dashboard API gagal:",
@@ -171,18 +192,19 @@ function loadDashboard() {
           return;
         }
 
-        // =======================================
+
+        // =====================================
         // STATISTIK
-        // =======================================
+        // =====================================
 
         renderStatistik(
           result.statistik || {}
         );
 
 
-        // =======================================
+        // =====================================
         // ABSENSI TERBARU
-        // =======================================
+        // =====================================
 
         absensiTerbaruData =
           Array.isArray(result.terbaru)
@@ -195,16 +217,16 @@ function loadDashboard() {
         );
 
 
-        // =======================================
+        // =====================================
         // SEARCH ABSENSI
-        // =======================================
+        // =====================================
 
         setupSearchAbsensi();
 
 
-        // =======================================
+        // =====================================
         // GRAFIK KEHADIRAN
-        // =======================================
+        // =====================================
 
         if (
           attendanceChart &&
@@ -231,9 +253,9 @@ function loadDashboard() {
         }
 
 
-        // =======================================
-        // GRAFIK SEMUA UNIT
-        // =======================================
+        // =====================================
+        // GRAFIK UNIT
+        // =====================================
 
         if (
           unitChart &&
@@ -247,53 +269,45 @@ function loadDashboard() {
 
 
           unitChart.data.labels =
-            dataUnit.map(
-              function(item) {
+            dataUnit.map(function(item) {
 
-                return (
-                  "Unit " +
-                  String(
-                    item.unit || "-"
-                  )
-                );
+              return (
+                "Unit " +
+                String(
+                  item.unit || "-"
+                )
+              );
 
-              }
-            );
+            });
 
 
           unitChart.data.datasets[0].data =
-            dataUnit.map(
-              function(item) {
+            dataUnit.map(function(item) {
 
-                return Number(
-                  item.hadir || 0
-                );
+              return Number(
+                item.hadir || 0
+              );
 
-              }
-            );
+            });
 
 
           unitChart.update();
         }
 
 
-        // =======================================
-        // KLASEMEN UNIT PER ANGKATAN
-        // =======================================
+        // =====================================
+        // KLASEMEN UNIT
+        // =====================================
 
         renderRankingUnitPerAngkatan(
           result.rankingUnit || {}
         );
 
 
-        console.log(
-          "Dashboard berhasil dimuat."
-        );
-
       } catch (error) {
 
         console.error(
-          "Error render Dashboard:",
+          "Error memproses Dashboard:",
           error
         );
 
@@ -301,31 +315,20 @@ function loadDashboard() {
 
         delete window[callbackName];
 
-        const script =
-          document.getElementById(
-            callbackName
-          );
-
-        if (script) {
-          script.remove();
-        }
+        script.remove();
 
       }
     };
 
 
-  const script =
-    document.createElement("script");
-
-  script.id =
-    callbackName;
+  // =====================================
+  // URL JSONP
+  // =====================================
 
   script.src =
     API_URL +
     "&callback=" +
-    encodeURIComponent(
-      callbackName
-    ) +
+    callbackName +
     "&t=" +
     Date.now();
 
@@ -333,13 +336,16 @@ function loadDashboard() {
   script.onerror =
     function() {
 
+      clearTimeout(timeout);
+
       console.error(
-        "Gagal menghubungi Dashboard Apps Script."
+        "Apps Script Dashboard tidak dapat dimuat."
       );
 
       delete window[callbackName];
 
       script.remove();
+
     };
 
 
